@@ -1,5 +1,6 @@
 'use client';
 
+import { JSX } from 'react';
 import { ButtonIcons } from './constants/button-icon';
 
 type ButtonProps = {
@@ -7,8 +8,8 @@ type ButtonProps = {
   handlerClick?: () => void;
 };
 
-export function LayoutButtonCircle(props: ButtonProps) {
-  const Icon = ButtonIcons[props?.type];
+export function LayoutButtonCircle(props: ButtonProps): JSX.Element {
+  const Icon: JSX.Element = ButtonIcons[props?.type];
   return (
     <button
       type='button'

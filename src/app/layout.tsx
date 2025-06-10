@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import { LayoutButtonCircle } from '@/shared/Button-circle/layout-button-circle';
 import './globals.css';
+import { InputLayoutMain } from '@/shared/Input-main/layout-input-main';
 
 export const metadata: Metadata = {
   title: 'Io',
@@ -14,8 +14,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body>
-        <LayoutButtonCircle type='MESSAGE'></LayoutButtonCircle>
+      <body className='m-6 bg-slate-900'>
+        <InputLayoutMain purpose='FORM' />
       </body>
     </html>
   );
