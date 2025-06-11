@@ -5,7 +5,7 @@ interface stylesOfType {
 }
 export const stylePurpose: stylesOfType = {
   FORM: {
-    style: 'rounded-md focus:outline-1 focus:outline-cyan-50/25 focus:outline-offset-6',
+    style: 'rounded-md focus:outline-1 focus:outline-white/50 focus:outline-offset-6 mt-2',
   },
   MESSAGE: { style: '' },
 };

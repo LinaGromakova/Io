@@ -1,21 +1,21 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { InputLayoutMain } from '@/shared/Input-main/layout-input-main';
-
+import { ButtonMain } from '@/shared/Button-main/button-main-layout';
 export const metadata: Metadata = {
   title: 'Io',
   description: 'lroem',
 };
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+import { FormAuth } from '@/entities/FormAuth/form-auth-layout';
+// {
+//   children,
+// }: Readonly<{
+//   children: React.ReactNode;
+// }>
+export default function RootLayout() {
   return (
     <html lang='en'>
-      <body className='m-6 bg-slate-900'>
-        <InputLayoutMain purpose='FORM' />
+      <body className=' bg-slate-900'>
+        <FormAuth></FormAuth>
       </body>
     </html>
   );

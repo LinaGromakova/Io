@@ -14,8 +14,8 @@ export function LayoutButtonCircle(props: ButtonProps): JSX.Element {
     <button
       type='button'
       className='bg-slate-800 duration-300 cursor-pointer flex justify-center items-center
-       text-cyan-50 rounded-full h-7 w-7 text-sm
-        hover:bg-slate-700 focus:bg-slate-700 disabled:bg-slate-500'
+       text-white rounded-full h-7 w-7 text-sm
+        hover:bg-slate-700 focus:bg-slate-700 disabled:bg-slate-400'
       onClick={() => props.handlerClick}
     >
       {Icon}
