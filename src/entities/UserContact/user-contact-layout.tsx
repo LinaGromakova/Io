@@ -16,11 +16,14 @@ interface UserContactProps {
 export function UserContactLayout(props: UserContactProps): JSX.Element {
   const { image, name, online, lastMessage, lastAtCreate, read, countMessage } = props;
   return (
-    <article className='py-3 px-5 bg-slate-800 flex text-white items-center justify-between rounded-2xl hover:bg-slate-700'>
+    <article
+      className='py-3 px-5 bg-slate-800 flex text-white items-center 
+    justify-between rounded-2xl hover:bg-slate-700'
+    >
       <div className='flex  items-center'>
         <div className='w-16 h-16 relative bg-slate-600 rounded-full'>
           {(image && (
-            <img src={image} alt={name} className='w-full object-cover rounded-full'></img>
+            <img src={image} alt={name} className='w-full h-full object-cover rounded-full'></img>
           )) || <p className='text-center text-4xl font-bold mt-1.5'>{name.slice(0, 1)}</p>}
 
           {online && (
