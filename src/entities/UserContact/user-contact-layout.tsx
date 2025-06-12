@@ -20,11 +20,15 @@ export function UserContactLayout(props: UserContactProps): JSX.Element {
       className='py-3 px-5 bg-slate-800 flex text-white items-center 
     justify-between rounded-2xl hover:bg-slate-700'
     >
-      <div className='flex  items-center'>
-        <div className='w-16 h-16 relative bg-slate-600 rounded-full'>
+      <div className='flex items-center'>
+        <div className='w-16 h-16 relative bg-slate-600 rounded-full flex items-center justify-center'>
           {(image && (
             <img src={image} alt={name} className='w-full h-full object-cover rounded-full'></img>
-          )) || <p className='text-center text-4xl font-bold mt-1.5'>{name.slice(0, 1)}</p>}
+          )) || (
+            <p className='text-center text-4xl font-bold align-super'>
+              {name.slice(0, 1).toLocaleUpperCase()}
+            </p>
+          )}
 
           {online && (
             <div className='w-4 h-4 bg-green-400 absolute bottom-1 right-2 rounded-full border-2 border-slate-800'></div>

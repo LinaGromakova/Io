@@ -6,6 +6,7 @@ interface InputProps {
   purpose: 'FORM' | 'MESSAGE';
   name: string;
   type: string;
+  className?: string;
 }
 
 export function InputMain(props: InputProps): JSX.Element {
@@ -15,10 +16,11 @@ export function InputMain(props: InputProps): JSX.Element {
       type={props.type}
       name={props.name}
       className={clsx(
-        `bg-slate-800 text-white text-sm py-2 px-4
-       w-full duration-300 transition-[background-color]
-        hover:bg-slate-700`,
-        style
+        `bg-slate-700 text-white text-sm py-2 px-4
+        duration-300 transition-[background-color]
+        hover:bg-slate-600 min-w-fit`,
+        style,
+        props.className
       )}
     />
   );
