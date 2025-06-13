@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import { UserContactListLayout } from '@/entities/UserContactsList/user-contacts-list-layout';
 import { InputMain } from '@/shared/Input-main/layout-input-main';
 import { LayoutButtonCircle } from '@/shared/Button-circle/layout-button-circle';
+import { Header } from '../Header/header';
 
 export function SidebarContactsLayout(): JSX.Element {
   const scroll: string = `[&::-webkit-scrollbar]:w-2
@@ -11,9 +12,13 @@ export function SidebarContactsLayout(): JSX.Element {
   [&::-webkit-scrollbar-thumb]:rounded-full`;
   return (
     <aside
-      className={clsx(' w-1/3 bg-slate-800 overflow-y-scroll overflow-x-hidden h-screen', scroll)}
+      className={clsx(
+        ' w-1/3 bg-slate-800 overflow-y-scroll overflow-x-hidden h-screen border-r-[1px] border-white/10',
+        scroll
+      )}
     >
-      <header className='flex items-center'>
+      <Header type='SIDEBAR'></Header>
+      {/* <header className='flex items-center'>
         <InputMain
           type='search'
           purpose='MESSAGE'
@@ -21,7 +26,7 @@ export function SidebarContactsLayout(): JSX.Element {
           className='m-4 rounded-3xl flex-10/12'
         ></InputMain>
         <LayoutButtonCircle type='SEARCH'></LayoutButtonCircle>
-      </header>
+      </header> */}
 
       <UserContactListLayout></UserContactListLayout>
     </aside>

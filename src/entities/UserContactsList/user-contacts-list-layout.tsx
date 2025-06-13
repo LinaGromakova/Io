@@ -56,7 +56,9 @@ export function UserContactListLayout(): JSX.Element {
   return (
     <>
       {users.map((user) => {
-        return <UserContactLayout key={user.id} {...user}></UserContactLayout>;
+        return (
+          <UserContactLayout key={user.id} {...user} typeLayout='USER_CONTACT'></UserContactLayout>
+        );
       })}
     </>
   );

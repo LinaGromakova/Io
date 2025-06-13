@@ -2,10 +2,12 @@
 
 import { JSX } from 'react';
 import { ButtonIcons } from './constants/button-icon';
+import clsx from 'clsx';
 
 type ButtonProps = {
   type: 'SEARCH' | 'MESSAGE';
   handlerClick?: () => void;
+  className?: string;
 };
 
 export function LayoutButtonCircle(props: ButtonProps): JSX.Element {
@@ -13,9 +15,12 @@ export function LayoutButtonCircle(props: ButtonProps): JSX.Element {
   return (
     <button
       type='button'
-      className='bg-slate-700 duration-300 cursor-pointer flex justify-center items-center
+      className={clsx(
+        `bg-slate-700 duration-300 cursor-pointer flex justify-center items-center
        text-white rounded-full h-9 w-9 text-sm
-        hover:bg-slate-600 focus:bg-slate-600 disabled:bg-slate-400'
+        hover:bg-slate-600 focus:bg-slate-600 disabled:bg-slate-400`,
+        props.className
+      )}
       onClick={() => props.handlerClick}
     >
       {Icon}
