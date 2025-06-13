@@ -1,5 +1,5 @@
 import { JSX } from 'react';
-import { UserContactLayout } from '../UserContact/user-contact-layout';
+import { UserContact } from '../UserContact/user-contact';
 
 interface Users {
   id: number;
@@ -56,9 +56,7 @@ export function UserContactListLayout(): JSX.Element {
   return (
     <>
       {users.map((user) => {
-        return (
-          <UserContactLayout key={user.id} {...user} typeLayout='USER_CONTACT'></UserContactLayout>
-        );
+        return <UserContact key={user.id} {...user} type='USER_CONTACT'></UserContact>;
       })}
     </>
   );
