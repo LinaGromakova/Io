@@ -18,15 +18,6 @@ export function SidebarContactsLayout(): JSX.Element {
       )}
     >
       <Header type='SIDEBAR'></Header>
-      {/* <header className='flex items-center'>
-        <InputMain
-          type='search'
-          purpose='MESSAGE'
-          name='search'
-          className='m-4 rounded-3xl flex-10/12'
-        ></InputMain>
-        <LayoutButtonCircle type='SEARCH'></LayoutButtonCircle>
-      </header> */}
 
       <UserContactListLayout></UserContactListLayout>
     </aside>
