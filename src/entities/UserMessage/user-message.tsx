@@ -21,7 +21,7 @@ export function UserMessage({
   return (
     <article
       className={clsx(
-        `max-w-70  min-w-8 rounded-xl text-white p-4 relative mb-3 last:before:bottom-2
+        `max-w-70  min-w-8 rounded-xl text-white p-4 relative mb-3 last:before:bottom-2 
         `,
         className,
         sender === 'YOU'
