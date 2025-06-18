@@ -15,8 +15,9 @@ export function InputMain(props: InputProps): JSX.Element {
     <input
       type={props.type}
       name={props.name}
+      autoComplete='off'
       className={clsx(
-        `interactive-el text-foreground  
+        `interactive-el 
         font-medium text-sm py-2 px-4
         duration-300 transition-[background-color]
          min-w-fit`,

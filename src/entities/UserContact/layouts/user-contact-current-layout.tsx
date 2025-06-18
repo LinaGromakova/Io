@@ -4,7 +4,7 @@ import { UserContactProps } from '../interfaces/layout-props';
 export function UserContactCurrentLayout(props: UserContactProps): JSX.Element {
   return (
     <article
-      className='interface flex text-white items-center 
+      className='interface flex items-center 
     justify-between'
     >
       <div className='flex items-center'>
@@ -16,7 +16,7 @@ export function UserContactCurrentLayout(props: UserContactProps): JSX.Element {
               className='w-full h-full object-cover rounded-full'
             ></img>
           )) || (
-            <p className='text-center text-athens-gray/70 text-3xl font-bold align-super'>
+            <p className='text-center opacity-70 text-3xl font-bold align-super'>
               {props.name.slice(0, 1).toLocaleUpperCase()}
             </p>
           )}
@@ -26,11 +26,11 @@ export function UserContactCurrentLayout(props: UserContactProps): JSX.Element {
           {(props.online && (
             <p
               className='
-        text-accent text-sm'
+         text-sm opacity-70'
             >
               online
             </p>
-          )) || <p className='text-accent/70 text-sm'>offline</p>}
+          )) || <p className='opacity-50 text-sm'>offline</p>}
         </div>
       </div>
     </article>

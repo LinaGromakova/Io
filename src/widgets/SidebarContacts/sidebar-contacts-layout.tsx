@@ -12,8 +12,7 @@ export function SidebarContactsLayout(): JSX.Element {
   return (
     <aside
       className={clsx(
-        ` w-6/12 interface overflow-y-scroll relative overflow-x-hidden h-screen border-r-[1px] border-foreground/20
-           group
+        ` w-6/12 interface overflow-y-scroll relative overflow-x-hidden h-screen border-r-[1px] border-foreground/20 group/sidebar
         `,
         scroll
       )}
@@ -21,7 +20,7 @@ export function SidebarContactsLayout(): JSX.Element {
       <Header type='SIDEBAR'></Header>
       <LayoutButtonCircle
         type='CREATE'
-        className='group-hover:-translate-y-4 w-12 h-12 fixed z-30 text-xl left-[28%] bottom-0 translate-y-full'
+        className='group-hover/sidebar:-translate-y-4 w-12 h-12 fixed z-30 text-xl left-[28%] bottom-0 translate-y-full'
       ></LayoutButtonCircle>
 
       <UserContactListLayout></UserContactListLayout>
