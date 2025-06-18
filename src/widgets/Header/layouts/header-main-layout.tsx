@@ -4,7 +4,7 @@ import { JSX } from 'react';
 export function HeaderMainLayout(): JSX.Element {
   return (
     <UserContact
-      image='https://i.redd.it/h2yzonu2q9wc1.jpeg'
+      image=''
       name='Aaa'
       online={true}
       lastMessage='string'

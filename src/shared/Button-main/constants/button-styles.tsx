@@ -11,15 +11,15 @@ interface ButtonStylesOfType {
 const iconStyles: string = 'text-xl mr-1';
 export const ButtonMainStyles: ButtonStylesOfType = {
   'log in': {
-    style: 'bg-slate-700 hover:bg-slate-800 disabled:bg-slate-400 focus:bg-slate-800',
+    style: 'interactive-el  ',
     icon: <LoginIcon className={iconStyles}></LoginIcon>,
   },
   registration: {
-    style: 'bg-amber-500 hover:bg-amber-600 disabled:bg-amber-400/65 focus:bg-amber-600',
+    style: 'bg-foreground color-interface hover:bg-foreground/80',
     icon: <CreateIcon className={iconStyles}></CreateIcon>,
   },
   submit: {
-    style: 'bg-slate-700 hover:bg-slate-800 disabled:bg-slate-400 focus:bg-slate-800',
+    style: 'interactive-el ',
     icon: <></>,
   },
 };

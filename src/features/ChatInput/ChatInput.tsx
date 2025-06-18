@@ -7,7 +7,7 @@ export function ChatInput(): JSX.Element {
     <form
       action='#'
       onSubmit={(e) => e.preventDefault()}
-      className='flex w-full bottom-5 bg-slate-900 sticky px-5 justify-center pt-5'
+      className='flex w-full bottom-0  sticky px-5 justify-center py-5'
     >
       <InputMain
         type='text'

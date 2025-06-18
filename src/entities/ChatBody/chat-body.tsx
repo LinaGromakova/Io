@@ -12,31 +12,49 @@ const messageArray = [
   {
     message: 'whats up?',
     atPush: '15:55',
-    read: true,
+    read: false,
     sender: 'ANOTHER',
   },
   {
     message: 'hi',
     atPush: '2:55',
-    read: true,
+    read: false,
     sender: 'YOU',
   },
   {
-    message: 'im fine',
-    atPush: '17:55',
-    read: true,
+    message: 'whats up?',
+    atPush: '15:55',
+    read: false,
     sender: 'ANOTHER',
+  },
+  {
+    message: 'hi',
+    atPush: '2:55',
+    read: false,
+    sender: 'YOU',
+  },
+  {
+    message: 'whats up?',
+    atPush: '15:55',
+    read: false,
+    sender: 'ANOTHER',
+  },
+  {
+    message: 'hi',
+    atPush: '2:55',
+    read: false,
+    sender: 'YOU',
   },
 ];
 
 const scroll: string = `[&::-webkit-scrollbar]:w-2
-  [&::-webkit-scrollbar-track]:bg-slate-800
-  hover:[&::-webkit-scrollbar-thumb]:bg-slate-400
+  [&::-webkit-scrollbar-track]:interface
+  hover:[&::-webkit-scrollbar-thumb]:interface
   [&::-webkit-scrollbar-thumb]:rounded-full`;
 export function ChatBody(): JSX.Element {
   return (
     <section
-      className={clsx('py-5 px-12 w-full h-[85vh] overflow-y-scroll relative pb-15', scroll)}
+      className={clsx('py-5 px-12 w-full h-[85vh] overflow-y-scroll relative pb-20', scroll)}
     >
       {messageArray.map((el, index) => {
         const { message, atPush, read, sender } = el;

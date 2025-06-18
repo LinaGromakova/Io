@@ -1,27 +1,72 @@
 @import 'tailwindcss';
-
-/* :root {
-  --background: #ffffff;
-  --foreground: #171717;
-} */
-
-/* @theme inline {
-  /* --color-background: var(--background);
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+:root {
+  --foreground: #514f73;
+  --background: #f8f9fb;
+  --bg-interface: #f8f9fb;
+  --bg-interactive-el: #e9e6e6;
+  --bg-interactive-el-hover: #dbcfcb;
+  --color-accent: #7c7796;
+}
+@theme {
+  --color-athens-gray: #f8f9fb;
+  --quill-gray: #dbdad6;
+  --color-green: #63e73f;
+  --color-accent: #a9afc5;
+  --color-foreground:#514f73;
+  --color-interactive-el-hover: #ece0dc
+  --color-interface: #f8f9fb;
+}
+@theme inline {
+  --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono); 
-} */
-/* 
-@media (prefers-color-scheme: dark) {
-   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  } 
+  --font-inter: "Inter", sans-serif;
 }
 
-body {
-
- background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.chat-wallpaper {
+  background: center/cover no-repeat
+    url('https://i.pinimg.com/736x/fd/80/fa/fd80fa59339ca646ba6a38dffa2904a5.jpg');
+}
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --background: #101b21;
+    --foreground: #f8f8fa;
+    --bg-interface: #f8f9fb;
+  }
 } */
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+   font-family: "Inter", sans-serif;
+}
+.interface {
+  background-color: var(--bg-interface);
+  color: var(--foreground);
+}
+.hover\:bg-interactive {
+    &:hover {
+      background: var(--bg-interactive-el-hover);
+    }
+}
+.color-interface {
+  color: var(--bg-interface);
+}
+.interactive-el {
+  background-color: var(--bg-interactive-el);
+}
+.interactive-el:hover {
+  background-color: var(--bg-interactive-el-hover);
+}
+.bg-accent {
+  background-color: var(--color-accent);
+}
+.color-accent {
+  color: var(--color-accent);
+}
+.hover\:bg-accent {
+   &:hover {
+        background-color: var(--foreground);
+    }
+
+}

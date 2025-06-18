@@ -16,7 +16,7 @@ export function ButtonMain(props: ButtonMainProps): JSX.Element {
       type='button'
       onClick={() => props.handlerClick}
       className={clsx(
-        `cursor-pointer text-white font-medium
+        `cursor-pointer font-medium
         px-4 py-2 h-9 rounded-sm w-full capitalize
         transition-[background-color] duration-300 focus:outline-0 
         my-3 flex items-center justify-center`,

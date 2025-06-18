@@ -16,9 +16,10 @@ export function InputMain(props: InputProps): JSX.Element {
       type={props.type}
       name={props.name}
       className={clsx(
-        `bg-slate-700 text-white text-sm py-2 px-4
+        `interactive-el text-foreground  
+        font-medium text-sm py-2 px-4
         duration-300 transition-[background-color]
-        hover:bg-slate-600 min-w-fit`,
+         min-w-fit`,
         style,
         props.className
       )}

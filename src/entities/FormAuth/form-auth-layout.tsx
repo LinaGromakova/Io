@@ -7,13 +7,18 @@ import { JSX } from 'react';
 
 export function FormAuth(): JSX.Element {
   return (
-    <div className='h-screen flex items-center'>
-      <form action='#' className='bg-slate-950 py-6 px-12 w-2/6 mx-auto rounded-lg'>
+    <div className='h-screen flex items-center w-full'>
+      <form action='#' className='bg-accent py-6 px-12 w-[28%]  mx-auto rounded-lg'>
         <MainTitle title='form'></MainTitle>
         {FormFields.map((field, index) => {
           return (
             <LabelForm text={field.name} key={index}>
-              <InputMain purpose='FORM' type={field.type} name={field.name}></InputMain>
+              <InputMain
+                purpose='FORM'
+                type={field.type}
+                name={field.name}
+                className='w-full'
+              ></InputMain>
             </LabelForm>
           );
         })}

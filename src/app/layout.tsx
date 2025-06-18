@@ -3,7 +3,7 @@ import './globals.css';
 import { Header } from '@/widgets/Header/header';
 import { Chat } from '@/widgets/Chat/chat';
 import { SidebarContactsLayout } from '@/widgets/SidebarContacts/sidebar-contacts-layout';
-
+import { FormAuth } from '@/entities/FormAuth/form-auth-layout';
 export const metadata: Metadata = {
   title: 'Io',
   description: 'lroem',
@@ -17,13 +17,13 @@ export const metadata: Metadata = {
 export default function RootLayout() {
   return (
     <html lang='en'>
-      <body className=' bg-slate-900 flex overflow-y-hidden'>
-        <SidebarContactsLayout></SidebarContactsLayout>
-
+      <body className='  flex overflow-y-hidden'>
+        <FormAuth></FormAuth>
+        {/* <SidebarContactsLayout></SidebarContactsLayout>
         <div className='w-full'>
           <Header type='HEADER_MAIN'></Header>
           <Chat></Chat>
-        </div>
+        </div> */}
       </body>
     </html>
   );

@@ -5,5 +5,5 @@ import { IoMdCreate as CreateIcon } from 'react-icons/io';
 export const ButtonIcons = {
   SEARCH: <SearchIcon />,
   MESSAGE: <MessageIcon />,
-  CREATE: <CreateIcon />,
+  CREATE: <CreateIcon className='text-athens-gray' />,
 };
