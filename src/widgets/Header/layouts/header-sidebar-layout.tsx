@@ -9,6 +9,7 @@ export function HeaderSidebarLayout(): JSX.Element {
         type='search'
         purpose='MESSAGE'
         name='search'
+        placeholder='Search...'
         className='rounded-3xl flex-9/12 '
       ></InputMain>
       <LayoutButtonCircle type='SEARCH' className='ml-2'></LayoutButtonCircle>

@@ -7,6 +7,7 @@ interface InputProps {
   name: string;
   type: string;
   className?: string;
+  placeholder: string;
 }
 
 export function InputMain(props: InputProps): JSX.Element {
@@ -15,9 +16,10 @@ export function InputMain(props: InputProps): JSX.Element {
     <input
       type={props.type}
       name={props.name}
+      placeholder={props.placeholder}
       autoComplete='off'
       className={clsx(
-        `interactive-el 
+        `bg-inter
         font-medium text-sm py-2 px-4
         duration-300 transition-[background-color]
          min-w-fit`,

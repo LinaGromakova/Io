@@ -2,8 +2,14 @@
 import clsx from 'clsx';
 import { UserMessage } from '../UserMessage/user-message';
 import { JSX, useLayoutEffect, useRef } from 'react';
+interface Message {
+  message: string;
 
-const messageArray = [
+  atPush: string;
+  read: boolean;
+  sender: 'ANOTHER' | 'YOU';
+}
+const messageArray: Message[] = [
   {
     message: 'hello',
     atPush: '15:55',
@@ -115,14 +121,16 @@ const messageArray = [
 ];
 
 const scroll: string = `[&::-webkit-scrollbar]:w-2
-  [&::-webkit-scrollbar-track]:interface
-  hover:[&::-webkit-scrollbar-thumb]:interface
+  [&::-webkit-scrollbar-track]:transparent
+  hover:[&::-webkit-scrollbar-thumb]:transparent
   [&::-webkit-scrollbar-thumb]:rounded-full`;
 export function ChatBody(): JSX.Element {
-  const chat = useRef(null);
+  const chat = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
-    chat.current.scrollIntoView(false, { block: 'start' });
+    if (chat) {
+      chat.current?.scrollIntoView(false);
+    }
   }, []);
 
   return (
@@ -143,7 +151,6 @@ export function ChatBody(): JSX.Element {
           );
         })}
       </div>
-
       <div ref={chat} className='pb-20 absolute'></div>
     </section>
   );

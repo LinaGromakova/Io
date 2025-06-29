@@ -7,7 +7,7 @@ interface MessageProps {
   message: string;
   atPush: string;
   read: boolean;
-  sender: 'YOU' | 'ANOTHER';
+  readonly sender: 'YOU' | 'ANOTHER';
   className?: string;
 }
 
@@ -21,18 +21,17 @@ export function UserMessage({
   return (
     <article
       className={clsx(
-        `max-w-70  min-w-8 rounded-xl  p-4 relative mb-3 last:before:bottom-2  last:before:absolute 
-        last:before:content-[''] last:before:block `,
+        `max-w-70  min-w-8 rounded-xl p-4 relative mb-3 last:before:bottom-2.5  last:before:absolute 
+        last:before:content-[''] last:before:block`,
         className,
         sender === 'YOU'
-          ? `interface ml-auto  
-          last:before:-right-6
-          last:before:border-r-transparent last:before:border-r-24 last:before:border-b-main
-        last:before:border-t-transparent last:before:border-y-24 last:border-l-0`
-          : `bg-accent last:before:-left-6
-          last:before:border-l-transparent last:before:border-l-24 
-          last:before:border-b-accent
-        last: before:border-t-transparent last:before:border-y-24 last:border-r-0`
+          ? `bg-gradient-to-l from-accent-shadow to-accent/80 ml-auto last:before:-right-5
+          last:before:border-r-transparent last:before:border-r-20 last:before:border-b-accent-shadow
+          last:before:border-t-transparent last:before:border-y-20 last:border-l-0`
+          : `bg-background last:before:-left-5
+          last:before:border-l-transparent last:before:border-l-20
+          last:before:border-b-background last:before:border-t-transparent
+           last:before:border-y-20 last:border-r-0`
       )}
     >
       <span className='text-md'>{message}</span>

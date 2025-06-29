@@ -6,13 +6,13 @@ import { LayoutButtonCircle } from '@/shared/Button-circle/layout-button-circle'
 
 export function SidebarContactsLayout(): JSX.Element {
   const scroll: string = `[&::-webkit-scrollbar]:w-2
-  [&::-webkit-scrollbar-track]:interface
-  hover:[&::-webkit-scrollbar-thumb]:interface
+  [&::-webkit-scrollbar-track]:transparent
+  hover:[&::-webkit-scrollbar-thumb]:transparent
   [&::-webkit-scrollbar-thumb]:rounded-full`;
   return (
     <aside
       className={clsx(
-        ` w-6/12 interface overflow-y-scroll relative overflow-x-hidden h-screen border-r-[1px] border-foreground/20 group/sidebar
+        `w-6/12 overflow-y-scroll relative overflow-x-hidden h-screen border-r border-r-foreground/10 group/sidebar
         `,
         scroll
       )}

@@ -16,11 +16,11 @@ export function LayoutButtonCircle(props: ButtonProps): JSX.Element {
     <button
       type='button'
       className={clsx(
-        `interactive-el duration-300 cursor-pointer flex justify-center items-center 
-        hover:bg-interactive-el-hover
+        `bg-inter duration-300 cursor-pointer flex justify-center items-center 
         font-bold rounded-full h-9 w-9 text-md`,
         props.className,
-        props.type === 'CREATE' && 'bg-accent hover:bg-interactive-el-hover'
+        props.type === 'CREATE' &&
+          'bg-radial-[at_25%_25%] from-accent to-accent-shadow to-75% text-white hover:to-accent-shadow/95'
       )}
       onClick={() => props.handlerClick}
     >

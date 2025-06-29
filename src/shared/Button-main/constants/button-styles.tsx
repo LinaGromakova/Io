@@ -11,15 +11,15 @@ interface ButtonStylesOfType {
 const iconStyles: string = 'text-xl mr-1';
 export const ButtonMainStyles: ButtonStylesOfType = {
   'log in': {
-    style: 'interactive-el  ',
+    style: 'bg-gradient-to-r from-red-800 via-accent-shadow to-accent  ',
     icon: <LoginIcon className={iconStyles}></LoginIcon>,
   },
   registration: {
-    style: 'bg-foreground color-interface hover:bg-foreground/80',
+    style: 'bg-accent-shadow',
     icon: <CreateIcon className={iconStyles}></CreateIcon>,
   },
   submit: {
-    style: 'interactive-el ',
+    style: 'bg-gradient-to-l  from-accent-shadow to-accent ',
     icon: <></>,
   },
 };

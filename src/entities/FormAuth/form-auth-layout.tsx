@@ -8,7 +8,9 @@ import { JSX } from 'react';
 export function FormAuth(): JSX.Element {
   return (
     <div className='h-screen flex items-center w-full'>
-      <form action='#' className='bg-accent py-6 px-12 w-[28%]  mx-auto rounded-lg'>
+      <form
+        action='#'
+        className='shadow-2xl border border-foreground/10 py-6 px-12 w-[28%] mx-auto rounded-lg'>
         <MainTitle title='form'></MainTitle>
         {FormFields.map((field, index) => {
           return (
@@ -17,6 +19,7 @@ export function FormAuth(): JSX.Element {
                 purpose='FORM'
                 type={field.type}
                 name={field.name}
+                 placeholder={field.placeholder}
                 className='w-full'
               ></InputMain>
             </LabelForm>

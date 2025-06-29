@@ -6,4 +6,5 @@ export interface UserContactProps {
   lastAtCreate: string;
   read: boolean;
   countMessage: number;
+  type: 'USER_CONTACT' | 'CURRENT_CONTACT';
 }

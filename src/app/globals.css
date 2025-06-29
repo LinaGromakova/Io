@@ -1,82 +1,29 @@
-@import 'tailwindcss';
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import 'tailwindcss';
+
 :root {
-  --foreground: #514f73;
-  --background: #f8f9fb;
-  --bg-interface: #f8f9fb;
-  --bg-interactive-el: #e9e6e6;
-  --bg-interactive-el-hover: #dbcfcb;
-  --color-accent: #7c7796;
+  --foreground: #212121;
+  --background: #ffffff;
 }
 @theme {
-  --color-green: #63e73f;
-  --color-foreground: var(--foreground);
-  --color-main: var(--background);
-  --color-accent: var(--color-accent);
-  --color-hover: var(--bg-interactive-el-hover);
-}
-/* @theme {
-   --color-athens-gray: #f8f9fb;
-  --quill-gray: #dbdad6;
-  
-  --color-accent: #a9afc5;
-  --color-foreground:#514f73;
-  --color-interactive-el-hover: #ece0dc
-  --color-interface: #f8f9fb; 
-} */
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-inter: 'Inter', sans-serif;
-}
-
-.chat-wallpaper {
-  background: center/cover no-repeat
-    url('https://i.pinimg.com/736x/fd/80/fa/fd80fa59339ca646ba6a38dffa2904a5.jpg');
+  --color-accent: #fea400;
+  --color-inter: #f4f4f5;
+  --color-accent-shadow: #dc561b;
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground: #cbc9cc;
-    --background: #0a0b24;
-    --bg-interface: #0a0b24;
-    --bg-interactive-el: #211e46;
-    --bg-interactive-el-hover: #342f70;
-    --color-accent: #443a67;
-    --color-interface: #0a0b24;
+    --foreground: #ffffff;
+    --background: #212121;
+    --color-inter: #2c2c2c;
   }
 }
-/*  9c90aa  443a67  00003 */
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: 'Inter', sans-serif;
 }
-.interface {
-  background-color: var(--bg-interface);
-  color: var(--foreground);
-}
-.hover\:bg-interactive {
-  &:hover {
-    background: var(--bg-interactive-el-hover);
-  }
-}
-.color-interface {
-  color: var(--bg-interface);
-}
-.interactive-el {
-  background-color: var(--bg-interactive-el);
-}
-.interactive-el:hover {
-  background-color: var(--bg-interactive-el-hover);
-}
-.bg-accent {
-  background-color: var(--color-accent);
-}
-.color-accent {
-  color: var(--color-accent);
-}
-.hover\:bg-accent {
-  &:hover {
-    background-color: var(--foreground);
-  }
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-inter: 'Inter', sans-serif;
 }
