@@ -5,7 +5,7 @@ import { ButtonIcons } from './constants/button-icon';
 import clsx from 'clsx';
 
 type ButtonProps = {
-  type: 'SEARCH' | 'MESSAGE' | 'CREATE';
+  type: 'SEARCH' | 'MESSAGE' | 'CREATE' | 'BACK';
   handlerClick?: () => void;
   className?: string;
 };
@@ -14,7 +14,7 @@ export function LayoutButtonCircle(props: ButtonProps): JSX.Element {
   const Icon: JSX.Element = ButtonIcons[props?.type];
   return (
     <button
-      type='button'
+      type="button"
       className={clsx(
         `bg-inter duration-300 cursor-pointer flex justify-center items-center 
         font-bold rounded-full h-9 w-9 text-md`,

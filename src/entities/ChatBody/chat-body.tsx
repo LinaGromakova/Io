@@ -1,122 +1,129 @@
-'use client';
-import clsx from 'clsx';
-import { UserMessage } from '../UserMessage/user-message';
-import { JSX, useLayoutEffect, useRef } from 'react';
+"use client";
+import clsx from "clsx";
+import { UserMessage } from "../UserMessage/user-message";
+import { JSX, useLayoutEffect, useRef } from "react";
 interface Message {
   message: string;
 
   atPush: string;
   read: boolean;
-  sender: 'ANOTHER' | 'YOU';
+  sender: "ANOTHER" | "YOU";
 }
 const messageArray: Message[] = [
   {
-    message: 'hello',
-    atPush: '15:55',
+    message: "hello",
+    atPush: "15:55",
     read: true,
-    sender: 'ANOTHER',
+    sender: "ANOTHER",
   },
   {
-    message: 'whats up?',
-    atPush: '15:55',
+    message: "whats up?",
+    atPush: "15:55",
     read: false,
-    sender: 'ANOTHER',
+    sender: "ANOTHER",
   },
   {
-    message: 'hi',
-    atPush: '2:55',
+    message: "hi",
+    atPush: "2:55",
     read: false,
-    sender: 'YOU',
+    sender: "YOU",
   },
   {
-    message: 'whats up?',
-    atPush: '15:55',
+    message: "whats up?",
+    atPush: "15:55",
     read: false,
-    sender: 'ANOTHER',
+    sender: "ANOTHER",
   },
   {
-    message: 'hi',
-    atPush: '2:55',
+    message: "hi",
+    atPush: "2:55",
     read: false,
-    sender: 'YOU',
+    sender: "YOU",
   },
   {
-    message: 'whats up?',
-    atPush: '15:55',
+    message: "whats up?",
+    atPush: "15:55",
     read: false,
-    sender: 'ANOTHER',
+    sender: "ANOTHER",
   },
   {
-    message: 'hi',
-    atPush: '2:55',
+    message: "hi",
+    atPush: "2:55",
     read: false,
-    sender: 'YOU',
+    sender: "YOU",
   },
   {
-    message: 'hi',
-    atPush: '2:55',
+    message: "hi",
+    atPush: "2:55",
     read: false,
-    sender: 'YOU',
+    sender: "YOU",
   },
   {
-    message: 'whats up?',
-    atPush: '15:55',
+    message: "whats up?",
+    atPush: "15:55",
     read: false,
-    sender: 'ANOTHER',
+    sender: "ANOTHER",
   },
   {
-    message: 'hi',
-    atPush: '2:55',
+    message: "hi",
+    atPush: "2:55",
     read: false,
-    sender: 'YOU',
+    sender: "YOU",
   },
   {
-    message: 'hi',
-    atPush: '2:55',
+    message: "hi",
+    atPush: "2:55",
     read: false,
-    sender: 'YOU',
+    sender: "YOU",
   },
   {
-    message: 'whats up?',
-    atPush: '15:55',
+    message: "whats up?",
+    atPush: "15:55",
     read: false,
-    sender: 'ANOTHER',
+    sender: "ANOTHER",
   },
   {
-    message: 'hi',
-    atPush: '2:55',
+    message: "hi",
+    atPush: "2:55",
     read: false,
-    sender: 'YOU',
+    sender: "YOU",
   },
   {
-    message: 'hi',
-    atPush: '2:55',
+    message: "hi",
+    atPush: "2:55",
     read: false,
-    sender: 'YOU',
+    sender: "YOU",
   },
   {
-    message: 'whats up?',
-    atPush: '15:55',
+    message: "whats up?",
+    atPush: "15:55",
     read: false,
-    sender: 'ANOTHER',
+    sender: "ANOTHER",
   },
   {
-    message: 'hi',
-    atPush: '2:55',
+    message: "hi",
+    atPush: "2:55",
     read: false,
-    sender: 'YOU',
+    sender: "YOU",
   },
   {
-    message: 'hi',
-    atPush: '2:55',
+    message: "hi",
+    atPush: "2:55",
     read: false,
-    sender: 'YOU',
+    sender: "YOU",
   },
   {
-    message: 'whats up?',
-    atPush: '15:55',
+    message: "whats up?",
+    atPush: "15:55",
     read: false,
-    sender: 'ANOTHER',
+    sender: "ANOTHER",
+  },
+  {
+    message:
+      "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quidem cum distinctio neque ab vitae iure deleniti incidunt consequuntur aperiam amet iusto, asperiores sunt magni facilis in! Ratione voluptatibus fuga aliquid?",
+    atPush: "2:55",
+    read: false,
+    sender: "YOU",
   },
 ];
 
@@ -135,7 +142,10 @@ export function ChatBody(): JSX.Element {
 
   return (
     <section
-      className={clsx('py-5 px-12 w-full h-[85vh] overflow-y-scroll relative pb-20', scroll)}
+      className={clsx(
+        "py-5 px-12 max-md:px-6 w-full h-[85vh] overflow-y-scroll relative pb-20",
+        scroll
+      )}
     >
       <div>
         {messageArray.map((el, index) => {
@@ -151,7 +161,7 @@ export function ChatBody(): JSX.Element {
           );
         })}
       </div>
-      <div ref={chat} className='pb-20 absolute'></div>
+      <div ref={chat} className="pb-20 absolute"></div>
     </section>
   );
 }

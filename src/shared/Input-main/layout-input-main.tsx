@@ -22,7 +22,7 @@ export function InputMain(props: InputProps): JSX.Element {
         `bg-inter
         font-medium text-sm py-2 px-4
         duration-300 transition-[background-color]
-         min-w-fit`,
+         `,
         style,
         props.className
       )}

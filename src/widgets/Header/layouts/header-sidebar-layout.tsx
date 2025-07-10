@@ -10,9 +10,9 @@ export function HeaderSidebarLayout(): JSX.Element {
         purpose='MESSAGE'
         name='search'
         placeholder='Search...'
-        className='rounded-3xl flex-9/12 '
+        className='rounded-3xl w-full max-sm:w-full block max-sm:max-w-none min-w-0'
       ></InputMain>
-      <LayoutButtonCircle type='SEARCH' className='ml-2'></LayoutButtonCircle>
+      <LayoutButtonCircle type='SEARCH' className='ml-2 block min-w-9'></LayoutButtonCircle>
     </>
   );
 }
