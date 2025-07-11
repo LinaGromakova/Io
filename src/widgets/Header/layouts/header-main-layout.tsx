@@ -1,25 +1,83 @@
 import { UserContact } from '@/entities/UserContact/user-contact';
 import { LayoutButtonCircle } from '@/shared/Button-circle/layout-button-circle';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+
 import { JSX } from 'react';
 
-export function HeaderMainLayout(state, setState): JSX.Element {
+interface Users {
+  id: number;
+  image?: string;
+  name: string;
+  online: boolean;
+  lastMessage: string;
+  lastAtCreate: string;
+  read: boolean;
+  countMessage: number;
+}
+const users: Users[] = [
+  {
+    id: 1,
+    image: 'https://i.redd.it/h2yzonu2q9wc1.jpeg',
+    name: 'Aaa',
+    online: true,
+    lastMessage: 'string',
+    lastAtCreate: '17:00',
+    read: false,
+    countMessage: 3,
+  },
+  {
+    id: 2,
+    name: 'Ddd',
+    online: true,
+    lastMessage: 'string',
+    lastAtCreate: '17:00',
+    read: true,
+    countMessage: 0,
+  },
+  {
+    id: 3,
+    image:
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzdWHcffKPDbUMWEVLor3x7sknODQ7SP-Qmw&s',
+    name: 'string',
+    online: true,
+    lastMessage: 'string',
+    lastAtCreate: '17:00',
+    read: false,
+    countMessage: 8,
+  },
+  {
+    id: 42,
+    name: 'ccc',
+    online: true,
+    lastMessage: 'string',
+    lastAtCreate: '17:30',
+    read: true,
+    countMessage: 0,
+  },
+  {
+    id: 45,
+    name: 'ccc',
+    online: true,
+    lastMessage:
+      'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Saepe tempore hic natus, possimus nisi porro doloremque est officia eos error praesentium veritatis ab quisquam labore voluptatum vitae repellat. Fugiat, aliquam!',
+    lastAtCreate: '17:30',
+    read: true,
+    countMessage: 0,
+  },
+];
+export function HeaderMainLayout(): JSX.Element {
+  const router = useRouter();
+  const current = users.find((el) => el.id == router.query.id);
   return (
     <>
-      <LayoutButtonCircle
-        type="BACK"
-        className="mr-4 hidden max-sm:flex"
-        handlerClick={(state, setState) => setState(!state)}
-      ></LayoutButtonCircle>
-      <UserContact
-        image=""
-        name="Aaa"
-        online={true}
-        lastMessage="string"
-        lastAtCreate="17:00"
-        read={false}
-        countMessage={3}
-        type="CURRENT_CONTACT"
-      ></UserContact>
+      <Link href="/">
+        <LayoutButtonCircle
+          type="BACK"
+          className="mr-4 hidden max-sm:flex"
+        ></LayoutButtonCircle>
+      </Link>
+      <UserContact {...current} type="CURRENT_CONTACT"></UserContact>
     </>
   );
 }

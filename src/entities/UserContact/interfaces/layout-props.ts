@@ -1,4 +1,5 @@
 export interface UserContactProps {
+  id: number;
   image?: string;
   name: string;
   online: boolean;

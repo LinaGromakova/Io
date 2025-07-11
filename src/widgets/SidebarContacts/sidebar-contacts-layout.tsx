@@ -4,7 +4,13 @@ import { UserContactListLayout } from '@/entities/UserContactsList/user-contacts
 import { Header } from '../Header/header';
 import { LayoutButtonCircle } from '@/shared/Button-circle/layout-button-circle';
 
-export function SidebarContactsLayout(): JSX.Element {
+interface ComponentProps {
+  className?: string; // Необязательный пропс
+}
+
+export function SidebarContactsLayout({
+  className,
+}: ComponentProps): JSX.Element {
   const scroll: string = `[&::-webkit-scrollbar]:w-1
   [&::-webkit-scrollbar-track]:transparent
   hover:[&::-webkit-scrollbar-thumb]:transparent
@@ -12,9 +18,10 @@ export function SidebarContactsLayout(): JSX.Element {
   return (
     <aside
       className={clsx(
-        `w-6/12 overflow-y-scroll relative overflow-x-hidden h-screen border-r border-r-foreground/10 group/sidebar
+        `w-4/12 overflow-y-scroll relative overflow-x-hidden h-screen border-r border-r-foreground/10 group/sidebar
          max-sm:w-full max-sm:fixed bg-background z-50 max-md:w-8/12`,
-        scroll
+        scroll,
+        className
       )}
     >
       <Header type="SIDEBAR"></Header>

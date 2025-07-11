@@ -43,7 +43,7 @@ const users: Users[] = [
     countMessage: 8,
   },
   {
-    id: 4,
+    id: 42,
     name: 'ccc',
     online: true,
     lastMessage: 'string',
@@ -52,11 +52,11 @@ const users: Users[] = [
     countMessage: 0,
   },
   {
-    id: 4,
+    id: 45,
     name: 'ccc',
     online: true,
     lastMessage:
-    'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Saepe tempore hic natus, possimus nisi porro doloremque est officia eos error praesentium veritatis ab quisquam labore voluptatum vitae repellat. Fugiat, aliquam!',
+      'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Saepe tempore hic natus, possimus nisi porro doloremque est officia eos error praesentium veritatis ab quisquam labore voluptatum vitae repellat. Fugiat, aliquam!',
     lastAtCreate: '17:30',
     read: true,
     countMessage: 0,
@@ -66,7 +66,13 @@ export function UserContactListLayout(): JSX.Element {
   return (
     <>
       {users.map((user) => {
-        return <UserContact key={user.id} {...user} type='USER_CONTACT'></UserContact>;
+        return (
+          <UserContact
+            key={user.id}
+            {...user}
+            type="USER_CONTACT"
+          ></UserContact>
+        );
       })}
     </>
   );
