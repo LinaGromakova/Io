@@ -1,26 +1,12 @@
-'use client';
-// import type { Metadata } from 'next';
-
+import type { Metadata } from 'next';
 import './globals.css';
-import Link from 'next/link';
+import MyApp from '@/pages/_app';
 
-// export const metadata: Metadata = {
-//   title: 'Io',
-//   description: 'lroem',
-// };
-// {
-//   children,
-// }: Readonly<{
-//   children: React.ReactNode;
-// }>
+export const metadata: Metadata = {
+  title: 'Io',
+  description: 'lroem',
+};
+
 export default function RootLayout() {
-  return (
-    <html lang="en">
-      <body>
-        <Link href="/"></Link>
-        <Link href="login"></Link>
-      </body>
-    </html>
-  );
+  <MyApp></MyApp>;
 }
-// style={clsx(router.query)}

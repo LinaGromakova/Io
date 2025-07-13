@@ -1,22 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import 'tailwindcss';
 
-:root {
-  --foreground: #212121;
-  --background: #ffffff;
-}
 @theme {
   --color-accent: #fea400;
   --color-inter: #f4f4f5;
   --color-accent-shadow: #dc561b;
 }
-@media (prefers-color-scheme: dark) {
-  :root {
+@layer base {
+  html[data-theme='dark'] {
     --foreground: #ffffff;
     --background: #212121;
     --color-inter: #2c2c2c;
   }
+   html[data-theme='light'] {
+  --foreground: #212121;
+  --background: #ffffff;
+    --color-inter: #f4f4f5;
+  }
 }
+
 body {
   background: var(--background);
   color: var(--foreground);

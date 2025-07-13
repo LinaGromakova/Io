@@ -5,7 +5,7 @@ import { ButtonIcons } from './constants/button-icon';
 import clsx from 'clsx';
 
 type ButtonProps = {
-  type: 'SEARCH' | 'MESSAGE' | 'CREATE' | 'BACK';
+  type: 'SEARCH' | 'MESSAGE' | 'CREATE' | 'BACK' | 'LIGHT' | 'DARK';
   handlerClick?: () => void;
   className?: string;
 };
@@ -22,7 +22,7 @@ export function LayoutButtonCircle(props: ButtonProps): JSX.Element {
         props.type === 'CREATE' &&
           'bg-radial-[at_25%_25%] from-accent to-accent-shadow to-75% text-white hover:to-accent-shadow/95'
       )}
-      onClick={() => props.handlerClick}
+      onClick={() => props.handlerClick()}
     >
       {Icon}
     </button>

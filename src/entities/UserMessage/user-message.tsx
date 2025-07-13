@@ -19,14 +19,14 @@ export function UserMessage({
   className,
 }: MessageProps): JSX.Element {
   return (
-    <div className='flex flex-col'>
+    <div className="flex flex-col">
       <article
         className={clsx(
           `max-w-80 min-w-30 inline rounded-xl p-4 relative mb-3 before:bottom-2.5 before:absolute 
         before:content-[''] before:block`,
           className,
           sender === 'YOU'
-            ? `bg-gradient-to-l ml-auto from-accent-shadow to-accent/80  before:-right-5
+            ? `text-white bg-gradient-to-l ml-auto from-accent-shadow to-accent/80  before:-right-5
           before:border-r-transparent before:border-r-20 before:border-b-accent-shadow
           before:border-t-transparent before:border-y-20 border-l-0`
             : `bg-background before:-left-5
@@ -35,12 +35,12 @@ export function UserMessage({
             before:border-y-20 border-r-0`
         )}
       >
-        <span className='text-md'>{message}</span>
-        <div className='absolute bottom-0.5 right-0.5 flex'>
-          <span className='text-xs opacity-70'>{atPush}</span>
-          <span className='align-text-bottom mx-1'>
+        <span className="text-md">{message}</span>
+        <div className="absolute bottom-0.5 right-0.5 flex">
+          <span className="text-xs opacity-70">{atPush}</span>
+          <span className="align-text-bottom mx-1">
             {(read && <MarkDoneIcon></MarkDoneIcon>) || (
-              <MarkOutlineIcon className='opacity-70'></MarkOutlineIcon>
+              <MarkOutlineIcon className="opacity-70"></MarkOutlineIcon>
             )}
           </span>
         </div>
