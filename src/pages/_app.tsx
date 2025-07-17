@@ -19,7 +19,6 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 }
 function LayoutBase({ children }) {
   const { theme } = useContext(ThemeContext);
-  console.log(theme);
   return (
     <html lang="en" data-theme={theme?.toLowerCase()}>
       <body>

@@ -5,9 +5,8 @@ import { Header } from '../Header/header';
 import { LayoutButtonCircle } from '@/shared/Button-circle/layout-button-circle';
 
 interface ComponentProps {
-  className?: string; // Необязательный пропс
+  className?: string;
 }
-
 export function SidebarContactsLayout({
   className,
 }: ComponentProps): JSX.Element {
@@ -15,10 +14,11 @@ export function SidebarContactsLayout({
   [&::-webkit-scrollbar-track]:transparent
   hover:[&::-webkit-scrollbar-thumb]:transparent
   [&::-webkit-scrollbar-thumb]:rounded-full`;
+
   return (
     <aside
       className={clsx(
-        `w-4/12 overflow-y-scroll relative overflow-x-hidden h-screen border-r border-r-foreground/10 group/sidebar
+        `overflow-y-scroll relative overflow-x-hidden h-screen border-r border-r-foreground/10 group/sidebar
          max-sm:w-full max-sm:fixed bg-background z-50 max-md:w-8/12`,
         scroll,
         className

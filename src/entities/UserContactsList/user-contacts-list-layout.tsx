@@ -1,6 +1,11 @@
 import { JSX } from 'react';
+import { useEffect, useState } from 'react';
 import { UserContact } from '../UserContact/user-contact';
-
+async function getUsers() {
+  const data = await fetch('http://localhost:5000');
+  const users = await data.json();
+  return users;
+}
 interface Users {
   id: number;
   image?: string;
@@ -11,61 +16,16 @@ interface Users {
   read: boolean;
   countMessage: number;
 }
-const users: Users[] = [
-  {
-    id: 1,
-    image: 'https://i.redd.it/h2yzonu2q9wc1.jpeg',
-    name: 'Aaa',
-    online: true,
-    lastMessage: 'string',
-    lastAtCreate: '17:00',
-    read: false,
-    countMessage: 3,
-  },
-  {
-    id: 2,
-    name: 'Ddd',
-    online: true,
-    lastMessage: 'string',
-    lastAtCreate: '17:00',
-    read: true,
-    countMessage: 0,
-  },
-  {
-    id: 3,
-    image:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzdWHcffKPDbUMWEVLor3x7sknODQ7SP-Qmw&s',
-    name: 'string',
-    online: true,
-    lastMessage: 'string',
-    lastAtCreate: '17:00',
-    read: false,
-    countMessage: 8,
-  },
-  {
-    id: 42,
-    name: 'ccc',
-    online: true,
-    lastMessage: 'string',
-    lastAtCreate: '17:30',
-    read: true,
-    countMessage: 0,
-  },
-  {
-    id: 45,
-    name: 'ccc',
-    online: true,
-    lastMessage:
-      'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Saepe tempore hic natus, possimus nisi porro doloremque est officia eos error praesentium veritatis ab quisquam labore voluptatum vitae repellat. Fugiat, aliquam!',
-    lastAtCreate: '17:30',
-    read: true,
-    countMessage: 0,
-  },
-];
 export function UserContactListLayout(): JSX.Element {
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    getUsers().then((users) => {
+      return setUsers(users);
+    });
+  }, []);
   return (
     <>
-      {users.map((user) => {
+      {users.map((user: Users) => {
         return (
           <UserContact
             key={user.id}

@@ -1,5 +1,5 @@
-import { MainViewLaout } from '@/views/Main-view/main-view-layout';
-function IndexPage() {
-  return <MainViewLaout></MainViewLaout>;
+import { MainViewLayout } from '@/views/Main-view/main-view-layout';
+
+export default function Layout() {
+  return <MainViewLayout></MainViewLayout>;
 }
-export default IndexPage;

@@ -1,5 +1,4 @@
 'use client';
-
 import React, { createContext, JSX, useContext, useState } from 'react';
 import { InputMain } from '@/shared/Input-main/layout-input-main';
 import { LayoutButtonCircle } from '@/shared/Button-circle/layout-button-circle';
@@ -22,7 +21,6 @@ export function ThemeProvider({ children }) {
 
 export function HeaderSidebarLayout(): JSX.Element {
   const { theme, changeTheme } = useContext(ThemeContext);
-  console.log(theme);
   return (
     <>
       <LayoutButtonCircle
