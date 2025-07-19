@@ -1,31 +1,26 @@
-'use client';
+'use context';
 import {
   ThemeContext,
   ThemeProvider,
 } from '@/widgets/Header/layouts/header-sidebar-layout';
 import '../app/globals.css';
 import type { AppProps } from 'next/app';
-import Link from 'next/link';
 import { useContext } from 'react';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider>
-      <LayoutBase>
+      <Wrapper>
         <Component {...pageProps} />
-      </LayoutBase>
+      </Wrapper>
     </ThemeProvider>
   );
 }
-function LayoutBase({ children }) {
+function Wrapper({ children }) {
   const { theme } = useContext(ThemeContext);
   return (
-    <html lang="en" data-theme={theme?.toLowerCase()}>
-      <body>
-        <Link href="/"></Link>
-        <Link href="login"></Link>
-        {children}
-      </body>
-    </html>
+    <div className="wrapper" data-theme={theme?.toLowerCase()}>
+      {children}
+    </div>
   );
 }

@@ -3,10 +3,13 @@ import React, { createContext, JSX, useContext, useState } from 'react';
 import { InputMain } from '@/shared/Input-main/layout-input-main';
 import { LayoutButtonCircle } from '@/shared/Button-circle/layout-button-circle';
 
-export const ThemeContext = React.createContext('');
+export const ThemeContext = React.createContext({
+  theme: 'DARK',
+  changeTheme: () => {},
+});
 
 export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState('LIGHT');
+  const [theme, setTheme] = useState('DARK');
 
   function changeTheme() {
     return theme === 'LIGHT' ? setTheme('DARK') : setTheme('LIGHT');

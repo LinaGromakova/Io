@@ -13,7 +13,7 @@ export function ButtonMain(props: ButtonMainProps): JSX.Element {
   const { style, icon } = ButtonMainStyles[props.type];
   return (
     <button
-      type='button'
+      type="submit"
       onClick={() => props.handlerClick}
       className={clsx(
         `cursor-pointer font-medium  text-white

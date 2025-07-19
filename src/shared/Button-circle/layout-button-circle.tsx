@@ -6,7 +6,7 @@ import clsx from 'clsx';
 
 type ButtonProps = {
   type: 'SEARCH' | 'MESSAGE' | 'CREATE' | 'BACK' | 'LIGHT' | 'DARK';
-  handlerClick?: () => void;
+  handlerClick?: () => string;
   className?: string;
 };
 
