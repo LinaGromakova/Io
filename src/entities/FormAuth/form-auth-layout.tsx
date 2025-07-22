@@ -1,3 +1,4 @@
+'use client';
 import { MainTitle } from '@/shared/Main-title/main-title';
 import { LabelForm } from '@/shared/Label-form/label-form-layout';
 import { InputMain } from '@/shared/Input-main/layout-input-main';
@@ -5,7 +6,41 @@ import { ButtonMain } from '@/shared/Button-main/button-main-layout';
 import { formConfig } from './constants/form-fields';
 import { JSX, useState } from 'react';
 import { useRouter } from 'next/router';
-const configForm = { name: '', password: '', duplicate: '' };
+import Link from 'next/link';
+
+async function signInUser(userData, router) {
+  try {
+    const data = await fetch('http://localhost:5000/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    });
+    const result = await data.json();
+    console.log(result);
+    router.replace('/');
+  } catch (error) {
+    console.log(error);
+  }
+}
+async function registrationUser(userData, router) {
+  try {
+    const data = await fetch('http://localhost:5000/registration', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    });
+    const result = await data.json();
+    console.log(result);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const configForm = { login: '', password: '', duplicate: '' };
 export function FormAuth(): JSX.Element {
   const [formData, setFormData] = useState(configForm);
   const router = useRouter();
@@ -27,7 +62,9 @@ export function FormAuth(): JSX.Element {
         <MainTitle title={router.route.slice(1)}></MainTitle>
         {formConfig.map((field, index) => {
           validArray.push(field.validate?.(formData));
-          console.log(validArray);
+          if (router.route.includes('login') && field.name == 'duplicate') {
+            return null;
+          }
           return (
             <LabelForm text={field.label} key={index}>
               <InputMain
@@ -44,16 +81,41 @@ export function FormAuth(): JSX.Element {
           );
         })}
 
-        <ButtonMain
-          type="submit"
-          disabled={!validArray.every((par) => par)}
-          handlerClick={(e) => {
-            e.preventDefault(e);
-            console.log(validArray);
-            delete formData.duplicate;
-            console.log(formData);
-          }}
-        ></ButtonMain>
+        {(router.route.includes('login') && (
+          <>
+            <ButtonMain
+              type="submit"
+              disabled={!validArray.every((par) => par)}
+              handlerClick={(e) => {
+                e.preventDefault(e);
+                delete formData.duplicate;
+                signInUser(formData, router);
+              }}
+            ></ButtonMain>
+            <Link href="/registration">
+              <p className="mt-3 text-xs opacity-70 hover:opacity-100 hover:underline duration-300">
+                Нет аккаунта? Зарегистрироваться!
+              </p>
+            </Link>
+          </>
+        )) || (
+          <>
+            <ButtonMain
+              type="registration"
+              disabled={!validArray.every((par) => par)}
+              handlerClick={(e) => {
+                e.preventDefault(e);
+                delete formData.duplicate;
+                registrationUser(formData, router);
+              }}
+            ></ButtonMain>
+            <Link href="/login">
+              <p className="mt-3 text-xs opacity-70 hover:opacity-100 hover:underline">
+                Уже есть аккаунт? Войти!
+              </p>
+            </Link>
+          </>
+        )}
       </form>
     </div>
   );

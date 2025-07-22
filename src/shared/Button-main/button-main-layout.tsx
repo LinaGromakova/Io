@@ -21,7 +21,7 @@ export function ButtonMain(props: ButtonMainProps): JSX.Element {
         `cursor-pointer font-medium  text-white
         px-4 py-2 h-9 rounded-sm w-full capitalize
         hover:scale-105 duration-300 focus:outline-0 
-        my-4 flex items-center justify-center
+        mt-6 mb-2 flex items-center justify-center
         disabled:bg-gradient-to-r disabled:from-gray-600
          disabled:via-gray-400 disabled:to-slate-200 disabled:opacity-75 disabled:hover:scale-100 disabled:cursor-auto
         `,

@@ -30,9 +30,8 @@ export function InputMain(props: InputProps): JSX.Element {
     setVisible(!visible);
     setInputType((prev) => (prev === 'password' ? 'text' : 'password'));
   }
-
   return (
-    <div className="relative">
+    <div className="relative w-full">
       <input
         {...props}
         onChange={(e) => props.changeHandler(e)}

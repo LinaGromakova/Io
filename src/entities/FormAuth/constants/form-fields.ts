@@ -7,18 +7,18 @@ interface Field {
 export const formConfig = [
   {
     type: 'text',
-    name: 'name',
+    name: 'login',
     category: 'text',
-    label: 'Имя (Логин)',
+    label: 'Логин',
     required: true,
-    placeholder: 'Твоё имя',
+    placeholder: 'Твой логин',
     maxLength: 32,
     minLength: 2,
     validate(state) {
       return (
-        state.name.length >= this.minLength &&
-        state.name.length <= this.maxLength &&
-        state.name.trim() !== ''
+        state.login.length >= this.minLength &&
+        state.login.length <= this.maxLength &&
+        state.login.trim() !== ''
       );
     },
     errorMessage: 'Имя должно содержать 2-32 символа',
@@ -45,7 +45,7 @@ export const formConfig = [
     type: 'password',
     name: 'duplicate',
     category: 'password',
-    label: 'Повтори паспорт',
+    label: 'Повтори пароль',
     required: true,
     placeholder: 'Повтори свой пароль',
     maxLength: 24,
