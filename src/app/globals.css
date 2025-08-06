@@ -1,20 +1,32 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import 'tailwindcss';
 
+input::-webkit-search-cancel-button {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  color: red;
+  background: url();
+}
+aside[data-open='true'] {
+  opacity: 1;
+  z-index:100;
+}
+
 @theme {
   --color-accent: #fea400;
   --color-inter: #f4f4f5;
   --color-accent-shadow: #dc561b;
 }
 @layer base {
-html:has(.wrapper[data-theme='dark']) {
+  html:has(.wrapper[data-theme='dark']) {
     --foreground: #ffffff;
     --background: #212121;
     --color-inter: #2c2c2c;
   }
- html:has(.wrapper[data-theme='light']) {
-  --foreground: #212121;
-  --background: #ffffff;
+  html:has(.wrapper[data-theme='light']) {
+    --foreground: #212121;
+    --background: #ffffff;
     --color-inter: #f4f4f5;
   }
 }

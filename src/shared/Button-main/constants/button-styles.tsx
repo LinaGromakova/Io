@@ -10,16 +10,12 @@ interface ButtonStylesOfType {
 }
 const iconStyles: string = 'text-xl mr-1';
 export const ButtonMainStyles: ButtonStylesOfType = {
-  'log in': {
+  login: {
     style: `bg-gradient-to-r from-red-800 via-accent-shadow to-accent`,
     icon: <LoginIcon className={iconStyles}></LoginIcon>,
   },
-  registration: {
-    style: 'bg-accent-shadow',
+  register: {
+    style: 'bg-gradient-to-l  from-accent-shadow to-accent',
     icon: <CreateIcon className={iconStyles}></CreateIcon>,
-  },
-  submit: {
-    style: 'bg-gradient-to-l  from-accent-shadow to-accent ',
-    icon: <></>,
   },
 };

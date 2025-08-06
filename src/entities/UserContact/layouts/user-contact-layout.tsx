@@ -9,13 +9,13 @@ import { useRouter } from 'next/router';
 export function UserContactLayout(props: UserContactProps): JSX.Element {
   const { query } = useRouter();
   // console.log(query === props.id);
-  console.log(query.id);
+
   const isActive = query.id == props.id;
   return (
     <Link href={`/${props.id}`}>
       <article
         className={clsx(
-          'py-3 px-5 relative flex items-center cursor-pointer rounded-2xl duration-300 transition-colors  group/user',
+          'py-3 px-5 relative flex items-center cursor-pointer rounded-2xl duration-300 transition-colors group/user',
           isActive ? 'bg-accent text-white hover:bg-accent' : 'hover:bg-inter'
         )}
       >

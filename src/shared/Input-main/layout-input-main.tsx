@@ -31,13 +31,14 @@ export function InputMain(props: InputProps): JSX.Element {
     setInputType((prev) => (prev === 'password' ? 'text' : 'password'));
   }
   return (
-    <div className="relative w-full">
+    <>
       <input
         {...props}
+        autoComplete="off"
         onChange={(e) => props.changeHandler(e)}
         type={props.category === 'password' ? inputType : props.type}
         className={clsx(
-          `bg-inter
+          `bg-inter placeholder:text-foreground/50
         font-medium text-sm py-2 px-4
         duration-300 transition-[background-color]
          `,
@@ -63,6 +64,6 @@ export function InputMain(props: InputProps): JSX.Element {
       {props.purpose === 'FORM' && !props.valid && (
         <span className="text-xs mt-3 block">{props?.message}</span>
       )}
-    </div>
+    </>
   );
 }

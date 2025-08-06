@@ -74,6 +74,7 @@ async function getUsers(id) {
     console.log('ops');
   }
 }
+
 export function HeaderMainLayout(): JSX.Element {
   const [current, setCurrent] = useState({});
   const router = useRouter();
@@ -83,7 +84,7 @@ export function HeaderMainLayout(): JSX.Element {
       return setCurrent(user);
     });
   }, [id]);
-
+  console.log(current);
   return (
     <>
       <Link href="/">
@@ -93,6 +94,7 @@ export function HeaderMainLayout(): JSX.Element {
         ></LayoutButtonCircle>
       </Link>
       <UserContact {...current} type="CURRENT_CONTACT"></UserContact>
+      <LayoutButtonCircle type="MORE" className="ml-auto"></LayoutButtonCircle>
     </>
   );
 }

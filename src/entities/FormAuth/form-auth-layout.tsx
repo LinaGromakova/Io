@@ -18,15 +18,17 @@ async function signInUser(userData, router) {
       body: JSON.stringify(userData),
     });
     const result = await data.json();
-    console.log(result);
-    router.replace('/');
+    if (result) {
+      // router.replace('/');
+      console.log(result);
+    }
   } catch (error) {
     console.log(error);
   }
 }
 async function registrationUser(userData, router) {
   try {
-    const data = await fetch('http://localhost:5000/registration', {
+    const data = await fetch('http://localhost:5000/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -35,15 +37,20 @@ async function registrationUser(userData, router) {
     });
     const result = await data.json();
     console.log(result);
+    // if (result) {
+    //   router.replace('/');
+    // }
   } catch (error) {
     console.log(error);
   }
 }
 
-const configForm = { login: '', password: '', duplicate: '' };
+const configForm = { login: '', name: '', password: '', duplicate: '' };
 export function FormAuth(): JSX.Element {
   const [formData, setFormData] = useState(configForm);
+
   const router = useRouter();
+  const page = router.route.slice(1);
 
   function handlerInput(e) {
     const value = e.target.value;
@@ -59,12 +66,16 @@ export function FormAuth(): JSX.Element {
         method="post"
         className="border border-foreground/10 py-6 px-12 md:min-w-[400px] mx-auto rounded-lg max-md:px-6 max-md:w-10/12 "
       >
-        <MainTitle title={router.route.slice(1)}></MainTitle>
+        <MainTitle title={page}></MainTitle>
         {formConfig.map((field, index) => {
-          validArray.push(field.validate?.(formData));
-          if (router.route.includes('login') && field.name == 'duplicate') {
+          validArray.push(field.validate?.(formData, page));
+          if (
+            (field.name === 'duplicate' && page === 'login') ||
+            (field.name === 'name' && page === 'login')
+          ) {
             return null;
           }
+
           return (
             <LabelForm text={field.label} key={index}>
               <InputMain
@@ -73,7 +84,7 @@ export function FormAuth(): JSX.Element {
                 changeHandler={(e) => handlerInput(e)}
                 {...field}
                 className="w-full"
-                valid={field.validate?.(formData)}
+                valid={field.validate?.(formData, page)}
                 message={formData[field.name] !== '' && field.errorMessage}
                 onKeyDown={(e) => e.key === ' ' && e.preventDefault()}
               ></InputMain>
@@ -81,18 +92,19 @@ export function FormAuth(): JSX.Element {
           );
         })}
 
-        {(router.route.includes('login') && (
+        {(page === 'login' && (
           <>
             <ButtonMain
-              type="submit"
+              type="login"
               disabled={!validArray.every((par) => par)}
               handlerClick={(e) => {
                 e.preventDefault(e);
-                delete formData.duplicate;
+                console.log(validArray);
+
                 signInUser(formData, router);
               }}
             ></ButtonMain>
-            <Link href="/registration">
+            <Link href="/register">
               <p className="mt-3 text-xs opacity-70 hover:opacity-100 hover:underline duration-300">
                 Нет аккаунта? Зарегистрироваться!
               </p>
@@ -101,11 +113,12 @@ export function FormAuth(): JSX.Element {
         )) || (
           <>
             <ButtonMain
-              type="registration"
+              type="register"
               disabled={!validArray.every((par) => par)}
               handlerClick={(e) => {
                 e.preventDefault(e);
                 delete formData.duplicate;
+                console.log(formData);
                 registrationUser(formData, router);
               }}
             ></ButtonMain>

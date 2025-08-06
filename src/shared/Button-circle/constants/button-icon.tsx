@@ -2,14 +2,16 @@ import { FaTelegramPlane as MessageIcon } from 'react-icons/fa';
 import { IoSearchOutline as SearchIcon } from 'react-icons/io5';
 import { IoMdCreate as CreateIcon } from 'react-icons/io';
 import { IoArrowBack as ArrowBackIcon } from 'react-icons/io5';
-import { IoSunnyOutline as SunIcon } from 'react-icons/io5';
-import { IoMoonOutline as MoonIcon } from 'react-icons/io5';
+import { MdOutlineAddPhotoAlternate as PhotoAddIcon } from 'react-icons/md';
+import { RxHamburgerMenu as HamburgerIcon } from 'react-icons/rx';
+import { AiOutlineMore as MoreIcon } from 'react-icons/ai';
 
 export const ButtonIcons = {
   SEARCH: <SearchIcon />,
   MESSAGE: <MessageIcon />,
   CREATE: <CreateIcon />,
   BACK: <ArrowBackIcon />,
-  LIGHT: <SunIcon></SunIcon>,
-  DARK: <MoonIcon></MoonIcon>,
+  OPTIONS: <HamburgerIcon></HamburgerIcon>,
+  PHOTO_ADD: <PhotoAddIcon></PhotoAddIcon>,
+  MORE: <MoreIcon></MoreIcon>,
 };

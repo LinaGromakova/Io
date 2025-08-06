@@ -4,7 +4,7 @@ import { JSX } from 'react';
 import { ButtonMainStyles } from './constants/button-styles';
 
 interface ButtonMainProps {
-  type: 'log in' | 'registration' | 'submit';
+  type: 'login' | 'register';
   className?: string;
   handlerClick?: (e) => void;
   disabled?: boolean;

@@ -28,7 +28,7 @@ export function SidebarContactsLayout({
       <LayoutButtonCircle
         type="CREATE"
         className="sm:group-hover/sidebar:-translate-y-4 w-12 h-12 fixed z-30 text-xl 
-        left-[27%] bottom-0 translate-y-full max-sm:translate-y-0 max-sm:left-auto max-sm:right-3 max-sm:bottom-3"
+        left-[29%] bottom-0 translate-y-full max-sm:translate-y-0 max-sm:left-auto max-sm:right-3 max-sm:bottom-3"
       ></LayoutButtonCircle>
       <UserContactListLayout></UserContactListLayout>
     </aside>

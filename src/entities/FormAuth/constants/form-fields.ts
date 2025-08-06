@@ -21,6 +21,27 @@ export const formConfig = [
         state.login.trim() !== ''
       );
     },
+    errorMessage: 'Логин должен содержать 2-32 символа',
+  },
+  {
+    type: 'text',
+    name: 'name',
+    category: 'text',
+    label: 'Имя пользователя',
+    required: true,
+    placeholder: 'Твоё имя',
+    maxLength: 32,
+    minLength: 2,
+    validate: function (state, page) {
+      if (page === 'login') {
+        return true;
+      } else
+        return (
+          state.name.length >= this.minLength &&
+          state.name.length <= this.maxLength &&
+          state.name.trim() !== ''
+        );
+    },
     errorMessage: 'Имя должно содержать 2-32 символа',
   },
   {
@@ -50,7 +71,10 @@ export const formConfig = [
     placeholder: 'Повтори свой пароль',
     maxLength: 24,
     minLength: 8,
-    validate: (state) => {
+    validate: function (state, page) {
+      if (page === 'login') {
+        return true;
+      }
       return state.password === state.duplicate;
     },
     errorMessage: 'Пароли не совпадают!',
