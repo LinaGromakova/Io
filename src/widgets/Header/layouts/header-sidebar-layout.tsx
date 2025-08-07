@@ -10,15 +10,28 @@ export function GlobalProvider({ children }) {
   const [theme, setTheme] = useState('dark');
   const [filter, setFilter] = useState('');
   const [users, setUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState({
+    open: false,
+    type: '',
+  });
 
   function changeTheme() {
     return theme === 'light' ? setTheme('dark') : setTheme('light');
   }
+  function changeModalView(actionType) {
+    setIsModalOpen((prev) => ({
+      open: !prev.open,
+      type: actionType === 'unLogin' ? 'unLogin' : 'unBlock',
+    }));
+  }
   function filterUsers(event) {
-    setFilter(event.target.value.toLowerCase());
-    return setUsers(
-      users.filter((user) => user.name.toLowerCase().includes(filter))
+    setFilter(event.target.value);
+    return setFilteredUsers(
+      users.filter((user) =>
+        user.name.toLowerCase().includes(filter.toLowerCase())
+      )
     );
   }
   function openOptions() {
@@ -35,6 +48,9 @@ export function GlobalProvider({ children }) {
         setUsers,
         openOptions,
         isOpen,
+        isModalOpen,
+        changeModalView,
+        filteredUsers,
       }}
     >
       {children}
@@ -53,17 +69,17 @@ export function HeaderSidebarLayout(): JSX.Element {
         className="mr-2 block min-w-9"
         handlerClick={() => openOptions()}
       ></LayoutButtonCircle>
-      <div className="w-full relative">
-        <SearchIcon className="absolute text-2xl top-1.5 left-4 opacity-50"></SearchIcon>
+      <div className="w-full relative flex flex-row-reverse">
         <InputMain
           type="search"
           value={filter}
-          purpose="MESSAGE"
+          purpose="FILTER"
           name="search"
           placeholder="Поиск"
           changeHandler={(e) => filterUsers(e)}
           className="w-full rounded-3xl max-sm:w-full block max-sm:max-w-none min-w-0 pl-12"
         ></InputMain>
+        <SearchIcon className="absolute text-2xl top-1.5 left-4 opacity-50 icon-focus duration-300"></SearchIcon>
       </div>
     </>
   );

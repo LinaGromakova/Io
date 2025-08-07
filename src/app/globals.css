@@ -10,13 +10,15 @@ input::-webkit-search-cancel-button {
 }
 aside[data-open='true'] {
   opacity: 1;
-  z-index:100;
+  z-index: 100;
 }
-
 @theme {
   --color-accent: #fea400;
   --color-inter: #f4f4f5;
   --color-accent-shadow: #dc561b;
+}
+input[type='search']:focus+.icon-focus{
+ color: var(--color-accent);
 }
 @layer base {
   html:has(.wrapper[data-theme='dark']) {

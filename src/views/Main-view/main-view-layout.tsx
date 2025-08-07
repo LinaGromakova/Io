@@ -9,8 +9,7 @@ export function MainViewLayout({ children }: Props) {
   return (
     <div className="flex overflow-y-hidden">
       <SidebarOptionsLayout
-        name="dante"
-        image="https://i.redd.it/dqtwi18nog5c1.jpg"
+       
       ></SidebarOptionsLayout>
       <SidebarContactsLayout
         className={clsx((!!children && 'w-6/12') || 'w-4/12')}

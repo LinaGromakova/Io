@@ -7,5 +7,11 @@ export const stylePurpose: stylesOfType = {
   FORM: {
     style: `rounded-md focus:outline-1  focus:outline-offset-6 mt-2 focus:invalid:outline-red-500/70`,
   },
-  MESSAGE: { style: 'focus:outline-0 focus:border-0' },
+  FILTER: {
+    style:
+      'focus:outline-2 focus:outline-accent focus:text-accent focus:placeholder:text-accent duration-300',
+  },
+  MESSAGE: {
+    style: 'border-none outline-none',
+  },
 };

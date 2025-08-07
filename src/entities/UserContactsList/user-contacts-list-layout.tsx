@@ -20,7 +20,7 @@ interface Users {
   countMessage: number;
 }
 export function UserContactListLayout(): JSX.Element {
-  const { users, setUsers } = useContext(GlobalContext);
+  const { users, setUsers, filteredUsers, filter } = useContext(GlobalContext);
   useEffect(() => {
     getUsers().then((users) => {
       return setUsers(users);
@@ -36,6 +36,16 @@ export function UserContactListLayout(): JSX.Element {
           </p>
         </div>
       )) ||
+        (filter &&
+          filteredUsers.map((user: Users) => {
+            return (
+              <UserContact
+                key={user.id}
+                {...user}
+                type="USER_CONTACT"
+              ></UserContact>
+            );
+          })) ||
         users.map((user: Users) => {
           return (
             <UserContact

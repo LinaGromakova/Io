@@ -5,7 +5,7 @@ import { IoMdEye as IconInvisible } from 'react-icons/io';
 import { IoMdEyeOff as IconVisible } from 'react-icons/io';
 
 interface InputProps {
-  purpose: 'FORM' | 'MESSAGE';
+  purpose: 'FORM' | 'MESSAGE' | 'FILTER';
   name: string;
   type: string;
   label: string;
@@ -44,8 +44,12 @@ export function InputMain(props: InputProps): JSX.Element {
          `,
           style,
           props.className,
-          { 'focus:valid:outline-green-400/70': props.valid },
-          { 'focus:outline-red-500/70': !props.valid }
+          props.purpose === 'FORM' && {
+            'focus:valid:outline-green-400/70': props.valid,
+          },
+          props.purpose === 'FORM' && {
+            'focus:outline-red-500/70': !props.valid,
+          }
         )}
       />
       {props.category === 'password' && (
