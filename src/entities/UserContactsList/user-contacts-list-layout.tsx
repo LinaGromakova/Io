@@ -2,6 +2,7 @@ import { JSX, useContext } from 'react';
 import { useEffect, useState } from 'react';
 import { UserContact } from '../UserContact/user-contact';
 import { GlobalContext } from '@/widgets/Header/layouts/header-sidebar-layout';
+
 async function getUsers() {
   const data = await fetch('http://localhost:5000');
 
@@ -20,12 +21,18 @@ interface Users {
   countMessage: number;
 }
 export function UserContactListLayout(): JSX.Element {
-  const { users, setUsers, filteredUsers, filter } = useContext(GlobalContext);
+  const {
+    users,
+    setUsers,
+    filteredUsers,
+    filter,
+  } = useContext(GlobalContext);
   useEffect(() => {
     getUsers().then((users) => {
       return setUsers(users);
     });
   }, []);
+  console.log(filteredUsers.length);
   return (
     <>
       {(users.length === 0 && (
@@ -37,6 +44,7 @@ export function UserContactListLayout(): JSX.Element {
         </div>
       )) ||
         (filter &&
+          filteredUsers.length !== 0 &&
           filteredUsers.map((user: Users) => {
             return (
               <UserContact
@@ -46,12 +54,16 @@ export function UserContactListLayout(): JSX.Element {
               ></UserContact>
             );
           })) ||
+        (filter && filteredUsers.length === 0 && (
+          <p className="mb-4 opacity-65">Пользователь не найден</p>
+        )) ||
         users.map((user: Users) => {
           return (
             <UserContact
-              key={user.id}
               {...user}
+              key={user.id}
               type="USER_CONTACT"
+              
             ></UserContact>
           );
         })}

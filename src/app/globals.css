@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import 'tailwindcss';
 
+
 input::-webkit-search-cancel-button {
   appearance: none;
   width: 20px;
@@ -16,6 +17,9 @@ aside[data-open='true'] {
   --color-accent: #fea400;
   --color-inter: #f4f4f5;
   --color-accent-shadow: #dc561b;
+}
+html::selection {
+  background-color: var(--color-accent);
 }
 input[type='search']:focus+.icon-focus{
  color: var(--color-accent);

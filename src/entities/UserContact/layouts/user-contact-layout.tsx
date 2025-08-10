@@ -18,6 +18,7 @@ export function UserContactLayout(props: UserContactProps): JSX.Element {
           'py-3 px-5 relative flex items-center cursor-pointer rounded-2xl duration-300 transition-colors group/user',
           isActive ? 'bg-accent text-white hover:bg-accent' : 'hover:bg-inter'
         )}
+      
       >
         <div className="flex items-center w-full justify-between">
           <div className="w-14 h-14 relative bg-radial-[at_25%_25%] from-accent to-accent-shadow to-75% rounded-full flex items-center justify-center">

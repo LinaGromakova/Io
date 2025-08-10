@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { BlackListLayout } from './layouts/sidebar-black-list';
 import { SidebarOptions } from './layouts/sidebar-options';
 import { clsx } from 'clsx';
@@ -7,7 +7,7 @@ import { ConfirmModalLayout } from '@/shared/Confirm-modal/confirm-modal-layout'
 
 export function SidebarOptionsLayout() {
   const [blackListIsOpen, setBlackListIsOpen] = useState(false);
-  const { isOpen, changeModalView, isModalOpen } = useContext(GlobalContext);
+  const { isOpen, isModalOpen, modalSettings } = useContext(GlobalContext);
 
   const scroll: string = `[&::-webkit-scrollbar]:w-1
   [&::-webkit-scrollbar-track]:transparent
@@ -16,39 +16,6 @@ export function SidebarOptionsLayout() {
 
   function blackListOpen() {
     setBlackListIsOpen(!blackListIsOpen);
-  }
-
-  const modalSettings = {
-    unLogin: {
-      message: function (currentNameUser) {
-        return `Вы точно хотите выйти из аккаунта, ${currentNameUser}?`;
-      },
-      handlerCancel: function () {
-        changeModalView();
-      },
-      handlerOk: function () {
-        console.log('unlogin');
-        changeModalView();
-      },
-    },
-    unBlock: {
-      message: function (blockedName) {
-        return `Вы точно хотите разблокировать пользователя ${blockedName}?`;
-      },
-      handlerCancel: function () {
-        changeModalView();
-      },
-      handlerOk: function (arrTest, index, setArrTest) {
-        const newList = [...arrTest];
-        newList.splice(index, 1);
-        setArrTest(newList);
-        changeModalView();
-      },
-    },
-  };
-  function unBlockUser(arrTest, index) {
-    const newList = arrTest;
-    return newList.splice(index, 1);
   }
   return (
     <>

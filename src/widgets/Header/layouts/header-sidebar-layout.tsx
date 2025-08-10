@@ -16,7 +16,56 @@ export function GlobalProvider({ children }) {
     open: false,
     type: '',
   });
+  const [arrTest, setArrTest] = useState([1, 2, 3, 4, 5]);
+  const modalSettings = {
+    unLogin: {
+      message: function (currentNameUser) {
+        return `Вы точно хотите выйти из аккаунта, ${currentNameUser}?`;
+      },
+      handlerCancel: function () {
+        changeModalView();
+      },
+      handlerOk: function () {
+        console.log('unlogin');
+        changeModalView();
+      },
+    },
+    unBlock: {
+      message: function (blockedName) {
+        return `Вы точно хотите разблокировать пользователя ${blockedName}?`;
+      },
+      handlerCancel: function () {
+        changeModalView();
+      },
+      handlerOk: function (index) {
+        const newList = [...arrTest];
+        newList.splice(index, 1);
+        setArrTest(newList);
+        changeModalView();
+      },
+    },
+    deleteChat: {
+      message: function (deleteNameChat) {
+        return `Вы точно хотите удалить чат с ${deleteNameChat}?`;
+      },
+      handlerCancel: function () {
+        changeModalView();
+      },
+      handlerOk: function (id) {
+        const newList = [...users];
+        newList.splice(id, 1);
+        setUsers(newList);
+        changeModalView();
+      },
+    },
+  };
 
+  function bubbleMenuOpen(e, state, setState) {
+    e.preventDefault();
+    if (e.button === 2) {
+      setState(!state);
+    }
+  }
   function changeTheme() {
     return theme === 'light' ? setTheme('dark') : setTheme('light');
   }
@@ -51,6 +100,10 @@ export function GlobalProvider({ children }) {
         isModalOpen,
         changeModalView,
         filteredUsers,
+        modalSettings,
+        arrTest,
+        setArrTest,
+        bubbleMenuOpen,
       }}
     >
       {children}

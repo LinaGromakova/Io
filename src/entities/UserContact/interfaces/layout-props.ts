@@ -7,5 +7,6 @@ export interface UserContactProps {
   lastAtCreate?: string;
   read?: boolean;
   countMessage?: number;
+  handlerOnContextMenu: any;
   type: 'USER_CONTACT' | 'CURRENT_CONTACT';
 }

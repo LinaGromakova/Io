@@ -5,8 +5,7 @@ import { LayoutButtonCircle } from '@/shared/Button-circle/layout-button-circle'
 import { GlobalContext } from '@/widgets/Header/layouts/header-sidebar-layout';
 
 export function BlackListLayout(props) {
-  const [arrTest, setArrTest] = useState([1, 2, 3, 4, 5]);
-  const { changeModalView } = useContext(GlobalContext);
+  const { changeModalView, arrTest } = useContext(GlobalContext);
   return (
     <>
       <header className="w-full px-4 py-2 flex items-center justify-between">
@@ -68,6 +67,7 @@ function UserBlackList(props) {
     <article
       onClick={() => {
         setIsPropmtVisible(false);
+        props.unBlockUser();
       }}
       className="absolute flex items-center top-11 bg-accent right-0 text-sm p-1.5 rounded-sm z-50 hover:bg-amber-600 duration-300"
       ref={promptRef}
@@ -105,9 +105,7 @@ function UserBlackList(props) {
       <div className="relative">
         <LayoutButtonCircle
           type="MORE"
-          handlerClick={() => {
-            props.unBlockUser();
-          }}
+          handlerClick={() => setIsPropmtVisible(true)}
         ></LayoutButtonCircle>
         {isPropmtVisible && prompt}
       </div>
