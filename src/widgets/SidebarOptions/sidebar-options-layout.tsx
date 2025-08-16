@@ -3,11 +3,11 @@ import { BlackListLayout } from './layouts/sidebar-black-list';
 import { SidebarOptions } from './layouts/sidebar-options';
 import { clsx } from 'clsx';
 import { GlobalContext } from '../Header/layouts/header-sidebar-layout';
-import { ConfirmModalLayout } from '@/shared/Confirm-modal/confirm-modal-layout';
+
 
 export function SidebarOptionsLayout() {
   const [blackListIsOpen, setBlackListIsOpen] = useState(false);
-  const { isOpen, isModalOpen, modalSettings } = useContext(GlobalContext);
+  const { isOpen } = useContext(GlobalContext);
 
   const scroll: string = `[&::-webkit-scrollbar]:w-1
   [&::-webkit-scrollbar-track]:transparent
@@ -40,10 +40,6 @@ export function SidebarOptionsLayout() {
           ></SidebarOptions>
         )}
       </aside>
-      <ConfirmModalLayout
-        {...modalSettings[isModalOpen.type]}
-        message={modalSettings[isModalOpen.type]?.message('dante')}
-      ></ConfirmModalLayout>
     </>
   );
 }

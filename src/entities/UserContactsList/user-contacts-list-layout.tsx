@@ -1,13 +1,14 @@
 import { JSX, useContext } from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { UserContact } from '../UserContact/user-contact';
 import { GlobalContext } from '@/widgets/Header/layouts/header-sidebar-layout';
+
 
 async function getUsers() {
   const data = await fetch('http://localhost:5000');
 
   const users = await data.json();
-  // const users = [];
+
   return users;
 }
 interface Users {
@@ -21,12 +22,7 @@ interface Users {
   countMessage: number;
 }
 export function UserContactListLayout(): JSX.Element {
-  const {
-    users,
-    setUsers,
-    filteredUsers,
-    filter,
-  } = useContext(GlobalContext);
+  const { users, setUsers, filteredUsers, filter } = useContext(GlobalContext);
   useEffect(() => {
     getUsers().then((users) => {
       return setUsers(users);
@@ -61,9 +57,8 @@ export function UserContactListLayout(): JSX.Element {
           return (
             <UserContact
               {...user}
-              key={user.id}
               type="USER_CONTACT"
-              
+              key={user.id}
             ></UserContact>
           );
         })}

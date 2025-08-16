@@ -74,7 +74,7 @@ export function SidebarOptions(props) {
         <div
           className="py-4 px-5 relative flex items-center rounded-2xl duration-300 transition-colors
            hover:bg-inter cursor-pointer "
-          onClick={() => changeModalView('unLogin')}
+          onClick={() => changeModalView('unLogin', '', 'Dante')}
         >
           <LogOutIcon className="text-xl"></LogOutIcon>
           <p className="ml-4 capitalize">Выйти</p>

@@ -1,8 +1,8 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useState } from 'react';
 
-import { IoLockOpenOutline as LockOpenIcon } from 'react-icons/io5';
 import { LayoutButtonCircle } from '@/shared/Button-circle/layout-button-circle';
 import { GlobalContext } from '@/widgets/Header/layouts/header-sidebar-layout';
+import { BubbleMenuLayout } from '@/entities/Bubble-menu-list/bubble-menu-layout';
 
 export function BlackListLayout(props) {
   const { changeModalView, arrTest } = useContext(GlobalContext);
@@ -35,7 +35,7 @@ export function BlackListLayout(props) {
                     name={props.name}
                     image={props.image}
                     unBlockUser={() => {
-                      changeModalView('unBlock');
+                      changeModalView('unBlock', index, props.name);
                     }}
                   ></UserBlackList>
                 );
@@ -49,34 +49,7 @@ export function BlackListLayout(props) {
 }
 
 function UserBlackList(props) {
-  const [isPropmtVisible, setIsPropmtVisible] = useState(false);
-  const promptRef = useRef(null);
-
-  useEffect(() => {
-    function handleClickOutside(e) {
-      if (promptRef.current && !promptRef.current.contains(e.target)) {
-        setIsPropmtVisible(false);
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-  const prompt = (
-    <article
-      onClick={() => {
-        setIsPropmtVisible(false);
-        props.unBlockUser();
-      }}
-      className="absolute flex items-center top-11 bg-accent right-0 text-sm p-1.5 rounded-sm z-50 hover:bg-amber-600 duration-300"
-      ref={promptRef}
-    >
-      <LockOpenIcon className="mr-1.5 text-base"></LockOpenIcon>
-      Разблокировать
-    </article>
-  );
-
+  const [isBubbleMenuOpen, setIsBubbleMenuOpen] = useState(false);
   return (
     <article
       className="py-3 px-5 relative flex items-center cursor-pointer rounded-2xl duration-300
@@ -105,9 +78,15 @@ function UserBlackList(props) {
       <div className="relative">
         <LayoutButtonCircle
           type="MORE"
-          handlerClick={() => setIsPropmtVisible(true)}
+          handlerClick={() => setIsBubbleMenuOpen(true)}
         ></LayoutButtonCircle>
-        {isPropmtVisible && prompt}
+        <BubbleMenuLayout
+          id={props.id}
+          name={props.name}
+          visible={isBubbleMenuOpen}
+          setVisible={setIsBubbleMenuOpen}
+          type="unBlock"
+        ></BubbleMenuLayout>
       </div>
     </article>
   );

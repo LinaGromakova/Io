@@ -15,6 +15,8 @@ export function GlobalProvider({ children }) {
   const [isModalOpen, setIsModalOpen] = useState({
     open: false,
     type: '',
+    id: '',
+    name: '',
   });
   const [arrTest, setArrTest] = useState([1, 2, 3, 4, 5]);
   const modalSettings = {
@@ -31,8 +33,8 @@ export function GlobalProvider({ children }) {
       },
     },
     unBlock: {
-      message: function (blockedName) {
-        return `Вы точно хотите разблокировать пользователя ${blockedName}?`;
+      message: function () {
+        return `Вы точно хотите разблокировать пользователя ${isModalOpen.name}?`;
       },
       handlerCancel: function () {
         changeModalView();
@@ -45,15 +47,15 @@ export function GlobalProvider({ children }) {
       },
     },
     deleteChat: {
-      message: function (deleteNameChat) {
-        return `Вы точно хотите удалить чат с ${deleteNameChat}?`;
+      message: function () {
+        return `Вы точно хотите удалить чат с ${isModalOpen.name}?`;
       },
       handlerCancel: function () {
         changeModalView();
       },
-      handlerOk: function (id) {
-        const newList = [...users];
-        newList.splice(id, 1);
+      handlerOk: function () {
+        const currentId = isModalOpen.id;
+        const newList = users.filter((user) => user.id !== currentId);
         setUsers(newList);
         changeModalView();
       },
@@ -69,10 +71,12 @@ export function GlobalProvider({ children }) {
   function changeTheme() {
     return theme === 'light' ? setTheme('dark') : setTheme('light');
   }
-  function changeModalView(actionType) {
+  function changeModalView(actionType, currentId, currentName) {
     setIsModalOpen((prev) => ({
       open: !prev.open,
-      type: actionType === 'unLogin' ? 'unLogin' : 'unBlock',
+      type: actionType,
+      id: currentId,
+      name: currentName,
     }));
   }
   function filterUsers(event) {
@@ -116,13 +120,13 @@ export function HeaderSidebarLayout(): JSX.Element {
     useContext(GlobalContext);
 
   return (
-    <>
+    <header className="flex  mb-4 w-full">
       <LayoutButtonCircle
         type="OPTIONS"
         className="mr-2 block min-w-9"
         handlerClick={() => openOptions()}
       ></LayoutButtonCircle>
-      <div className="w-full relative flex flex-row-reverse">
+      <div className="w-full relative flex items-center flex-row-reverse">
         <InputMain
           type="search"
           value={filter}
@@ -134,6 +138,6 @@ export function HeaderSidebarLayout(): JSX.Element {
         ></InputMain>
         <SearchIcon className="absolute text-2xl top-1.5 left-4 opacity-50 icon-focus duration-300"></SearchIcon>
       </div>
-    </>
+    </header>
   );
 }

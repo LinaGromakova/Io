@@ -1,14 +1,19 @@
-import { JSX } from 'react';
+import { JSX, useContext, useState } from 'react';
 import { IoCheckmarkDoneOutline as MarkDoneIcon } from 'react-icons/io5';
 import { IoCheckmarkOutline as MarkOutlineIcon } from 'react-icons/io5';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { UserContactProps } from '../interfaces/layout-props';
 import { useRouter } from 'next/router';
+import { GlobalContext } from '@/widgets/Header/layouts/header-sidebar-layout';
+import { BubbleMenuLayout } from '@/entities/Bubble-menu-list/bubble-menu-layout';
 
 export function UserContactLayout(props: UserContactProps): JSX.Element {
   const { query } = useRouter();
+  const { bubbleMenuOpen, changeModalView } = useContext(GlobalContext);
+  const [isBubbleMenuOpen, setIsBubbleMenuOpen] = useState(false);
   // console.log(query === props.id);
+
 
   const isActive = query.id == props.id;
   return (
@@ -18,8 +23,18 @@ export function UserContactLayout(props: UserContactProps): JSX.Element {
           'py-3 px-5 relative flex items-center cursor-pointer rounded-2xl duration-300 transition-colors group/user',
           isActive ? 'bg-accent text-white hover:bg-accent' : 'hover:bg-inter'
         )}
-      
+        onContextMenu={(e) => {
+          bubbleMenuOpen(e, isBubbleMenuOpen, setIsBubbleMenuOpen);
+        }}
       >
+        <BubbleMenuLayout
+          id={props.id}
+          name={props.name}
+          visible={isBubbleMenuOpen}
+          setVisible={setIsBubbleMenuOpen}
+          type='userChat'
+        ></BubbleMenuLayout>
+
         <div className="flex items-center w-full justify-between">
           <div className="w-14 h-14 relative bg-radial-[at_25%_25%] from-accent to-accent-shadow to-75% rounded-full flex items-center justify-center">
             {(props.image && (
