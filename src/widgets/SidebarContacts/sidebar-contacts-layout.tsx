@@ -1,8 +1,9 @@
-import { JSX } from 'react';
+import { JSX, useContext } from 'react';
 import clsx from 'clsx';
 import { UserContactListLayout } from '@/entities/UserContactsList/user-contacts-list-layout';
 import { Header } from '../Header/header';
 import { LayoutButtonCircle } from '@/shared/Button-circle/layout-button-circle';
+import { GlobalContext } from '../Header/layouts/header-sidebar-layout';
 
 interface ComponentProps {
   className?: string;
@@ -15,13 +16,15 @@ export function SidebarContactsLayout({
   hover:[&::-webkit-scrollbar-thumb]:transparent
   [&::-webkit-scrollbar-thumb]:rounded-full`;
 
+  const { sidebarIsOpen } = useContext(GlobalContext);
   return (
     <aside
       className={clsx(
         `overflow-y-scroll relative overflow-x-hidden h-screen border-r border-r-foreground/10 group/sidebar
          max-sm:w-full max-sm:fixed bg-background z-50 max-md:w-8/12`,
         scroll,
-        className
+        className,
+        !sidebarIsOpen && 'max-md:hidden'
       )}
     >
       <Header type="SIDEBAR"></Header>

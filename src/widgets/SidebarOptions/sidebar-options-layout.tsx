@@ -4,10 +4,9 @@ import { SidebarOptions } from './layouts/sidebar-options';
 import { clsx } from 'clsx';
 import { GlobalContext } from '../Header/layouts/header-sidebar-layout';
 
-
 export function SidebarOptionsLayout() {
   const [blackListIsOpen, setBlackListIsOpen] = useState(false);
-  const { isOpen } = useContext(GlobalContext);
+  const { isOpen, sidebarIsOpen } = useContext(GlobalContext);
 
   const scroll: string = `[&::-webkit-scrollbar]:w-1
   [&::-webkit-scrollbar-track]:transparent
@@ -23,7 +22,8 @@ export function SidebarOptionsLayout() {
         data-open={isOpen}
         className={clsx(
           `overflow-y-scroll fixed top-0 w-4/12 left-0 overflow-x-hidden h-screen border-r border-r-foreground/10 max-sm:w-full bg-background -z-10 max-md:w-8/12 opacity-0 duration-300`,
-          scroll
+          scroll,
+          !sidebarIsOpen && 'max-md:hidden'
         )}
       >
         {(blackListIsOpen && (

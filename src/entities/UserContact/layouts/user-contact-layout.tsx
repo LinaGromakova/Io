@@ -10,7 +10,7 @@ import { BubbleMenuLayout } from '@/entities/Bubble-menu-list/bubble-menu-layout
 
 export function UserContactLayout(props: UserContactProps): JSX.Element {
   const { query } = useRouter();
-  const { bubbleMenuOpen } = useContext(GlobalContext);
+  const { bubbleMenuOpen, setSidebarIsOpen } = useContext(GlobalContext);
   const [isBubbleMenuOpen, setIsBubbleMenuOpen] = useState(false);
   // console.log(query === props.id);
 
@@ -22,6 +22,7 @@ export function UserContactLayout(props: UserContactProps): JSX.Element {
           'py-3 px-5 relative flex items-center cursor-pointer rounded-2xl duration-300 transition-colors group/user',
           isActive ? 'bg-accent text-white hover:bg-accent' : 'hover:bg-inter'
         )}
+        onClick={() => setSidebarIsOpen(false)}
         onContextMenu={(e) => {
           bubbleMenuOpen(e, isBubbleMenuOpen, setIsBubbleMenuOpen);
         }}
@@ -32,7 +33,7 @@ export function UserContactLayout(props: UserContactProps): JSX.Element {
           visible={isBubbleMenuOpen}
           setVisible={setIsBubbleMenuOpen}
           type="userChat"
-          className="top-12 right-30"
+          className="top-7 right-25"
         ></BubbleMenuLayout>
 
         <div className="flex items-center w-full justify-between">

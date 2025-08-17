@@ -130,6 +130,7 @@ const scroll: string = `[&::-webkit-scrollbar]:w-2
   [&::-webkit-scrollbar-track]:transparent
   hover:[&::-webkit-scrollbar-thumb]:transparent
   [&::-webkit-scrollbar-thumb]:rounded-full`;
+
 export function ChatBody(): JSX.Element {
   const chat = useRef<HTMLDivElement>(null);
 
@@ -137,16 +138,19 @@ export function ChatBody(): JSX.Element {
     if (chat) {
       chat.current?.scrollIntoView(false);
     }
-  }, []);
+    if (chat && chat.current) {
+      chat.current.scrollTo({ top: chat.current.scrollHeight });
+    }
+  }, [messageArray]);
 
   return (
     <section
       className={clsx(
-        'py-5 px-12 max-md:px-6 w-full h-[85vh] overflow-y-scroll relative pb-20',
+        'py-5 px-12  max-md:px-6 w-full h-[calc(100vh-80px)] overflow-y-auto',
         scroll
       )}
     >
-      <div>
+      <div ref={chat} className="pb-5">
         {messageArray.map((el, index) => {
           const { message, atPush, read, sender } = el;
           return (
@@ -160,7 +164,6 @@ export function ChatBody(): JSX.Element {
           );
         })}
       </div>
-      <div ref={chat} className="pb-20 absolute"></div>
     </section>
   );
 }

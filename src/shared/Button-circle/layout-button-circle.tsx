@@ -5,14 +5,7 @@ import { ButtonIcons } from './constants/button-icon';
 import clsx from 'clsx';
 
 type ButtonProps = {
-  type:
-    | 'SEARCH'
-    | 'MESSAGE'
-    | 'CREATE'
-    | 'BACK'
-    | 'OPTIONS'
-    | 'PHOTO_ADD'
-    | 'MORE';
+  type: 'SEARCH' | 'CREATE' | 'BACK' | 'OPTIONS' | 'PHOTO_ADD' | 'MORE';
   children?: HTMLElement;
   handlerClick?: () => string;
   className?: string;

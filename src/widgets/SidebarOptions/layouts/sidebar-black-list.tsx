@@ -86,7 +86,7 @@ function UserBlackList(props) {
           visible={isBubbleMenuOpen}
           setVisible={setIsBubbleMenuOpen}
           type="unBlock"
-          className="top-6 right-10"
+          className="top-0 right-10"
         ></BubbleMenuLayout>
       </div>
     </article>

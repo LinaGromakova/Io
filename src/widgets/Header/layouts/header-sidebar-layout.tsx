@@ -12,6 +12,7 @@ export function GlobalProvider({ children }) {
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState({
     open: false,
     type: '',
@@ -19,6 +20,7 @@ export function GlobalProvider({ children }) {
     name: '',
   });
   const [arrTest, setArrTest] = useState([1, 2, 3, 4, 5]);
+
   const modalSettings = {
     unLogin: {
       message: function (currentNameUser) {
@@ -122,6 +124,8 @@ export function GlobalProvider({ children }) {
         arrTest,
         setArrTest,
         bubbleMenuOpen,
+        sidebarIsOpen,
+        setSidebarIsOpen,
       }}
     >
       {children}

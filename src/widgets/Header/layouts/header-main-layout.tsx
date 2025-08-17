@@ -3,7 +3,8 @@ import { UserContact } from '@/entities/UserContact/user-contact';
 import { LayoutButtonCircle } from '@/shared/Button-circle/layout-button-circle';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { JSX, useEffect, useState } from 'react';
+import { JSX, useContext, useEffect, useState } from 'react';
+import { GlobalContext } from './header-sidebar-layout';
 
 // interface Users {
 //   id: number;
@@ -78,6 +79,7 @@ async function getUsers(id) {
 
 export function HeaderMainLayout(): JSX.Element {
   const [current, setCurrent] = useState({});
+  const { setSidebarIsOpen } = useContext(GlobalContext);
   const [isBubbleMenuOpen, setIsBubbleMenuOpen] = useState(false);
   const router = useRouter();
   const { id } = router.query;
@@ -94,6 +96,7 @@ export function HeaderMainLayout(): JSX.Element {
         <LayoutButtonCircle
           type="BACK"
           className="mr-4 hidden max-sm:flex"
+          handlerClick={() => setSidebarIsOpen(true)}
         ></LayoutButtonCircle>
       </Link>
       <UserContact {...current} type="CURRENT_CONTACT"></UserContact>
@@ -107,7 +110,7 @@ export function HeaderMainLayout(): JSX.Element {
         name={current?.name}
         visible={isBubbleMenuOpen}
         setVisible={setIsBubbleMenuOpen}
-        className="top-12 right-10"
+        className="top-18 right-5"
         type="currentUser"
       ></BubbleMenuLayout>
     </>

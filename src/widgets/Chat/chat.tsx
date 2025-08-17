@@ -9,7 +9,7 @@ export function Chat(): JSX.Element {
   return (
     <section
       className={clsx(
-        'relative',
+        'relative min-h-screen ',
         theme === 'dark' ? 'bg-[#1b1a1a]' : 'bg-[#e6e6e6]'
       )}
     >

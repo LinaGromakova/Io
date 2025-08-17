@@ -9,16 +9,19 @@ interface Props {
 }
 export function MainViewLayout({ children }: Props) {
   const { isModalOpen } = useContext(GlobalContext);
+
   return (
     <div className="flex overflow-y-hidden relative">
       <ConfirmModalLayout
         id={isModalOpen.id}
         name={isModalOpen.name}
       ></ConfirmModalLayout>
+
       <SidebarOptionsLayout></SidebarOptionsLayout>
       <SidebarContactsLayout
         className={clsx((!!children && 'w-6/12') || 'w-4/12')}
       ></SidebarContactsLayout>
+
       {children}
     </div>
   );
