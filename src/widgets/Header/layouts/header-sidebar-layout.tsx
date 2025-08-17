@@ -46,6 +46,20 @@ export function GlobalProvider({ children }) {
         changeModalView();
       },
     },
+    Block: {
+      message: function () {
+        return `Вы точно хотите заблокировать пользователя ${isModalOpen.name}?`;
+      },
+      handlerCancel: function () {
+        changeModalView();
+      },
+      handlerOk: function (id) {
+        const currentId = isModalOpen.id;
+        const newList = users.filter((user) => user.id !== currentId);
+        setUsers(newList);
+        changeModalView();
+      },
+    },
     deleteChat: {
       message: function () {
         return `Вы точно хотите удалить чат с ${isModalOpen.name}?`;

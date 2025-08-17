@@ -1,3 +1,4 @@
+import { BubbleMenuLayout } from '@/entities/Bubble-menu-list/bubble-menu-layout';
 import { UserContact } from '@/entities/UserContact/user-contact';
 import { LayoutButtonCircle } from '@/shared/Button-circle/layout-button-circle';
 import Link from 'next/link';
@@ -77,6 +78,7 @@ async function getUsers(id) {
 
 export function HeaderMainLayout(): JSX.Element {
   const [current, setCurrent] = useState({});
+  const [isBubbleMenuOpen, setIsBubbleMenuOpen] = useState(false);
   const router = useRouter();
   const { id } = router.query;
   useEffect(() => {
@@ -85,6 +87,7 @@ export function HeaderMainLayout(): JSX.Element {
     });
   }, [id]);
   console.log(current);
+
   return (
     <>
       <Link href="/">
@@ -94,7 +97,19 @@ export function HeaderMainLayout(): JSX.Element {
         ></LayoutButtonCircle>
       </Link>
       <UserContact {...current} type="CURRENT_CONTACT"></UserContact>
-      <LayoutButtonCircle type="MORE" className="ml-auto"></LayoutButtonCircle>
+      <LayoutButtonCircle
+        type="MORE"
+        className="ml-auto"
+        handlerClick={() => setIsBubbleMenuOpen(true)}
+      ></LayoutButtonCircle>
+      <BubbleMenuLayout
+        id={id}
+        name={current?.name}
+        visible={isBubbleMenuOpen}
+        setVisible={setIsBubbleMenuOpen}
+        className="top-12 right-10"
+        type="currentUser"
+      ></BubbleMenuLayout>
     </>
   );
 }

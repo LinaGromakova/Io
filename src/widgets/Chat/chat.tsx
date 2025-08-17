@@ -1,19 +1,18 @@
 import { ChatBody } from '@/entities/ChatBody/chat-body';
 import { ChatInput } from '@/features/ChatInput/ChatInput';
-import Image from 'next/image';
-import { JSX } from 'react';
+import { JSX, useContext } from 'react';
+import { GlobalContext } from '../Header/layouts/header-sidebar-layout';
+import clsx from 'clsx';
 
 export function Chat(): JSX.Element {
+  const { theme } = useContext(GlobalContext);
   return (
-    <section className="relative">
-      <Image
-        src="/wallpaper-chat/wallpaper-chat.jpg"
-        className="absolute w-full h-full object-cover max-w-full"
-        width={1700}
-        height={1000}
-        quality={100}
-        alt=""
-      ></Image>
+    <section
+      className={clsx(
+        'relative',
+        theme === 'dark' ? 'bg-[#1b1a1a]' : 'bg-[#e6e6e6]'
+      )}
+    >
       <ChatBody></ChatBody>
       <ChatInput></ChatInput>
     </section>

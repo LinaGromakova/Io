@@ -10,10 +10,9 @@ import { BubbleMenuLayout } from '@/entities/Bubble-menu-list/bubble-menu-layout
 
 export function UserContactLayout(props: UserContactProps): JSX.Element {
   const { query } = useRouter();
-  const { bubbleMenuOpen, changeModalView } = useContext(GlobalContext);
+  const { bubbleMenuOpen } = useContext(GlobalContext);
   const [isBubbleMenuOpen, setIsBubbleMenuOpen] = useState(false);
   // console.log(query === props.id);
-
 
   const isActive = query.id == props.id;
   return (
@@ -32,7 +31,8 @@ export function UserContactLayout(props: UserContactProps): JSX.Element {
           name={props.name}
           visible={isBubbleMenuOpen}
           setVisible={setIsBubbleMenuOpen}
-          type='userChat'
+          type="userChat"
+          className="top-12 right-30"
         ></BubbleMenuLayout>
 
         <div className="flex items-center w-full justify-between">
