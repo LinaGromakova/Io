@@ -1,5 +1,12 @@
 'use client';
-import React, { createContext, JSX, useContext, useState } from 'react';
+import React, {
+  createContext,
+  JSX,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { InputMain } from '@/shared/Input-main/layout-input-main';
 import { LayoutButtonCircle } from '@/shared/Button-circle/layout-button-circle';
 import { IoSearchOutline as SearchIcon } from 'react-icons/io5';
@@ -13,6 +20,8 @@ export function GlobalProvider({ children }) {
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
+  const [addNewUsersOpen, setAddNewUsersOpen] = useState(false);
+  const [searchUser, setSearchUser] = useState('');
   const [isModalOpen, setIsModalOpen] = useState({
     open: false,
     type: '',
@@ -126,6 +135,10 @@ export function GlobalProvider({ children }) {
         bubbleMenuOpen,
         sidebarIsOpen,
         setSidebarIsOpen,
+        addNewUsersOpen,
+        setAddNewUsersOpen,
+        searchUser,
+        setSearchUser,
       }}
     >
       {children}
@@ -134,24 +147,51 @@ export function GlobalProvider({ children }) {
 }
 
 export function HeaderSidebarLayout(): JSX.Element {
-  const { theme, changeTheme, filterUsers, filter, openOptions } =
-    useContext(GlobalContext);
+  const {
+    filterUsers,
+    filter,
+    openOptions,
+    addNewUsersOpen,
+    setAddNewUsersOpen,
+    searchUser,
+    setSearchUser,
+  } = useContext(GlobalContext);
 
+  const inputRef = useRef(null);
+  useEffect(() => {
+    if (addNewUsersOpen) {
+      inputRef.current.focus();
+    }
+  }, [addNewUsersOpen]);
   return (
     <header className="flex  mb-4 w-full">
-      <LayoutButtonCircle
-        type="OPTIONS"
-        className="mr-2 block min-w-9"
-        handlerClick={() => openOptions()}
-      ></LayoutButtonCircle>
+      {(addNewUsersOpen && (
+        <LayoutButtonCircle
+          type="BACK"
+          className="mr-2 block min-w-9"
+          handlerClick={() => {
+            setAddNewUsersOpen(false);
+            setSearchUser('');
+          }}
+        ></LayoutButtonCircle>
+      )) || (
+        <LayoutButtonCircle
+          type="OPTIONS"
+          className="mr-2 block min-w-9"
+          handlerClick={() => openOptions()}
+        ></LayoutButtonCircle>
+      )}
       <div className="w-full relative flex items-center flex-row-reverse">
         <InputMain
           type="search"
-          value={filter}
+          ref={inputRef}
+          value={addNewUsersOpen ? searchUser : filter}
           purpose="FILTER"
           name="search"
           placeholder="Поиск"
-          changeHandler={(e) => filterUsers(e)}
+          changeHandler={(e) => {
+            addNewUsersOpen ? setSearchUser(e.target.value) : filterUsers(e);
+          }}
           className="w-full rounded-3xl max-sm:w-full block max-sm:max-w-none min-w-0 pl-12"
         ></InputMain>
         <SearchIcon className="absolute text-2xl top-1.5 left-4 opacity-50 icon-focus duration-300"></SearchIcon>
