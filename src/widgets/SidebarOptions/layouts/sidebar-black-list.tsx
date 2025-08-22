@@ -1,11 +1,12 @@
 import { useContext, useState } from 'react';
-
 import { LayoutButtonCircle } from '@/shared/Button-circle/layout-button-circle';
 import { GlobalContext } from '@/widgets/Header/layouts/header-sidebar-layout';
 import { BubbleMenuLayout } from '@/entities/Bubble-menu-list/bubble-menu-layout';
+import { UserContactSimpleLayout } from '@/entities/UserContact/layouts/user-contact-simple';
 
 export function BlackListLayout(props) {
   const { changeModalView, arrTest } = useContext(GlobalContext);
+
   return (
     <>
       <header className="w-full px-4 py-2 flex items-center justify-between">
@@ -30,14 +31,15 @@ export function BlackListLayout(props) {
             <div>
               {arrTest.map((_r, index) => {
                 return (
-                  <UserBlackList
+                  <UserContactSimpleLayout
                     key={index}
                     name={props.name}
                     image={props.image}
+                    type="unBlock"
                     unBlockUser={() => {
                       changeModalView('unBlock', index, props.name);
                     }}
-                  ></UserBlackList>
+                  ></UserContactSimpleLayout>
                 );
               })}
             </div>
@@ -45,50 +47,5 @@ export function BlackListLayout(props) {
         )}
       </section>
     </>
-  );
-}
-
-function UserBlackList(props) {
-  const [isBubbleMenuOpen, setIsBubbleMenuOpen] = useState(false);
-  return (
-    <article
-      className="py-3 px-5 relative flex items-center cursor-pointer rounded-2xl duration-300
-               transition-colors hover:bg-inter justify-between"
-    >
-      <div className="flex items-center">
-        <div className="flex items-center justify-between">
-          <div className="w-14 h-14 relative bg-radial-[at_25%_25%] from-accent to-accent-shadow to-75% rounded-full flex items-center justify-center">
-            {(props.image && (
-              <img
-                src={props?.image}
-                alt={props.name}
-                className="w-full h-full object-cover rounded-full"
-              ></img>
-            )) || (
-              <p className="text-center text-3xl font-bold text-white">
-                {props?.name.slice(0, 1).toUpperCase()}
-              </p>
-            )}
-          </div>
-        </div>
-        <div className="ml-4 overflow-hidden">
-          <p className="font-medium text-lg">{props.name}</p>
-        </div>
-      </div>
-      <div className="relative">
-        <LayoutButtonCircle
-          type="MORE"
-          handlerClick={() => setIsBubbleMenuOpen(true)}
-        ></LayoutButtonCircle>
-        <BubbleMenuLayout
-          id={props.id}
-          name={props.name}
-          visible={isBubbleMenuOpen}
-          setVisible={setIsBubbleMenuOpen}
-          type="unBlock"
-          className="top-0 right-10"
-        ></BubbleMenuLayout>
-      </div>
-    </article>
   );
 }

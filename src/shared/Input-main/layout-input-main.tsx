@@ -39,7 +39,7 @@ export function InputMain(props: InputProps): JSX.Element {
         type={props.category === 'password' ? inputType : props.type}
         className={clsx(
           `bg-inter placeholder:text-foreground/50
-        font-medium text-sm py-2 px-4
+        font-medium text-sm py-2 px-4 transition-colors
         duration-300 transition-[background-color]
          `,
           style,

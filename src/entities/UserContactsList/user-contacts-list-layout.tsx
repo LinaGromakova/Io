@@ -2,6 +2,7 @@ import { JSX, useContext } from 'react';
 import { useEffect } from 'react';
 import { UserContact } from '../UserContact/user-contact';
 import { GlobalContext } from '@/widgets/Header/layouts/header-sidebar-layout';
+import { UserContactSimpleLayout } from '../UserContact/layouts/user-contact-simple';
 
 async function getUsers() {
   const data = await fetch('http://localhost:5000');
@@ -55,13 +56,26 @@ export function UserContactListLayout(): JSX.Element {
   const usersGlobalSearch = usersGlobal.filter((user) =>
     user.name.toLowerCase().includes(searchUser.toLowerCase())
   );
+
   return (
     <>
-      {addNewUsersOpen && usersGlobalSearch.length !== 0
+      {addNewUsersOpen && searchUser === '' ? (
+        <div className="flex flex-col items-center justify-center h-9/12 text-base">
+          <p className="mb-4 opacity-65">Введите имя пользователя</p>
+        </div>
+      ) : null}
+
+      {addNewUsersOpen && usersGlobalSearch.length !== 0 && searchUser !== ''
         ? usersGlobalSearch.map((user) => (
-            <UserContact key={user.id} {...user} type="USER_CONTACT" />
+            <UserContactSimpleLayout
+              key={user.id}
+              {...user}
+              newCompanion={{ ...user }}
+              type="writeUser"
+            />
           ))
-        : addNewUsersOpen && (
+        : addNewUsersOpen &&
+          searchUser !== '' && (
             <div className="flex flex-col items-center justify-center h-9/12 text-base">
               <p className="mb-4 opacity-65">Пользователь не найден</p>
             </div>

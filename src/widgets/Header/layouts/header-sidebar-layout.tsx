@@ -10,6 +10,7 @@ import React, {
 import { InputMain } from '@/shared/Input-main/layout-input-main';
 import { LayoutButtonCircle } from '@/shared/Button-circle/layout-button-circle';
 import { IoSearchOutline as SearchIcon } from 'react-icons/io5';
+import clsx from 'clsx';
 
 export const GlobalContext = React.createContext();
 
@@ -192,7 +193,11 @@ export function HeaderSidebarLayout(): JSX.Element {
           changeHandler={(e) => {
             addNewUsersOpen ? setSearchUser(e.target.value) : filterUsers(e);
           }}
-          className="w-full rounded-3xl max-sm:w-full block max-sm:max-w-none min-w-0 pl-12"
+          className={clsx(
+            'w-full rounded-3xl max-sm:w-full block max-sm:max-w-none min-w-0 pl-12',
+            addNewUsersOpen &&
+              'input-active outline-2 outline-accent text-accent  duration-300'
+          )}
         ></InputMain>
         <SearchIcon className="absolute text-2xl top-1.5 left-4 opacity-50 icon-focus duration-300"></SearchIcon>
       </div>

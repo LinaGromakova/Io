@@ -19,7 +19,7 @@ async function signInUser(userData, router) {
     });
     const result = await data.json();
     if (result) {
-      // router.replace('/');
+       router.replace('/');
       console.log(result);
     }
   } catch (error) {

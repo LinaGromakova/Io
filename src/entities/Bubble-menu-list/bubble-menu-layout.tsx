@@ -4,7 +4,10 @@ import { IoLockOpenOutline as LockOpenIcon } from 'react-icons/io5';
 import { useContext, useEffect, useRef } from 'react';
 import { MdDelete as DeleteIcon } from 'react-icons/md';
 import { MdBlockFlipped as BlockIcon } from 'react-icons/md';
+import { IoMdCreate as WriteIcon } from 'react-icons/io';
 import clsx from 'clsx';
+import { redirect } from 'next/navigation';
+import { useRouter } from 'next/router';
 
 const chatUsersConfig = [
   {
@@ -28,7 +31,9 @@ const currentUserConfig = [
 
 export function BubbleMenuLayout(props) {
   const menuRef = useRef(null);
-  const { changeModalView } = useContext(GlobalContext);
+  const router = useRouter();
+  const { changeModalView, users, setUsers, setAddNewUsersOpen } =
+    useContext(GlobalContext);
   useEffect(() => {
     function handleClickOutside(e) {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
@@ -41,6 +46,9 @@ export function BubbleMenuLayout(props) {
     };
   }, [props]);
   const lockIcon = <LockOpenIcon className="text-lg"></LockOpenIcon>;
+  const writeIcon = <WriteIcon className="text-lg"></WriteIcon>;
+  console.log(props);
+
   return (
     <>
       {props.visible && (
@@ -81,7 +89,22 @@ export function BubbleMenuLayout(props) {
                     }
                   ></BubbleMenuItem>
                 );
-              }))}
+              })) ||
+            (props.type === 'writeUser' && (
+              <BubbleMenuItem
+                text="Написать"
+                icon={writeIcon}
+                onClick={() => {
+                  if (users.find((user) => user.id === props.id)) {
+                    router.replace(`/${props.id}`);
+                  } else {
+                    setUsers([...users, props.newCompanion]);
+                    router.replace(`/${props.id}`);
+                  }
+                  setAddNewUsersOpen(false);
+                }}
+              ></BubbleMenuItem>
+            ))}
         </ul>
       )}
     </>

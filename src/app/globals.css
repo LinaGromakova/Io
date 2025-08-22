@@ -4,10 +4,10 @@
 
 input::-webkit-search-cancel-button {
   appearance: none;
-  width: 20px;
-  height: 20px;
-  color: red;
-  background: url();
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  background: center url('../../public/icons/cross.svg');
 }
 aside[data-open='true'] {
   opacity: 1;
@@ -21,8 +21,11 @@ aside[data-open='true'] {
 html::selection {
   background-color: var(--color-accent);
 }
-input[type='search']:focus+.icon-focus{
+input[type='search']:focus+.icon-focus, .input-active+.icon-focus{
  color: var(--color-accent);
+}
+.input-active::placeholder {
+  color: var(--color-accent);
 }
 @layer base {
   html:has(.wrapper[data-theme='dark']) {
