@@ -1,14 +1,18 @@
-import { useContext } from 'react';
-import { GlobalContext } from '../../../widgets/Header/layouts/header-sidebar-layout';
 import { LayoutButtonCircle } from '@/shared/Button-circle/layout-button-circle';
 import { IoSunnyOutline as SunIcon } from 'react-icons/io5';
 import { IoMoonOutline as MoonIcon } from 'react-icons/io5';
 import { MdBlock as BlockIcon } from 'react-icons/md';
 import { IoIosLogOut as LogOutIcon } from 'react-icons/io';
+import { useGlobalContext } from '@/features/common/globalContext';
 
-export function SidebarOptions(props) {
+interface SidebarOptionsProps {
+  name: string;
+  image?: string;
+  handlerBlackListOpen: () => void;
+}
+export function SidebarOptions(props: SidebarOptionsProps) {
   const { theme, changeTheme, openOptions, changeModalView } =
-    useContext(GlobalContext);
+    useGlobalContext();
 
   return (
     <>
@@ -33,6 +37,7 @@ export function SidebarOptions(props) {
           )}
 
           <LayoutButtonCircle
+            handlerClick={() => alert('add')}
             type="PHOTO_ADD"
             className="absolute bottom-0 right-0 overflow-hidden"
           >

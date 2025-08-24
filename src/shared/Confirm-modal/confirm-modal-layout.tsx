@@ -1,13 +1,13 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { ButtonMain } from '../Button-main/button-main-layout';
-import { GlobalContext } from '@/widgets/Header/layouts/header-sidebar-layout';
+import { useGlobalContext } from '@/features/common/globalContext';
 
-export function Portal({ children }) {
-  const elRef = useRef(null);
+export function Portal({ children }: { children: React.ReactNode }) {
+  const elRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    let currentDiv = document.createElement('div');
+    const currentDiv = document.createElement('div');
     elRef.current = currentDiv;
     document.body.appendChild(currentDiv);
     return () => {
@@ -17,8 +17,12 @@ export function Portal({ children }) {
 
   return elRef.current ? createPortal(children, elRef.current) : null;
 }
-export function ConfirmModalLayout(props) {
-  const { isModalOpen, modalSettings } = useContext(GlobalContext);
+interface ConfirmModalLayoutProps {
+  id: string;
+  name: string;
+}
+export function ConfirmModalLayout(props: ConfirmModalLayoutProps) {
+  const { isModalOpen, modalSettings } = useGlobalContext();
 
   return (
     <Portal>
@@ -26,14 +30,14 @@ export function ConfirmModalLayout(props) {
         <div className="w-full fixed z-[1000] h-screen bg-black/40 top-0 left-0 flex justify-center items-center ">
           <article className="bg-background px-8 py-4 max-sm:w-11/12">
             <p className="pt-5 mb-3 text-base text-center">
-              {modalSettings[isModalOpen.type].message(props?.name)}
+              {modalSettings[isModalOpen.type].message(props.name)}
             </p>
             <div className="flex">
               <ButtonMain
                 type="ok"
                 className="w-50 mr-5"
                 handlerClick={() =>
-                  modalSettings[isModalOpen.type].handlerOk(props?.id)
+                  modalSettings[isModalOpen.type].handlerOk(Number(props.id))
                 }
               ></ButtonMain>
               <ButtonMain

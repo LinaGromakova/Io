@@ -1,16 +1,16 @@
 'use client';
 import clsx from 'clsx';
-import { JSX } from 'react';
+import React from 'react';
 import { ButtonMainStyles } from './constants/button-styles';
 
 interface ButtonMainProps {
   type: 'login' | 'register' | 'ok' | 'cancel';
   className?: string;
-  handlerClick?: (e) => void;
+  handlerClick: (e: React.MouseEvent) => void;
   disabled?: boolean;
 }
 
-export function ButtonMain(props: ButtonMainProps): JSX.Element {
+export function ButtonMain(props: ButtonMainProps) {
   const { style, icon } = ButtonMainStyles[props.type];
   return (
     <button

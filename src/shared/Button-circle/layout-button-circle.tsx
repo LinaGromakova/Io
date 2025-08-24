@@ -1,17 +1,16 @@
 'use client';
-
-import { JSX } from 'react';
+import React, { JSX } from 'react';
 import { ButtonIcons } from './constants/button-icon';
 import clsx from 'clsx';
 
 type ButtonProps = {
   type: 'SEARCH' | 'CREATE' | 'BACK' | 'OPTIONS' | 'PHOTO_ADD' | 'MORE';
-  children?: HTMLElement;
-  handlerClick?: () => string;
+  children?: React.ReactNode;
+  handlerClick: () => void;
   className?: string;
 };
 
-export function LayoutButtonCircle(props: ButtonProps): JSX.Element {
+export function LayoutButtonCircle(props: ButtonProps) {
   const Icon: JSX.Element = ButtonIcons[props?.type];
   return (
     <button
@@ -23,7 +22,7 @@ export function LayoutButtonCircle(props: ButtonProps): JSX.Element {
         props.type === 'CREATE' &&
           'bg-radial-[at_25%_25%] from-accent to-accent-shadow to-75% text-white hover:to-accent-shadow/95'
       )}
-      onClick={() => props?.handlerClick()}
+      onClick={() => props.handlerClick()}
     >
       {Icon}
       {props.children}

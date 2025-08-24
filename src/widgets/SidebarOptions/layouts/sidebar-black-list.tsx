@@ -1,11 +1,15 @@
-import { useContext, useState } from 'react';
 import { LayoutButtonCircle } from '@/shared/Button-circle/layout-button-circle';
-import { GlobalContext } from '@/widgets/Header/layouts/header-sidebar-layout';
-import { BubbleMenuLayout } from '@/entities/Bubble-menu-list/bubble-menu-layout';
 import { UserContactSimpleLayout } from '@/entities/UserContact/layouts/user-contact-simple';
+import { useGlobalContext } from '@/features/common/globalContext';
 
-export function BlackListLayout(props) {
-  const { changeModalView, arrTest } = useContext(GlobalContext);
+interface BlackListLayoutProps {
+  id: string;
+  name: string;
+  image?: string;
+  handlerCloseBlackList: () => void;
+}
+export function BlackListLayout(props: BlackListLayoutProps) {
+  const { changeModalView, arrTest } = useGlobalContext();
 
   return (
     <>
@@ -33,11 +37,18 @@ export function BlackListLayout(props) {
                 return (
                   <UserContactSimpleLayout
                     key={index}
+                    id={props.id}
                     name={props.name}
                     image={props.image}
                     type="unBlock"
+                    newCompanion={{
+                      id: props.id,
+                      name: props.name,
+                      image: props.image,
+                      online: false,
+                    }}
                     unBlockUser={() => {
-                      changeModalView('unBlock', index, props.name);
+                      changeModalView('unBlock', String(index), props.name);
                     }}
                   ></UserContactSimpleLayout>
                 );

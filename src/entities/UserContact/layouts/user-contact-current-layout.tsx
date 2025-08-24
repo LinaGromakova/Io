@@ -1,7 +1,6 @@
-import { JSX } from 'react';
 import { UserContactProps } from '../interfaces/layout-props';
 
-export function UserContactCurrentLayout(props: UserContactProps): JSX.Element {
+export function UserContactCurrentLayout(props: UserContactProps) {
   return (
     <article
       className="interface flex items-center 

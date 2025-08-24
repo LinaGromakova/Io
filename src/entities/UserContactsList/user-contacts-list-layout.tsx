@@ -1,8 +1,7 @@
-import { JSX, useContext } from 'react';
 import { useEffect } from 'react';
 import { UserContact } from '../UserContact/user-contact';
-import { GlobalContext } from '@/widgets/Header/layouts/header-sidebar-layout';
 import { UserContactSimpleLayout } from '../UserContact/layouts/user-contact-simple';
+import { useGlobalContext } from '@/features/common/globalContext';
 
 async function getUsers() {
   const data = await fetch('http://localhost:5000');
@@ -12,33 +11,29 @@ async function getUsers() {
   return users;
 }
 interface Users {
-  id: number;
+  id: string;
   image?: string;
   name: string;
   online: boolean;
-  lastMessage: string;
-  lastAtCreate: string;
-  read: boolean;
-  countMessage: number;
 }
 
-const usersGlobal = [
-  { id: 1, image: null, name: 'Nevan', online: 'true' },
+const usersGlobal: Users[] = [
+  { id: '1', image: undefined, name: 'Nevan', online: true },
   {
-    id: 2,
+    id: '2',
     image:
       'https://preview.redd.it/how-powerful-is-vergil-really-v0-awihm1nphzjd1.jpeg?width=640&crop=smart&auto=webp&s=9c1d50f553c8931f97cb9621bc27baf2235d809d',
     name: 'Vergil',
-    online: 'false',
+    online: false,
   },
   {
-    id: 3,
+    id: '3',
     image: 'https://gamebomb.ru/files/galleries/001/3/3d/154945.jpg',
     name: 'Nero',
-    online: 'true',
+    online: true,
   },
 ];
-export function UserContactListLayout(): JSX.Element {
+export function UserContactListLayout() {
   const {
     users,
     setUsers,
@@ -47,12 +42,15 @@ export function UserContactListLayout(): JSX.Element {
     addNewUsersOpen,
     setAddNewUsersOpen,
     searchUser,
-  } = useContext(GlobalContext);
+  } = useGlobalContext();
+
   useEffect(() => {
     getUsers().then((users) => {
       return setUsers(users);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   const usersGlobalSearch = usersGlobal.filter((user) =>
     user.name.toLowerCase().includes(searchUser.toLowerCase())
   );
@@ -93,7 +91,12 @@ export function UserContactListLayout(): JSX.Element {
         </div>
       ) : !addNewUsersOpen && filter && filteredUsers.length > 0 ? (
         filteredUsers.map((user) => (
-          <UserContact key={user.id} {...user} type="USER_CONTACT" />
+          <UserContact
+            newCompanion={{ ...user }}
+            key={user.id}
+            {...user}
+            type="USER_CONTACT"
+          />
         ))
       ) : !addNewUsersOpen && filter && filteredUsers.length === 0 ? (
         <div className="flex flex-col items-center justify-center h-9/12 text-base">
@@ -101,7 +104,12 @@ export function UserContactListLayout(): JSX.Element {
         </div>
       ) : !addNewUsersOpen ? (
         users.map((user) => (
-          <UserContact key={user.id} {...user} type="USER_CONTACT" />
+          <UserContact
+            key={user.id}
+            {...user}
+            newCompanion={{ ...user }}
+            type="USER_CONTACT"
+          />
         ))
       ) : null}
     </>

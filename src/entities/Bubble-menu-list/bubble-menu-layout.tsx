@@ -1,13 +1,12 @@
 import { BubbleMenuItem } from '@/shared/Bubble-menu-item/bubble-menu-item';
-import { GlobalContext } from '@/widgets/Header/layouts/header-sidebar-layout';
 import { IoLockOpenOutline as LockOpenIcon } from 'react-icons/io5';
-import { useContext, useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { MdDelete as DeleteIcon } from 'react-icons/md';
 import { MdBlockFlipped as BlockIcon } from 'react-icons/md';
 import { IoMdCreate as WriteIcon } from 'react-icons/io';
 import clsx from 'clsx';
-import { redirect } from 'next/navigation';
 import { useRouter } from 'next/router';
+import { useGlobalContext } from '@/features/common/globalContext';
 
 const chatUsersConfig = [
   {
@@ -19,7 +18,7 @@ const currentUserConfig = [
   {
     icon: <BlockIcon className="text-lg"></BlockIcon>,
     text: 'Заблокировать',
-    actionType: 'Block',
+    actionType: 'block',
   },
 
   {
@@ -28,15 +27,33 @@ const currentUserConfig = [
     actionType: 'deleteChat',
   },
 ];
+interface User {
+  id?: string | undefined;
+  image?: string;
+  name: string;
+  online: boolean;
+}
 
-export function BubbleMenuLayout(props) {
-  const menuRef = useRef(null);
+interface propsBubbleMenuLayout {
+  type: string;
+  id: string | undefined;
+  name: string;
+  visible: boolean;
+  className?: string;
+  setVisible: (arg0: boolean) => void;
+  newCompanion: User;
+}
+
+export function BubbleMenuLayout(props: propsBubbleMenuLayout) {
+  const menuRef = React.useRef<HTMLUListElement>(null);
   const router = useRouter();
   const { changeModalView, users, setUsers, setAddNewUsersOpen } =
-    useContext(GlobalContext);
+    useGlobalContext();
+
   useEffect(() => {
-    function handleClickOutside(e) {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
+    function handleClickOutside(e: MouseEvent): void {
+      const targetElement = e.target as HTMLElement;
+      if (menuRef.current && !menuRef.current.contains(targetElement)) {
         props.setVisible(false);
       }
     }
@@ -47,7 +64,6 @@ export function BubbleMenuLayout(props) {
   }, [props]);
   const lockIcon = <LockOpenIcon className="text-lg"></LockOpenIcon>;
   const writeIcon = <WriteIcon className="text-lg"></WriteIcon>;
-  console.log(props);
 
   return (
     <>
@@ -95,7 +111,7 @@ export function BubbleMenuLayout(props) {
                 text="Написать"
                 icon={writeIcon}
                 onClick={() => {
-                  if (users.find((user) => user.id === props.id)) {
+                  if (users.find((user: User) => user.id === props.id)) {
                     router.replace(`/${props.id}`);
                   } else {
                     setUsers([...users, props.newCompanion]);

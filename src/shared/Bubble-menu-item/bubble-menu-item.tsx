@@ -1,6 +1,13 @@
 import clsx from 'clsx';
+import React from 'react';
 
-export function BubbleMenuItem(props) {
+interface BubbleMenuItemProps {
+  className?: string;
+  onClick: () => void;
+  icon: React.ReactNode;
+  text: string;
+}
+export function BubbleMenuItem(props: BubbleMenuItemProps) {
   return (
     <li
       className={clsx(

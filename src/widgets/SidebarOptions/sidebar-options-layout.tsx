@@ -1,12 +1,12 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { BlackListLayout } from './layouts/sidebar-black-list';
 import { SidebarOptions } from './layouts/sidebar-options';
 import { clsx } from 'clsx';
-import { GlobalContext } from '../Header/layouts/header-sidebar-layout';
+import { useGlobalContext } from '@/features/common/globalContext';
 
 export function SidebarOptionsLayout() {
   const [blackListIsOpen, setBlackListIsOpen] = useState(false);
-  const { isOpen, sidebarIsOpen } = useContext(GlobalContext);
+  const { isOpen, sidebarIsOpen } = useGlobalContext();
 
   const scroll: string = `[&::-webkit-scrollbar]:w-1
   [&::-webkit-scrollbar-track]:transparent
@@ -28,6 +28,7 @@ export function SidebarOptionsLayout() {
       >
         {(blackListIsOpen && (
           <BlackListLayout
+            id="12"
             name="dante"
             image="https://i.redd.it/dqtwi18nog5c1.jpg"
             handlerCloseBlackList={() => blackListOpen()}

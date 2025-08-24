@@ -1,16 +1,16 @@
-import { JSX, useContext, useState } from 'react';
+import { useState } from 'react';
 import { IoCheckmarkDoneOutline as MarkDoneIcon } from 'react-icons/io5';
 import { IoCheckmarkOutline as MarkOutlineIcon } from 'react-icons/io5';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { UserContactProps } from '../interfaces/layout-props';
 import { useRouter } from 'next/router';
-import { GlobalContext } from '@/widgets/Header/layouts/header-sidebar-layout';
 import { BubbleMenuLayout } from '@/entities/Bubble-menu-list/bubble-menu-layout';
+import { useGlobalContext } from '@/features/common/globalContext';
 
-export function UserContactLayout(props: UserContactProps): JSX.Element {
+export function UserContactLayout(props: UserContactProps) {
   const { query } = useRouter();
-  const { bubbleMenuOpen, setSidebarIsOpen } = useContext(GlobalContext);
+  const { bubbleMenuOpen, setSidebarIsOpen } = useGlobalContext();
   const [isBubbleMenuOpen, setIsBubbleMenuOpen] = useState(false);
   // console.log(query === props.id);
 
@@ -24,7 +24,10 @@ export function UserContactLayout(props: UserContactProps): JSX.Element {
         )}
         onClick={() => setSidebarIsOpen(false)}
         onContextMenu={(e) => {
-          bubbleMenuOpen(e, isBubbleMenuOpen, setIsBubbleMenuOpen);
+          e.preventDefault();
+          if (e.button === 2) {
+            bubbleMenuOpen(isBubbleMenuOpen, setIsBubbleMenuOpen);
+          }
         }}
       >
         <BubbleMenuLayout
@@ -34,6 +37,7 @@ export function UserContactLayout(props: UserContactProps): JSX.Element {
           setVisible={setIsBubbleMenuOpen}
           type="userChat"
           className="top-7 right-25"
+          newCompanion={props.newCompanion}
         ></BubbleMenuLayout>
 
         <div className="flex items-center w-full justify-between">

@@ -1,11 +1,11 @@
 'use context';
 import {
-  GlobalContext,
+  useGlobalContext,
   GlobalProvider,
-} from '@/widgets/Header/layouts/header-sidebar-layout';
+} from '@/features/common/globalContext';
 import '../app/globals.css';
 import type { AppProps } from 'next/app';
-import { useContext } from 'react';
+import React from 'react';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -16,8 +16,8 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     </GlobalProvider>
   );
 }
-function Wrapper({ children }) {
-  const { theme } = useContext(GlobalContext);
+function Wrapper({ children }: { children: React.ReactNode }) {
+  const { theme } = useGlobalContext();
   return (
     <div className="wrapper" data-theme={theme}>
       {children}

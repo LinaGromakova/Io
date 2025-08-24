@@ -1,8 +1,10 @@
 'use client';
 import { FaTelegramPlane as MessageIcon } from 'react-icons/fa';
-import { JSX } from 'react';
 import { InputMain } from '@/shared/Input-main/layout-input-main';
-export function ChatInput(): JSX.Element {
+interface ChatInputProps {
+  value: string;
+}
+export function ChatInput(props: ChatInputProps) {
   return (
     <form
       action="#"
@@ -13,11 +15,14 @@ export function ChatInput(): JSX.Element {
     >
       <div className="relative w-8/12 max-md:w-full">
         <InputMain
+          changeHandler={(e) => console.log(e)}
           type="text"
+          value={props.value}
           purpose="MESSAGE"
           placeholder="Сообщение..."
           name="chat"
           className=" rounded-3xl h-10 pr-10 w-full"
+          onKeyDownHandler={() => null}
         ></InputMain>
         <MessageIcon className="absolute top-3 text-base text-foreground/50 right-3"></MessageIcon>
       </div>

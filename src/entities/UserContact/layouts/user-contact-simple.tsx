@@ -1,12 +1,26 @@
 import { BubbleMenuLayout } from '@/entities/Bubble-menu-list/bubble-menu-layout';
+import { useGlobalContext } from '@/features/common/globalContext';
 import { LayoutButtonCircle } from '@/shared/Button-circle/layout-button-circle';
-import { GlobalContext } from '@/widgets/Header/layouts/header-sidebar-layout';
 import clsx from 'clsx';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 
-export function UserContactSimpleLayout(props) {
+interface UserContactSimpleProps {
+  id: string;
+  name: string;
+  image?: string;
+  type: 'unBlock' | 'writeUser';
+  newCompanion: User;
+  unBlockUser?: () => void;
+}
+interface User {
+  id: string;
+  image?: string;
+  name: string;
+  online: boolean;
+}
+export function UserContactSimpleLayout(props: UserContactSimpleProps) {
   const [isBubbleMenuOpen, setIsBubbleMenuOpen] = useState(false);
-  const { bubbleMenuOpen } = useContext(GlobalContext);
+  const { bubbleMenuOpen } = useGlobalContext();
   return (
     <article
       className={clsx(
@@ -15,8 +29,11 @@ export function UserContactSimpleLayout(props) {
         isBubbleMenuOpen ? 'bg-accent hover:bg-accent' : 'hover:bg-inter'
       )}
       onContextMenu={(e) => {
+        e.preventDefault();
         if (props.type === 'unBlock') {
-          bubbleMenuOpen(e, isBubbleMenuOpen, setIsBubbleMenuOpen);
+          if (e.button === 2) {
+            bubbleMenuOpen(isBubbleMenuOpen, setIsBubbleMenuOpen);
+          }
         }
       }}
       onClick={() => setIsBubbleMenuOpen(true)}

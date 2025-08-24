@@ -1,11 +1,10 @@
 import { ChatBody } from '@/entities/ChatBody/chat-body';
 import { ChatInput } from '@/features/ChatInput/ChatInput';
-import { JSX, useContext } from 'react';
-import { GlobalContext } from '../Header/layouts/header-sidebar-layout';
+import { useGlobalContext } from '@/features/common/globalContext';
 import clsx from 'clsx';
 
-export function Chat(): JSX.Element {
-  const { theme } = useContext(GlobalContext);
+export function Chat() {
+  const { theme } = useGlobalContext();
   return (
     <section
       className={clsx(
@@ -14,7 +13,7 @@ export function Chat(): JSX.Element {
       )}
     >
       <ChatBody></ChatBody>
-      <ChatInput></ChatInput>
+      <ChatInput value=""></ChatInput>
     </section>
   );
 }

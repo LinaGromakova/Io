@@ -1,10 +1,16 @@
-interface Field {
+interface InterfaceFormField {
   type: string;
   name: string;
+  category: string;
+  label: string;
+  required: boolean;
   placeholder: string;
+  maxLength: number;
+  minLength: number;
+  validate(state: unknown, page?: string): boolean;
+  errorMessage: string;
 }
-
-export const formConfig = [
+export const formConfig: InterfaceFormField[] = [
   {
     type: 'text',
     name: 'login',
@@ -14,7 +20,7 @@ export const formConfig = [
     placeholder: 'Твой логин',
     maxLength: 32,
     minLength: 2,
-    validate(state) {
+    validate(state: { login: string }) {
       return (
         state.login.length >= this.minLength &&
         state.login.length <= this.maxLength &&
@@ -32,7 +38,7 @@ export const formConfig = [
     placeholder: 'Твоё имя',
     maxLength: 32,
     minLength: 2,
-    validate: function (state, page) {
+    validate: function (state: { name: string }, page: string) {
       if (page === 'login') {
         return true;
       } else
@@ -53,7 +59,7 @@ export const formConfig = [
     placeholder: 'Пароль',
     maxLength: 24,
     minLength: 8,
-    validate(state) {
+    validate(state: { password: string }) {
       return (
         state.password.length >= this.minLength &&
         state.password.length <= this.maxLength &&
@@ -71,7 +77,10 @@ export const formConfig = [
     placeholder: 'Повтори свой пароль',
     maxLength: 24,
     minLength: 8,
-    validate: function (state, page) {
+    validate: function (
+      state: { password: string; duplicate: string },
+      page: string
+    ) {
       if (page === 'login') {
         return true;
       }

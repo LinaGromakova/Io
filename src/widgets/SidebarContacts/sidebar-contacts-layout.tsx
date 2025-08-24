@@ -1,23 +1,20 @@
-import { JSX, useContext } from 'react';
 import clsx from 'clsx';
 import { UserContactListLayout } from '@/entities/UserContactsList/user-contacts-list-layout';
 import { Header } from '../Header/header';
 import { LayoutButtonCircle } from '@/shared/Button-circle/layout-button-circle';
-import { GlobalContext } from '../Header/layouts/header-sidebar-layout';
+import { useGlobalContext } from '../Header/layouts/header-sidebar-layout';
 
 interface ComponentProps {
   className?: string;
 }
-export function SidebarContactsLayout({
-  className,
-}: ComponentProps): JSX.Element {
+export function SidebarContactsLayout({ className }: ComponentProps) {
   const scroll: string = `[&::-webkit-scrollbar]:w-1
   [&::-webkit-scrollbar-track]:transparent
   hover:[&::-webkit-scrollbar-thumb]:transparent
   [&::-webkit-scrollbar-thumb]:rounded-full`;
 
   const { sidebarIsOpen, addNewUsersOpen, setAddNewUsersOpen } =
-    useContext(GlobalContext);
+    useGlobalContext();
   return (
     <aside
       className={clsx(
@@ -38,8 +35,7 @@ export function SidebarContactsLayout({
         ></LayoutButtonCircle>
       )}
 
-     
-        <UserContactListLayout></UserContactListLayout>
+      <UserContactListLayout></UserContactListLayout>
     </aside>
   );
 }

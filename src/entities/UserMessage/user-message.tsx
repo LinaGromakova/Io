@@ -1,4 +1,3 @@
-import { JSX } from 'react';
 import { IoCheckmarkDoneOutline as MarkDoneIcon } from 'react-icons/io5';
 import { IoCheckmarkOutline as MarkOutlineIcon } from 'react-icons/io5';
 import clsx from 'clsx';
@@ -17,7 +16,7 @@ export function UserMessage({
   read,
   sender,
   className,
-}: MessageProps): JSX.Element {
+}: MessageProps) {
   return (
     <div className="flex flex-col">
       <article

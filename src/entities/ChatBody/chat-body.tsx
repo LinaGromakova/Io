@@ -1,7 +1,7 @@
 'use client';
 import clsx from 'clsx';
 import { UserMessage } from '../UserMessage/user-message';
-import { JSX, useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 interface Message {
   message: string;
   atPush: string;
@@ -131,7 +131,7 @@ const scroll: string = `[&::-webkit-scrollbar]:w-2
   hover:[&::-webkit-scrollbar-thumb]:transparent
   [&::-webkit-scrollbar-thumb]:rounded-full`;
 
-export function ChatBody(): JSX.Element {
+export function ChatBody() {
   const chat = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
