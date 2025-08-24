@@ -34,9 +34,10 @@ export function HeaderMainLayout() {
   const { id } = router.query;
   const [current, setCurrent] = useState({
     id: '',
-    name: '',
     image: '',
+    name: '',
     online: false,
+    passwordHash: '',
   });
 
   useEffect(() => {
@@ -59,7 +60,7 @@ export function HeaderMainLayout() {
       </Link>
       <UserContact
         newCompanion={{ ...current }}
-        name=""
+        name={current.name}
         online={false}
         type="CURRENT_CONTACT"
         id={id}
@@ -70,7 +71,8 @@ export function HeaderMainLayout() {
         handlerClick={() => setIsBubbleMenuOpen(true)}
       ></LayoutButtonCircle>
       <BubbleMenuLayout
-        id={id}
+        id={typeof id === 'string' ? id : ''}
+        name={typeof current?.name === 'string' ? current?.name : ''}
         visible={isBubbleMenuOpen}
         setVisible={setIsBubbleMenuOpen}
         className="top-18 right-5"

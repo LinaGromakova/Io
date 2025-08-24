@@ -37,7 +37,7 @@ export function BlackListLayout(props: BlackListLayoutProps) {
                 return (
                   <UserContactSimpleLayout
                     key={index}
-                    id={props.id}
+                    id={String(index)}
                     name={props.name}
                     image={props.image}
                     type="unBlock"

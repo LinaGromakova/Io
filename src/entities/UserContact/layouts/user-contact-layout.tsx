@@ -31,7 +31,7 @@ export function UserContactLayout(props: UserContactProps) {
         }}
       >
         <BubbleMenuLayout
-          id={props.id}
+          id={typeof props.id === 'string' ? props.id : ''}
           name={props.name}
           visible={isBubbleMenuOpen}
           setVisible={setIsBubbleMenuOpen}

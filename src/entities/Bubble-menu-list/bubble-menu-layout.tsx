@@ -28,7 +28,7 @@ const currentUserConfig = [
   },
 ];
 interface User {
-  id?: string | undefined;
+  id: string;
   image?: string;
   name: string;
   online: boolean;
@@ -36,7 +36,7 @@ interface User {
 
 interface propsBubbleMenuLayout {
   type: string;
-  id: string | undefined;
+  id: string;
   name: string;
   visible: boolean;
   className?: string;
