@@ -5,7 +5,7 @@ import { MdDelete as DeleteIcon } from 'react-icons/md';
 import { MdBlockFlipped as BlockIcon } from 'react-icons/md';
 import { IoMdCreate as WriteIcon } from 'react-icons/io';
 import clsx from 'clsx';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 import { useGlobalContext } from '@/features/common/globalContext';
 
 const chatUsersConfig = [
@@ -35,6 +35,8 @@ interface User {
 }
 
 interface propsBubbleMenuLayout {
+  id_1: string;
+  id_2: string;
   type: string;
   id: string;
   name: string;
@@ -43,12 +45,26 @@ interface propsBubbleMenuLayout {
   setVisible: (arg0: boolean) => void;
   newCompanion: User;
 }
-
+async function writeUser(id_1: string, id_2: string) {
+  console.log(id_1, id_2);
+  try {
+    const data = await fetch('http://localhost:5000/start-chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ user1_id: id_1, user2_id: id_2 }),
+    });
+    const result = await data.json();
+    console.log(result);
+  } catch (error) {
+    console.log(error);
+  }
+}
 export function BubbleMenuLayout(props: propsBubbleMenuLayout) {
   const menuRef = React.useRef<HTMLUListElement>(null);
-  const router = useRouter();
-  const { changeModalView, users, setUsers, setAddNewUsersOpen } =
-    useGlobalContext();
+  // const router = useRouter();
+  const { changeModalView, setAddNewUsersOpen } = useGlobalContext();
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent): void {
@@ -111,12 +127,13 @@ export function BubbleMenuLayout(props: propsBubbleMenuLayout) {
                 text="Написать"
                 icon={writeIcon}
                 onClick={() => {
-                  if (users.find((user: User) => user.id === props.id)) {
-                    router.replace(`/${props.id}`);
-                  } else {
-                    setUsers([...users, props.newCompanion]);
-                    router.replace(`/${props.id}`);
-                  }
+                  writeUser(props.id_1, props.id_2);
+                  // if (users.find((user: User) => user.id === props.id)) {
+                  //   router.replace(`/${props.id}`);
+                  // } else {
+                  //   setUsers([...users, props.newCompanion]);
+                  //   router.replace(`/${props.id}`);
+                  // }
                   setAddNewUsersOpen(false);
                 }}
               ></BubbleMenuItem>

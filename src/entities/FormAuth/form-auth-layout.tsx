@@ -7,8 +7,13 @@ import { formConfig } from './constants/form-fields';
 import { useState } from 'react';
 import { NextRouter, useRouter } from 'next/router';
 import Link from 'next/link';
+import { useGlobalContext } from '@/features/common/globalContext';
 
-async function signInUser(dataAuth: interfaceForm, router: NextRouter) {
+async function signInUser(
+  dataAuth: interfaceForm,
+  router: NextRouter,
+  setState: (arg0: object) => object
+) {
   try {
     const data = await fetch('http://localhost:5000/login', {
       method: 'POST',
@@ -19,8 +24,8 @@ async function signInUser(dataAuth: interfaceForm, router: NextRouter) {
     });
     const result = await data.json();
     if (result) {
+      setState(result.user);
       router.replace('/');
-      console.log(result);
     }
   } catch (error) {
     console.log(error);
@@ -28,7 +33,8 @@ async function signInUser(dataAuth: interfaceForm, router: NextRouter) {
 }
 async function registrationUser(
   dataAuth: { [k: string]: string },
-  router: NextRouter
+  router: NextRouter,
+  setState: (arg0: object) => object
 ) {
   try {
     const data = await fetch('http://localhost:5000/register', {
@@ -41,6 +47,7 @@ async function registrationUser(
     const result = await data.json();
     console.log(result);
     if (result) {
+      setState(result.user);
       router.replace('/');
     }
   } catch (error) {
@@ -62,6 +69,7 @@ const configForm: interfaceForm = {
   duplicate: '',
 };
 export function FormAuth() {
+  const { setUser } = useGlobalContext();
   const [formData, setFormData] = useState<interfaceForm>(configForm);
 
   const router = useRouter();
@@ -119,7 +127,7 @@ export function FormAuth() {
                 e.preventDefault();
                 console.log(validArray);
 
-                signInUser(formData, router);
+                signInUser(formData, router, setUser);
               }}
             ></ButtonMain>
             <Link href="/register">
@@ -142,7 +150,7 @@ export function FormAuth() {
                 );
 
                 console.log(dataAuth);
-                registrationUser(dataAuth, router);
+                registrationUser(dataAuth, router, setUser);
               }}
             ></ButtonMain>
             <Link href="/login">

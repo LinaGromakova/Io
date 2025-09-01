@@ -2,7 +2,6 @@ import { BubbleMenuLayout } from '@/entities/Bubble-menu-list/bubble-menu-layout
 import { UserContact } from '@/entities/UserContact/user-contact';
 import { LayoutButtonCircle } from '@/shared/Button-circle/layout-button-circle';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useGlobalContext } from './header-sidebar-layout';
 
@@ -17,10 +16,12 @@ import { useGlobalContext } from './header-sidebar-layout';
 //   countMessage: number;
 // }
 
-async function getUsers(id: string | string[]) {
+async function getCurrentUser(user_id: string) {
   try {
-    const data = await fetch(`http://localhost:5000/${id}`);
+    
+    const data = await fetch(`http://localhost:5000/user/${user_id}`);
     const user = await data.json();
+
     return user;
   } catch {
     console.log('ops');
@@ -28,27 +29,18 @@ async function getUsers(id: string | string[]) {
 }
 
 export function HeaderMainLayout() {
-  const { setSidebarIsOpen } = useGlobalContext();
+  const { setSidebarIsOpen, currentUser } = useGlobalContext();
   const [isBubbleMenuOpen, setIsBubbleMenuOpen] = useState(false);
-  const router = useRouter();
-  const { id } = router.query;
-  const [current, setCurrent] = useState({
-    id: '',
-    image: '',
-    name: '',
-    online: false,
-    passwordHash: '',
-  });
+  const [current, setCurrent] = useState({});
 
   useEffect(() => {
-    if (id) {
-      getUsers(id).then((user) => {
+    if (currentUser) {
+      getCurrentUser(currentUser).then((user) => {
         return setCurrent(user);
       });
     }
-  }, [id]);
+  }, []);
   console.log(current);
-
   return (
     <>
       <Link href="/">
@@ -63,7 +55,7 @@ export function HeaderMainLayout() {
         name={current.name}
         online={false}
         type="CURRENT_CONTACT"
-        id={id}
+        id={'QbyXWBF0CrAxoTjBDL4LO'}
       ></UserContact>
       <LayoutButtonCircle
         type="MORE"
@@ -71,7 +63,11 @@ export function HeaderMainLayout() {
         handlerClick={() => setIsBubbleMenuOpen(true)}
       ></LayoutButtonCircle>
       <BubbleMenuLayout
-        id={typeof id === 'string' ? id : ''}
+        id={
+          typeof 'QbyXWBF0CrAxoTjBDL4LO' === 'string'
+            ? 'QbyXWBF0CrAxoTjBDL4LO'
+            : ''
+        }
         name={typeof current?.name === 'string' ? current?.name : ''}
         visible={isBubbleMenuOpen}
         setVisible={setIsBubbleMenuOpen}

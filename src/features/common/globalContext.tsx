@@ -9,6 +9,8 @@ interface ModalConfig {
 }
 
 interface GlobalContextInterface {
+  currentUser;
+  setCurrentUser;
   theme: 'light' | 'dark';
   changeTheme: () => void;
   filterUsers: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -38,6 +40,8 @@ interface GlobalContextInterface {
   setAddNewUsersOpen: React.Dispatch<React.SetStateAction<boolean>>;
   searchUser: string;
   setSearchUser: React.Dispatch<React.SetStateAction<string>>;
+  user: object;
+  setUser: React.Dispatch<React.SetStateAction<object>>;
 }
 
 export const GlobalContext = React.createContext<GlobalContextInterface>(null!);
@@ -71,7 +75,8 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
     name: '',
   });
   const [arrTest, setArrTest] = useState([1, 2, 3, 4, 5]);
-
+  const [user, setUser] = useState({});
+  const [currentUser, setCurrentUser] = useState('');
   const modalSettings: Record<ModalKey, ModalConfig> = {
     unLogin: {
       message: function (currentNameUser: string) {
@@ -182,6 +187,10 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
     setAddNewUsersOpen,
     searchUser,
     setSearchUser,
+    user,
+    setUser,
+    currentUser,
+    setCurrentUser,
   };
 
   return (

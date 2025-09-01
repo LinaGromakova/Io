@@ -6,7 +6,7 @@ import { useGlobalContext } from '@/features/common/globalContext';
 
 export function SidebarOptionsLayout() {
   const [blackListIsOpen, setBlackListIsOpen] = useState(false);
-  const { isOpen, sidebarIsOpen } = useGlobalContext();
+  const { isOpen, sidebarIsOpen, user } = useGlobalContext();
 
   const scroll: string = `[&::-webkit-scrollbar]:w-1
   [&::-webkit-scrollbar-track]:transparent
@@ -35,8 +35,8 @@ export function SidebarOptionsLayout() {
           ></BlackListLayout>
         )) || (
           <SidebarOptions
-            name="dante"
-            image="https://i.redd.it/dqtwi18nog5c1.jpg"
+            name={user?.name}
+            image={user?.image}
             handlerBlackListOpen={() => blackListOpen()}
           ></SidebarOptions>
         )}

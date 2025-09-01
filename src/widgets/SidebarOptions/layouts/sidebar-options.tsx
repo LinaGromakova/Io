@@ -32,7 +32,7 @@ export function SidebarOptions(props: SidebarOptionsProps) {
             ></img>
           )) || (
             <p className="text-center text-6xl font-bold text-white">
-              {props?.name.slice(0, 1).toUpperCase()}
+              {props.name?.slice(0, 1).toUpperCase()}
             </p>
           )}
 

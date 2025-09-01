@@ -11,6 +11,8 @@ interface UserContactSimpleProps {
   type: 'unBlock' | 'writeUser';
   newCompanion: User;
   unBlockUser?: () => void;
+  id_1: string;
+  id_2: string;
 }
 interface User {
   id: string;
@@ -67,6 +69,8 @@ export function UserContactSimpleLayout(props: UserContactSimpleProps) {
         )}
         <BubbleMenuLayout
           id={props.id}
+          id_1={props.id_1}
+          id_2={props.id_2}
           name={props.name}
           visible={isBubbleMenuOpen}
           setVisible={setIsBubbleMenuOpen}

@@ -10,13 +10,15 @@ import { useGlobalContext } from '@/features/common/globalContext';
 
 export function UserContactLayout(props: UserContactProps) {
   const { query } = useRouter();
-  const { bubbleMenuOpen, setSidebarIsOpen } = useGlobalContext();
+  const { bubbleMenuOpen, setSidebarIsOpen, setCurrentUser } =
+    useGlobalContext();
   const [isBubbleMenuOpen, setIsBubbleMenuOpen] = useState(false);
   // console.log(query === props.id);
+  setCurrentUser(props.user_id);
 
-  const isActive = query.id == props.id;
+  const isActive = query.id == props.chat_id;
   return (
-    <Link href={`/${props.id}`}>
+    <Link href={`/${props.chat_id}`}>
       <article
         className={clsx(
           'py-3 px-5 relative flex items-center cursor-pointer rounded-2xl duration-300 transition-colors group/user',
@@ -31,7 +33,7 @@ export function UserContactLayout(props: UserContactProps) {
         }}
       >
         <BubbleMenuLayout
-          id={typeof props.id === 'string' ? props.id : ''}
+          id={typeof props.user_id === 'string' ? props.user_id : ''}
           name={props.name}
           visible={isBubbleMenuOpen}
           setVisible={setIsBubbleMenuOpen}

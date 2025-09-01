@@ -1,38 +1,35 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { UserContact } from '../UserContact/user-contact';
 import { UserContactSimpleLayout } from '../UserContact/layouts/user-contact-simple';
 import { useGlobalContext } from '@/features/common/globalContext';
 
-async function getUsers() {
-  const data = await fetch('http://localhost:5000');
-
-  const users = await data.json();
-
-  return users;
+function debounce(func: Promise<void>, ms: number | undefined) {
+  let timeout: string | number | NodeJS.Timeout;
+  return () => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, arguments), ms);
+  };
 }
-interface Users {
-  id: string;
-  image?: string;
-  name: string;
-  online: boolean;
+async function getUsers(search: boolean, searchValue: string) {
+  if (search) {
+    const data = await fetch(`http://localhost:5000/search/${searchValue}`);
+    const users = await data.json();
+    return users;
+  } else return [];
 }
 
-const usersGlobal: Users[] = [
-  { id: '1', image: undefined, name: 'Nevan', online: true },
-  {
-    id: '2',
-    image:
-      'https://preview.redd.it/how-powerful-is-vergil-really-v0-awihm1nphzjd1.jpeg?width=640&crop=smart&auto=webp&s=9c1d50f553c8931f97cb9621bc27baf2235d809d',
-    name: 'Vergil',
-    online: false,
-  },
-  {
-    id: '3',
-    image: 'https://gamebomb.ru/files/galleries/001/3/3d/154945.jpg',
-    name: 'Nero',
-    online: true,
-  },
-];
+async function getChats(user_id: string) {
+  const response = await fetch(`http://localhost:5000/${user_id}`);
+  const chats = await response.json();
+  return chats;
+}
+
+// interface Users {
+//   id: string;
+//   image?: string;
+//   name: string;
+//   online: boolean;
+// }
 export function UserContactListLayout() {
   const {
     users,
@@ -42,18 +39,26 @@ export function UserContactListLayout() {
     addNewUsersOpen,
     setAddNewUsersOpen,
     searchUser,
+    user,
   } = useGlobalContext();
+  const [chats, setChats] = useState([]);
 
   useEffect(() => {
-    getUsers().then((users) => {
-      return setUsers(users);
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    debounce(
+      getUsers(addNewUsersOpen, searchUser).then((users) => {
+        return setUsers(users);
+      }),
+      250
+    );
 
-  const usersGlobalSearch = usersGlobal.filter((user) =>
-    user.name.toLowerCase().includes(searchUser.toLowerCase())
-  );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [addNewUsersOpen, searchUser]);
+  useEffect(() => {
+    getChats('5HEzeZ4dB0iA2wJ3NdmvS').then((chats) => {
+      setChats(chats);
+    });
+  }, []);
+  console.log(users);
 
   return (
     <>
@@ -63,12 +68,14 @@ export function UserContactListLayout() {
         </div>
       ) : null}
 
-      {addNewUsersOpen && usersGlobalSearch.length !== 0 && searchUser !== ''
-        ? usersGlobalSearch.map((user) => (
+      {addNewUsersOpen && users.length !== 0 && searchUser !== ''
+        ? users.map((u) => (
             <UserContactSimpleLayout
-              key={user.id}
-              {...user}
-              newCompanion={{ ...user }}
+              key={u.id}
+              {...u}
+              id_1={user.id}
+              id_2={u.id}
+              newCompanion={{ ...u }}
               type="writeUser"
             />
           ))
@@ -79,7 +86,7 @@ export function UserContactListLayout() {
             </div>
           )}
 
-      {!addNewUsersOpen && users.length === 0 ? (
+      {!addNewUsersOpen && chats.length === 0 ? (
         <div className="flex flex-col items-center justify-center h-9/12 text-base">
           <p className="mb-4 opacity-65">Сейчас у Вас нет активных чатов.</p>
           <p
@@ -103,11 +110,11 @@ export function UserContactListLayout() {
           <p className="mb-4 opacity-65">Пользователь не найден</p>
         </div>
       ) : !addNewUsersOpen ? (
-        users.map((user) => (
+        chats.map((chat) => (
           <UserContact
-            key={user.id}
-            {...user}
-            newCompanion={{ ...user }}
+            key={chat.chat_id}
+            {...chat}
+            newCompanion={{ ...chat }}
             type="USER_CONTACT"
           />
         ))
