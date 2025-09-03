@@ -18,18 +18,16 @@ import { useGlobalContext } from './header-sidebar-layout';
 
 async function getCurrentUser(user_id: string) {
   try {
-    
     const data = await fetch(`http://localhost:5000/user/${user_id}`);
     const user = await data.json();
-
     return user;
-  } catch {
-    console.log('ops');
+  } catch (error) {
+    console.log(error, 'Error');
   }
 }
 
 export function HeaderMainLayout() {
-  const { setSidebarIsOpen, currentUser } = useGlobalContext();
+  const { setSidebarIsOpen, currentUser, user } = useGlobalContext();
   const [isBubbleMenuOpen, setIsBubbleMenuOpen] = useState(false);
   const [current, setCurrent] = useState({});
 
@@ -39,8 +37,7 @@ export function HeaderMainLayout() {
         return setCurrent(user);
       });
     }
-  }, []);
-  console.log(current);
+  }, [currentUser]);
   return (
     <>
       <Link href="/">
@@ -53,9 +50,9 @@ export function HeaderMainLayout() {
       <UserContact
         newCompanion={{ ...current }}
         name={current.name}
-        online={false}
+        online={current.online}
         type="CURRENT_CONTACT"
-        id={'QbyXWBF0CrAxoTjBDL4LO'}
+        id={current.id}
       ></UserContact>
       <LayoutButtonCircle
         type="MORE"
@@ -63,12 +60,9 @@ export function HeaderMainLayout() {
         handlerClick={() => setIsBubbleMenuOpen(true)}
       ></LayoutButtonCircle>
       <BubbleMenuLayout
-        id={
-          typeof 'QbyXWBF0CrAxoTjBDL4LO' === 'string'
-            ? 'QbyXWBF0CrAxoTjBDL4LO'
-            : ''
-        }
+        id={typeof user.id === 'string' ? user.id : ''}
         name={typeof current?.name === 'string' ? current?.name : ''}
+        current_id={current.id}
         visible={isBubbleMenuOpen}
         setVisible={setIsBubbleMenuOpen}
         className="top-18 right-5"

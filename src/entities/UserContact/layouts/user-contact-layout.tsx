@@ -14,7 +14,6 @@ export function UserContactLayout(props: UserContactProps) {
     useGlobalContext();
   const [isBubbleMenuOpen, setIsBubbleMenuOpen] = useState(false);
   // console.log(query === props.id);
-  setCurrentUser(props.user_id);
 
   const isActive = query.id == props.chat_id;
   return (
@@ -24,7 +23,10 @@ export function UserContactLayout(props: UserContactProps) {
           'py-3 px-5 relative flex items-center cursor-pointer rounded-2xl duration-300 transition-colors group/user',
           isActive ? 'bg-accent text-white hover:bg-accent' : 'hover:bg-inter'
         )}
-        onClick={() => setSidebarIsOpen(false)}
+        onClick={() => {
+          setSidebarIsOpen(false);
+          setCurrentUser(props.user_id);
+        }}
         onContextMenu={(e) => {
           e.preventDefault();
           if (e.button === 2) {
@@ -34,6 +36,7 @@ export function UserContactLayout(props: UserContactProps) {
       >
         <BubbleMenuLayout
           id={typeof props.user_id === 'string' ? props.user_id : ''}
+          chat_id={props.chat_id}
           name={props.name}
           visible={isBubbleMenuOpen}
           setVisible={setIsBubbleMenuOpen}

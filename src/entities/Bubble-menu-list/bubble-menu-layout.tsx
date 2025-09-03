@@ -44,6 +44,8 @@ interface propsBubbleMenuLayout {
   className?: string;
   setVisible: (arg0: boolean) => void;
   newCompanion: User;
+  chat_id: string;
+  current_id?: string;
 }
 async function writeUser(id_1: string, id_2: string) {
   console.log(id_1, id_2);
@@ -61,6 +63,7 @@ async function writeUser(id_1: string, id_2: string) {
     console.log(error);
   }
 }
+
 export function BubbleMenuLayout(props: propsBubbleMenuLayout) {
   const menuRef = React.useRef<HTMLUListElement>(null);
   // const router = useRouter();
@@ -80,7 +83,6 @@ export function BubbleMenuLayout(props: propsBubbleMenuLayout) {
   }, [props]);
   const lockIcon = <LockOpenIcon className="text-lg"></LockOpenIcon>;
   const writeIcon = <WriteIcon className="text-lg"></WriteIcon>;
-
   return (
     <>
       {props.visible && (
@@ -97,9 +99,9 @@ export function BubbleMenuLayout(props: propsBubbleMenuLayout) {
                 <BubbleMenuItem
                   {...item}
                   key={index}
-                  onClick={() =>
-                    changeModalView('deleteChat', props.id, props.name)
-                  }
+                  onClick={() => {
+                    changeModalView('deleteChat', props.chat_id, props.name);
+                  }}
                 ></BubbleMenuItem>
               );
             })) ||
@@ -107,7 +109,14 @@ export function BubbleMenuLayout(props: propsBubbleMenuLayout) {
               <BubbleMenuItem
                 text="Разблокировать"
                 icon={lockIcon}
-                onClick={() => changeModalView('unBlock', props.id, props.name)}
+                onClick={() =>
+                  changeModalView(
+                    'unBlock',
+                    props.id,
+                    props.current_id,
+                    props.name
+                  )
+                }
               ></BubbleMenuItem>
             )) ||
             (props.type === 'currentUser' &&
@@ -117,7 +126,12 @@ export function BubbleMenuLayout(props: propsBubbleMenuLayout) {
                     {...item}
                     key={index}
                     onClick={() =>
-                      changeModalView(item.actionType, props.id, props.name)
+                      changeModalView(
+                        item.actionType,
+                        props.id,
+                        props.current_id,
+                        props.name
+                      )
                     }
                   ></BubbleMenuItem>
                 );

@@ -5,7 +5,7 @@ type ModalKey = string;
 interface ModalConfig {
   message: (arg0: string) => string;
   handlerCancel: () => void;
-  handlerOk: (args0: number) => void;
+  handlerOk: (chat_id: string) => void;
 }
 
 interface GlobalContextInterface {
@@ -23,6 +23,7 @@ interface GlobalContextInterface {
   changeModalView: (
     actionType?: string,
     currentId?: string,
+    id_2?: string,
     currentName?: string
   ) => void;
   filteredUsers: User[];
@@ -57,6 +58,7 @@ interface ModalData {
   type: string;
   id: string;
   name: string;
+  id_2?: string;
 }
 
 export function GlobalProvider({ children }: { children: React.ReactNode }) {
@@ -73,9 +75,18 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
     type: '',
     id: '',
     name: '',
+    id_2: '',
   });
   const [arrTest, setArrTest] = useState([1, 2, 3, 4, 5]);
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState({
+    id: '5HEzeZ4dB0iA2wJ3NdmvS',
+    name: 'lina',
+    login: 'lina',
+    image: null,
+    online: true,
+    last_seen: '2025-08-31T17:02:24.270Z',
+    created_at: '2025-08-27T19:03:13.408Z',
+  });
   const [currentUser, setCurrentUser] = useState('');
   const modalSettings: Record<ModalKey, ModalConfig> = {
     unLogin: {
@@ -97,10 +108,8 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
       handlerCancel: function () {
         changeModalView();
       },
-      handlerOk: function (index: number) {
-        const newList = [...arrTest];
-        newList.splice(index, 1);
-        setArrTest(newList);
+      handlerOk: function () {
+        unBlockUser(user.id, isModalOpen.id);
         changeModalView();
       },
     },
@@ -112,12 +121,11 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
         changeModalView();
       },
       handlerOk: function () {
-        const currentId = isModalOpen.id;
-        const newList = users.filter((user: User) => user.id !== currentId);
-        setUsers(newList);
+        blockUser(user.id, isModalOpen.id_2);
         changeModalView();
       },
     },
+
     deleteChat: {
       message: function () {
         return `Вы точно хотите удалить чат с ${isModalOpen.name}?`;
@@ -126,14 +134,66 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
         changeModalView();
       },
       handlerOk: function () {
-        const currentId = isModalOpen.id;
-        const newList = users.filter((user: User) => user.id !== currentId);
-        setUsers(newList);
+        deleteUserChat(isModalOpen.id);
         changeModalView();
       },
     },
   };
+  async function deleteUserChat(chat_id: string) {
+    try {
+      const data = await fetch(`http://localhost:5000/delete_chat/${chat_id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
+      const result = await data.json();
+      console.log('Delete:', result);
+      return result;
+    } catch (error) {
+      console.log(error, 'Delete error');
+    }
+  }
+  async function unBlockUser(user_id: string, blocked_user_id: string) {
+    try {
+      const data = await fetch(
+        `http://localhost:5000/delete_user_blacklist/${user_id}/${blocked_user_id}`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      const result = await data.json();
+      console.log('Unblock:', result);
+      return result;
+    } catch (error) {
+      console.log(error, 'Unblock error');
+    }
+  }
+
+  async function blockUser(user_id, blocked_user_id) {
+    console.log(user_id, blocked_user_id);
+    try {
+      const data = await fetch('http://localhost:5000/blacklist_add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          user_id: user_id,
+          blocked_user_id: blocked_user_id,
+        }),
+      });
+      const result = await data.json();
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   function bubbleMenuOpen(state: boolean, setState: (arg0: boolean) => void) {
     setState(!state);
   }
@@ -144,6 +204,7 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
   function changeModalView(
     actionType?: string,
     currentId?: string,
+    currentId2?: string,
     currentName?: string
   ) {
     setIsModalOpen((prev) => ({
@@ -151,7 +212,9 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
       type: actionType ?? prev.type,
       id: currentId ?? prev.id,
       name: currentName ?? prev.name,
+      id_2: currentId2 ?? prev.id_2,
     }));
+    console.log(isModalOpen.id);
   }
   function filterUsers(e: { target: { value: React.SetStateAction<string> } }) {
     setFilter(e.target.value);

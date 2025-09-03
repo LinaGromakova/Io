@@ -40,6 +40,7 @@ export function UserContactListLayout() {
     setAddNewUsersOpen,
     searchUser,
     user,
+    isModalOpen,
   } = useGlobalContext();
   const [chats, setChats] = useState([]);
 
@@ -53,12 +54,13 @@ export function UserContactListLayout() {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [addNewUsersOpen, searchUser]);
+
   useEffect(() => {
-    getChats('5HEzeZ4dB0iA2wJ3NdmvS').then((chats) => {
+    getChats(user.id).then((chats) => {
       setChats(chats);
     });
-  }, []);
-  console.log(users);
+  }, [addNewUsersOpen, isModalOpen]);
+  // console.log(user);
 
   return (
     <>
