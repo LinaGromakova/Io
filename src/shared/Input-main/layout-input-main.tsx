@@ -21,8 +21,8 @@ interface InputProps {
   required?: boolean;
   valid?: boolean;
   onKeyDownHandler: (e: React.KeyboardEvent) => void;
-
   changeHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  sendMessage: (value: string) => string;
 }
 
 export function InputMain(props: InputProps) {
@@ -40,6 +40,7 @@ export function InputMain(props: InputProps) {
     setVisible(!visible);
     setInputType((prev) => (prev === 'password' ? 'text' : 'password'));
   }
+  
   return (
     <>
       <input
@@ -48,6 +49,13 @@ export function InputMain(props: InputProps) {
         autoComplete="off"
         value={props.value}
         onChange={(e) => props.changeHandler(e)}
+        onKeyUp={(e) => {
+          if (props.purpose === 'MESSAGE') {
+            if (e.key === 'Enter') {
+              props.sendMessage(props.value);
+            }
+          }
+        }}
         type={props.category === 'password' ? inputType : props.type}
         onKeyDown={(e) => {
           if (props.purpose === 'FORM') {

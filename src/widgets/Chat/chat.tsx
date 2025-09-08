@@ -5,6 +5,8 @@ import clsx from 'clsx';
 
 export function Chat() {
   const { theme } = useGlobalContext();
+
+
   return (
     <section
       className={clsx(
@@ -13,7 +15,7 @@ export function Chat() {
       )}
     >
       <ChatBody></ChatBody>
-      <ChatInput value=""></ChatInput>
+
     </section>
   );
 }

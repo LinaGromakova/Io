@@ -24,26 +24,20 @@ async function getChats(user_id: string) {
   return chats;
 }
 
-// interface Users {
-//   id: string;
-//   image?: string;
-//   name: string;
-//   online: boolean;
-// }
+
 export function UserContactListLayout() {
   const {
     users,
     setUsers,
-    filteredUsers,
-    filter,
     addNewUsersOpen,
     setAddNewUsersOpen,
     searchUser,
     user,
     isModalOpen,
+    filter,
   } = useGlobalContext();
   const [chats, setChats] = useState([]);
-
+  const [filteredChats, setFilteredChats] = useState([]);
   useEffect(() => {
     debounce(
       getUsers(addNewUsersOpen, searchUser).then((users) => {
@@ -60,8 +54,15 @@ export function UserContactListLayout() {
       setChats(chats);
     });
   }, [addNewUsersOpen, isModalOpen]);
-  // console.log(user);
 
+
+  useEffect(() => {
+    setFilteredChats(
+      chats.filter((chat) =>
+        chat.name.toLowerCase().includes(filter.toLowerCase())
+      )
+    );
+  }, [filter]);
   return (
     <>
       {addNewUsersOpen && searchUser === '' ? (
@@ -98,8 +99,8 @@ export function UserContactListLayout() {
             Добавить собеседника
           </p>
         </div>
-      ) : !addNewUsersOpen && filter && filteredUsers.length > 0 ? (
-        filteredUsers.map((user) => (
+      ) : !addNewUsersOpen && filter && filteredChats.length > 0 ? (
+        filteredChats.map((user) => (
           <UserContact
             newCompanion={{ ...user }}
             key={user.id}
@@ -107,7 +108,7 @@ export function UserContactListLayout() {
             type="USER_CONTACT"
           />
         ))
-      ) : !addNewUsersOpen && filter && filteredUsers.length === 0 ? (
+      ) : !addNewUsersOpen && filter && filteredChats.length === 0 ? (
         <div className="flex flex-col items-center justify-center h-9/12 text-base">
           <p className="mb-4 opacity-65">Пользователь не найден</p>
         </div>

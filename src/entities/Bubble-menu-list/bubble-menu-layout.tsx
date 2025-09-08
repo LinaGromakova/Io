@@ -5,7 +5,7 @@ import { MdDelete as DeleteIcon } from 'react-icons/md';
 import { MdBlockFlipped as BlockIcon } from 'react-icons/md';
 import { IoMdCreate as WriteIcon } from 'react-icons/io';
 import clsx from 'clsx';
-// import { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { useGlobalContext } from '@/features/common/globalContext';
 
 const chatUsersConfig = [
@@ -66,8 +66,9 @@ async function writeUser(id_1: string, id_2: string) {
 
 export function BubbleMenuLayout(props: propsBubbleMenuLayout) {
   const menuRef = React.useRef<HTMLUListElement>(null);
-  // const router = useRouter();
-  const { changeModalView, setAddNewUsersOpen } = useGlobalContext();
+  const router = useRouter();
+  const { changeModalView, setAddNewUsersOpen, setSearchUser } =
+    useGlobalContext();
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent): void {
@@ -100,7 +101,12 @@ export function BubbleMenuLayout(props: propsBubbleMenuLayout) {
                   {...item}
                   key={index}
                   onClick={() => {
-                    changeModalView('deleteChat', props.chat_id, props.name);
+                    changeModalView(
+                      'deleteChat',
+                      props.chat_id,
+                      undefined,
+                      props.name
+                    );
                   }}
                 ></BubbleMenuItem>
               );
@@ -142,12 +148,8 @@ export function BubbleMenuLayout(props: propsBubbleMenuLayout) {
                 icon={writeIcon}
                 onClick={() => {
                   writeUser(props.id_1, props.id_2);
-                  // if (users.find((user: User) => user.id === props.id)) {
-                  //   router.replace(`/${props.id}`);
-                  // } else {
-                  //   setUsers([...users, props.newCompanion]);
-                  //   router.replace(`/${props.id}`);
-                  // }
+                  setSearchUser('');
+                  router.replace(`/${props.id_2}`);
                   setAddNewUsersOpen(false);
                 }}
               ></BubbleMenuItem>

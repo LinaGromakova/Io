@@ -28,9 +28,6 @@ export function SidebarOptionsLayout() {
       >
         {(blackListIsOpen && (
           <BlackListLayout
-            id="12"
-            name="dante"
-            image="https://i.redd.it/dqtwi18nog5c1.jpg"
             handlerCloseBlackList={() => blackListOpen()}
           ></BlackListLayout>
         )) || (

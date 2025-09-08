@@ -13,7 +13,7 @@ export function SidebarContactsLayout({ className }: ComponentProps) {
   hover:[&::-webkit-scrollbar-thumb]:transparent
   [&::-webkit-scrollbar-thumb]:rounded-full`;
 
-  const { sidebarIsOpen, addNewUsersOpen, setAddNewUsersOpen } =
+  const { sidebarIsOpen, addNewUsersOpen, setAddNewUsersOpen, setFilter } =
     useGlobalContext();
   return (
     <aside
@@ -31,7 +31,10 @@ export function SidebarContactsLayout({ className }: ComponentProps) {
           type="CREATE"
           className="sm:group-hover/sidebar:-translate-y-4 w-12 h-12 fixed z-30 text-xl 
         left-[29%] bottom-0 translate-y-full max-sm:translate-y-0 max-sm:left-auto max-sm:right-3 max-sm:bottom-3"
-          handlerClick={() => setAddNewUsersOpen(true)}
+          handlerClick={() => {
+            setAddNewUsersOpen(true);
+            setFilter('');
+          }}
         ></LayoutButtonCircle>
       )}
 

@@ -10,6 +10,7 @@ export function HeaderSidebarLayout() {
   const {
     filterUsers,
     filter,
+    setFilter,
     openOptions,
     addNewUsersOpen,
     setAddNewUsersOpen,

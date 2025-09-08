@@ -26,7 +26,6 @@ interface GlobalContextInterface {
     id_2?: string,
     currentName?: string
   ) => void;
-  filteredUsers: User[];
   modalSettings: Record<ModalKey, ModalConfig>;
 
   arrTest: number[];
@@ -65,7 +64,6 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = React.useState<'light' | 'dark'>('dark');
   const [filter, setFilter] = React.useState('');
   const [users, setUsers] = React.useState<User[]>([]);
-  const [filteredUsers, setFilteredUsers] = React.useState<User[]>([]);
   const [isOpen, setIsOpen] = React.useState(false);
   const [sidebarIsOpen, setSidebarIsOpen] = React.useState(false);
   const [addNewUsersOpen, setAddNewUsersOpen] = React.useState(false);
@@ -218,11 +216,7 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
   }
   function filterUsers(e: { target: { value: React.SetStateAction<string> } }) {
     setFilter(e.target.value);
-    return setFilteredUsers(
-      users.filter((user: User) =>
-        user.name.toLowerCase().includes(filter.toLowerCase())
-      )
-    );
+    return filter;
   }
   function openOptions() {
     setIsOpen(!isOpen);
@@ -233,13 +227,13 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
     changeTheme,
     filterUsers,
     filter,
+    setFilter,
     users,
     setUsers,
     openOptions,
     isOpen,
     isModalOpen,
     changeModalView,
-    filteredUsers,
     modalSettings,
     arrTest,
     setArrTest,

@@ -43,7 +43,12 @@ input[type='search']:focus+.icon-focus, .input-active+.icon-focus{
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', "Segoe UI", 
+    "Segoe UI Emoji", 
+    "Segoe UI Symbol",
+    -apple-system, 
+    BlinkMacSystemFont, 
+    sans-serif;
 }
 @theme inline {
   --color-background: var(--background);
