@@ -57,6 +57,7 @@ export function HeaderMainLayout() {
         name={current?.name}
         online={current?.online}
         type="CURRENT_CONTACT"
+        image={current?.image}
         id={current?.id}
       ></UserContact>
       <LayoutButtonCircle

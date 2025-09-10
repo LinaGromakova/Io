@@ -19,13 +19,23 @@ export function UserMessage({
   className,
 }: MessageProps) {
   const { user } = useGlobalContext();
+  function getValidDate(value: number): string {
+    if (value > 9) {
+      return '' + value;
+    } else {
+      return '0' + value;
+    }
+  }
+
   const timePush =
-    new Date(created_at).getHours() + ':' + new Date(created_at).getMinutes();
+    getValidDate(new Date(created_at).getHours()) +
+    ':' +
+    getValidDate(new Date(created_at).getMinutes());
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col ">
       <article
         className={clsx(
-          `max-w-96 min-w-30 inline rounded-xl p-4 relative mb-3 before:bottom-2.5 before:absolute break-all
+          `max-w-96 min-w-18 inline rounded-xl p-4 relative mb-3 before:bottom-2.5 before:absolute break-all
         before:content-[''] before:block`,
           className,
           sender_id === user.id
@@ -38,7 +48,7 @@ export function UserMessage({
             before:border-y-20 border-r-0 mr-auto`
         )}
       >
-        <span className="text-md">{content}</span>
+        <p className="text-lg message pb-0.5">{content}</p>
         <div className="absolute bottom-0.5 right-0.5 flex">
           <span className="text-xs opacity-70">{timePush}</span>
           <span className="align-text-bottom mx-1">

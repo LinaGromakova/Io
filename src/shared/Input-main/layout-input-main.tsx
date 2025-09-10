@@ -6,6 +6,7 @@ import { IoMdEyeOff as IconVisible } from 'react-icons/io';
 import { useGlobalContext } from '@/features/common/globalContext';
 
 interface InputProps {
+  inputRef: any;
   purpose: 'FORM' | 'MESSAGE' | 'FILTER';
   name: string;
   type: string;
@@ -33,19 +34,19 @@ export function InputMain(props: InputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     if (addNewUsersOpen) {
-      inputRef?.current?.focus();
+      props.inputRef?.current?.focus();
     }
   }, [addNewUsersOpen]);
   function handlerVisibleClick() {
     setVisible(!visible);
     setInputType((prev) => (prev === 'password' ? 'text' : 'password'));
   }
-  
+
   return (
     <>
       <input
         {...props}
-        ref={inputRef}
+        ref={props.purpose === 'MESSAGE' ? props.inputRef : inputRef}
         autoComplete="off"
         value={props.value}
         onChange={(e) => props.changeHandler(e)}

@@ -11,8 +11,31 @@ interface SidebarOptionsProps {
   handlerBlackListOpen: () => void;
 }
 export function SidebarOptions(props: SidebarOptionsProps) {
-  const { theme, changeTheme, openOptions, changeModalView } =
+  const { theme, changeTheme, openOptions, changeModalView, user } =
     useGlobalContext();
+
+  async function handleFileSelect(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('avatar', file);
+    formData.append('user_id', user.id);
+
+    try {
+      const response = await fetch('http://localhost:5000/avatar', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const result = await response.json();
+      console.log(result);
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      e.target.value = '';
+    }
+  }
 
   return (
     <>
@@ -37,7 +60,7 @@ export function SidebarOptions(props: SidebarOptionsProps) {
           )}
 
           <LayoutButtonCircle
-            handlerClick={() => alert('add')}
+            handlerClick={() => null}
             type="PHOTO_ADD"
             className="absolute bottom-0 right-0 overflow-hidden"
           >
@@ -45,7 +68,8 @@ export function SidebarOptions(props: SidebarOptionsProps) {
               type="file"
               name="image-file"
               accept=".jpg, .png"
-              className="opacity-0 absolute p-20 top-0 left-0 bg-red-800 w-full h-full cursor-pointer"
+              onChange={handleFileSelect}
+              className="opacity-0 absolute p-20 top-0 left-0 w-full h-full cursor-pointer"
             />
           </LayoutButtonCircle>
         </div>

@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
-@import 'tailwindcss';
 
+@import url('https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap');
+@import 'tailwindcss';
 
 input::-webkit-search-cancel-button {
   appearance: none;
@@ -21,8 +22,9 @@ aside[data-open='true'] {
 html::selection {
   background-color: var(--color-accent);
 }
-input[type='search']:focus+.icon-focus, .input-active+.icon-focus{
- color: var(--color-accent);
+input[type='search']:focus + .icon-focus,
+.input-active + .icon-focus {
+  color: var(--color-accent);
 }
 .input-active::placeholder {
   color: var(--color-accent);
@@ -43,15 +45,13 @@ input[type='search']:focus+.icon-focus, .input-active+.icon-focus{
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: 'Inter', "Segoe UI", 
-    "Segoe UI Emoji", 
-    "Segoe UI Symbol",
-    -apple-system, 
-    BlinkMacSystemFont, 
-    sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-inter: 'Inter', sans-serif;
+}
+.message {
+  font-family: 'Noto Color Emoji', sans-serif;
 }

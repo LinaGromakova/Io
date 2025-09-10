@@ -45,7 +45,7 @@ export function UserContactSimpleLayout(props: UserContactSimpleProps) {
           <div className="w-14 h-14 relative bg-radial-[at_25%_25%] from-accent to-accent-shadow to-75% rounded-full flex items-center justify-center">
             {(props.image && (
               <img
-                src={props?.image}
+                  src={`http://localhost:5000${props?.image}`}
                 alt={props.name}
                 className="w-full h-full object-cover rounded-full"
               ></img>

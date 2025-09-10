@@ -4,7 +4,14 @@ import { ButtonIcons } from './constants/button-icon';
 import clsx from 'clsx';
 
 type ButtonProps = {
-  type: 'SEARCH' | 'CREATE' | 'BACK' | 'OPTIONS' | 'PHOTO_ADD' | 'MORE';
+  type:
+    | 'SEARCH'
+    | 'MESSAGE'
+    | 'CREATE'
+    | 'BACK'
+    | 'OPTIONS'
+    | 'PHOTO_ADD'
+    | 'MORE';
   children?: React.ReactNode;
   handlerClick: () => void;
   className?: string;
