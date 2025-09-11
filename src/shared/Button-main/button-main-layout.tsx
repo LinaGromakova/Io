@@ -4,7 +4,7 @@ import React from 'react';
 import { ButtonMainStyles } from './constants/button-styles';
 
 interface ButtonMainProps {
-  type: 'login' | 'register' | 'ok' | 'cancel';
+  type: 'login' | 'register' | 'ok' | 'cancel' | 'apply photo';
   className?: string;
   handlerClick: (e: React.MouseEvent) => void;
   disabled?: boolean;

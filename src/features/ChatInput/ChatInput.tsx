@@ -81,7 +81,10 @@ export function ChatInput({ sendMessage }) {
           ></InputMain>
           <LayoutButtonCircle
             type="MESSAGE"
-            handlerClick={() => sendMessage(message)}
+            handlerClick={() => {
+              sendMessage(message);
+              setMessage('');
+            }}
             className="text-base max-md:ml-0 max-md:absolute max-md:right-0 text-foreground/50 bg-accent ml-5 hover:text-foreground/80"
           ></LayoutButtonCircle>
         </div>

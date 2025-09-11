@@ -1,5 +1,6 @@
 import { IoMdCreate as CreateIcon } from 'react-icons/io';
 import { CiLogin as LoginIcon } from 'react-icons/ci';
+import { IoMdImages as ImagesIcon } from 'react-icons/io';
 import { JSX } from 'react';
 
 interface ButtonStylesOfType {
@@ -26,5 +27,10 @@ export const ButtonMainStyles: ButtonStylesOfType = {
     style: 'bg-gradient-to-r from-red-800 via-accent-shadow to-accent',
 
     icon: null,
+  },
+  'apply photo': {
+    style: 'bg-gradient-to-r from-red-800 via-accent-shadow to-accent',
+
+    icon: <ImagesIcon className={iconStyles}></ImagesIcon>,
   },
 };
