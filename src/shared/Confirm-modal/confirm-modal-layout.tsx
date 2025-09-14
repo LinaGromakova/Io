@@ -28,7 +28,7 @@ export function ConfirmModalLayout(props: ConfirmModalLayoutProps) {
     <Portal>
       {isModalOpen.open && (
         <div className="w-full fixed z-[1000] h-screen bg-black/40 top-0 left-0 flex justify-center items-center ">
-          <article className="bg-background px-8 py-4 max-sm:w-11/12">
+          <article className="bg-background px-8 py-4 max-sm:w-11/12 max-sm:px-2">
             <p className="pt-5 mb-3 text-base text-center">
               {modalSettings[isModalOpen.type].message(props.name)}
             </p>

@@ -42,6 +42,8 @@ interface GlobalContextInterface {
   setSearchUser: React.Dispatch<React.SetStateAction<string>>;
   user: object;
   setUser: React.Dispatch<React.SetStateAction<object>>;
+  isOpenSettingsUser: boolean;
+  setIsOpenSettingUser: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const GlobalContext = React.createContext<GlobalContextInterface>(null!);
@@ -68,6 +70,7 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
   const [sidebarIsOpen, setSidebarIsOpen] = React.useState(false);
   const [addNewUsersOpen, setAddNewUsersOpen] = React.useState(false);
   const [searchUser, setSearchUser] = React.useState('');
+  const [isOpenSettingsUser, setIsOpenSettingUser] = useState(false);
   const [isModalOpen, setIsModalOpen] = React.useState<ModalData>({
     open: false,
     type: '',
@@ -133,6 +136,18 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
       },
       handlerOk: function () {
         deleteUserChat(isModalOpen.id);
+        changeModalView();
+      },
+    },
+    exitNotSave: {
+      message: function () {
+        return 'Вы точно хотите вернуться? Изменения не сохранены';
+      },
+      handlerCancel: function () {
+        changeModalView();
+      },
+      handlerOk: function () {
+        setIsOpenSettingUser(false);
         changeModalView();
       },
     },
@@ -248,6 +263,8 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
     setUser,
     currentUser,
     setCurrentUser,
+    isOpenSettingsUser,
+    setIsOpenSettingUser,
   };
 
   return (
