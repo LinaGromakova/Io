@@ -1,11 +1,9 @@
 import { ChatBody } from '@/entities/ChatBody/chat-body';
-import { ChatInput } from '@/features/ChatInput/ChatInput';
 import { useGlobalContext } from '@/features/common/globalContext';
 import clsx from 'clsx';
 
 export function Chat() {
   const { theme } = useGlobalContext();
-
 
   return (
     <section
@@ -15,7 +13,6 @@ export function Chat() {
       )}
     >
       <ChatBody></ChatBody>
-
     </section>
   );
 }

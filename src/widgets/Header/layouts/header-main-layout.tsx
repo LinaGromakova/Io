@@ -30,19 +30,16 @@ async function getCurrentUser(chat_id: string, user_id: string) {
 }
 
 export function HeaderMainLayout() {
-  const { setSidebarIsOpen, currentUser, user } = useGlobalContext();
+  const { setSidebarIsOpen, currentUser, setCurrentUser, user } = useGlobalContext();
   const [isBubbleMenuOpen, setIsBubbleMenuOpen] = useState(false);
-  const [current, setCurrent] = useState({});
   const router = useRouter();
   const chat_id = router.query.id;
-  console.log(chat_id);
   useEffect(() => {
     getCurrentUser(chat_id, user.id).then((user) => {
-      return setCurrent(user);
+      return setCurrentUser(user);
     });
   }, [chat_id]);
 
-  console.log('current user', current);
   return (
     <>
       <Link href="/">
@@ -53,12 +50,12 @@ export function HeaderMainLayout() {
         ></LayoutButtonCircle>
       </Link>
       <UserContact
-        newCompanion={{ ...current }}
-        name={current?.name}
-        online={current?.online}
+        newCompanion={{ ...currentUser }}
+        name={currentUser?.name}
+        online={currentUser?.online}
         type="CURRENT_CONTACT"
-        image={current?.image}
-        id={current?.id}
+        image={currentUser?.image}
+        id={currentUser?.id}
       ></UserContact>
       <LayoutButtonCircle
         type="MORE"
@@ -67,13 +64,13 @@ export function HeaderMainLayout() {
       ></LayoutButtonCircle>
       <BubbleMenuLayout
         id={typeof user.id === 'string' ? user.id : ''}
-        name={typeof current?.name === 'string' ? current?.name : ''}
-        current_id={current?.id}
+        name={typeof currentUser?.name === 'string' ? currentUser?.name : ''}
+        current_id={currentUser?.id}
         visible={isBubbleMenuOpen}
         setVisible={setIsBubbleMenuOpen}
         className="top-18 right-5"
         type="currentUser"
-        newCompanion={{ ...current }}
+        newCompanion={{ ...currentUser }}
       ></BubbleMenuLayout>
     </>
   );

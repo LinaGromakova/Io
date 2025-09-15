@@ -28,14 +28,26 @@ async function getMessages(id: string | string[] | undefined) {
     console.log(error, 'oops! error!');
   }
 }
+async function checkBlackList(user1_id: string, user2_id: string) {
+  try {
+    console.log(user1_id, user2_id);
+    const data = await fetch(
+      `http://localhost:5000/check_blacklist/${user1_id}/${user2_id}`
+    );
+    const response = await data.json();
+    return response;
+  } catch (error) {
+    console.log(error.message);
+  }
+}
 export function ChatBody() {
   const router = useRouter();
-  const { user } = useGlobalContext();
+  const { user, currentUser } = useGlobalContext();
   const chat_id = router.query.id;
   const chat = useRef<HTMLDivElement>(null);
   const [messages, setMessages] = useState([]);
   const [newMessages, setNewMessages] = useState({});
-
+  const [userInBlackList, setUserInBlackList] = useState(null);
   function sendMessages(message, setMessage) {
     if (!message.trim()) {
       return;
@@ -46,7 +58,6 @@ export function ChatBody() {
       content: message,
     });
   }
-
   useLayoutEffect(() => {
     if (chat) {
       chat.current?.scrollIntoView(false);
@@ -55,6 +66,11 @@ export function ChatBody() {
       chat.current.scrollTo({ top: chat.current.scrollHeight + 100 });
     }
   }, [messages]);
+  useEffect(() => {
+    checkBlackList(user.id, currentUser.id).then((check) => {
+      setUserInBlackList(check);
+    });
+  }, [chat_id, currentUser]);
   useEffect(() => {
     if (!chat_id) return;
     socket.emit('join_chat', { chat_id: chat_id, user_id: user.id });
@@ -79,7 +95,7 @@ export function ChatBody() {
       socket.off('new_message');
     };
   }, [newMessages]);
-
+  console.log(userInBlackList);
   return (
     <>
       <section
@@ -102,7 +118,13 @@ export function ChatBody() {
           })}
         </div>
       </section>
-      <ChatInput sendMessage={sendMessages}></ChatInput>
+      {(userInBlackList && (
+        <div className="py-2 px-6 bg-inter text-base absolute w-full text-center min-h-10 bottom-14">
+          {userInBlackList.blocked_user_id === user.id
+            ? 'Пользователь добавил Вас в чёрный список'
+            : 'Вы добавили пользователя в чёрный список'}
+        </div>
+      )) || <ChatInput sendMessage={sendMessages}></ChatInput>}
     </>
   );
 }
