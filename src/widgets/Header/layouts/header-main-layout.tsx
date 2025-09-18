@@ -6,40 +6,34 @@ import { useEffect, useState } from 'react';
 import { useGlobalContext } from './header-sidebar-layout';
 import { useRouter } from 'next/router';
 
-// interface Users {
-//   id: number;
-//   image?: string;
-//   name: string;
-//   online: boolean;
-//   lastMessage: string;
-//   lastAtCreate: string;
-//   read: boolean;
-//   countMessage: number;
-// }
-
 async function getCurrentUser(chat_id: string, user_id: string) {
   try {
     const data = await fetch(
       `http://localhost:5000/${chat_id}/user/${user_id}`
     );
     const user = await data.json();
+    console.log(user);
     return user;
   } catch (error) {
     console.log(error, 'Error');
   }
 }
-
 export function HeaderMainLayout() {
-  const { setSidebarIsOpen, currentUser, setCurrentUser, user } = useGlobalContext();
+  const { setSidebarIsOpen, currentUser, setCurrentUser, user } =
+    useGlobalContext();
   const [isBubbleMenuOpen, setIsBubbleMenuOpen] = useState(false);
-  const router = useRouter();
-  const chat_id = router.query.id;
-  useEffect(() => {
-    getCurrentUser(chat_id, user.id).then((user) => {
-      return setCurrentUser(user);
-    });
-  }, [chat_id]);
 
+  const router = useRouter();
+
+  const chat_id = String(router.query.id);
+
+  useEffect(() => {
+    if (router.isReady) {
+      getCurrentUser(chat_id, user.id).then((user) => {
+        return setCurrentUser(user);
+      });
+    }
+  }, [chat_id]);
   return (
     <>
       <Link href="/">
@@ -56,6 +50,8 @@ export function HeaderMainLayout() {
         type="CURRENT_CONTACT"
         image={currentUser?.image}
         id={currentUser?.id}
+        user_id=""
+        chat_id=""
       ></UserContact>
       <LayoutButtonCircle
         type="MORE"
@@ -71,6 +67,9 @@ export function HeaderMainLayout() {
         className="top-18 right-5"
         type="currentUser"
         newCompanion={{ ...currentUser }}
+        chat_id={chat_id}
+        id_1=""
+        id_2=""
       ></BubbleMenuLayout>
     </>
   );

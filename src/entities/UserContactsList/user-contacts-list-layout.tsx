@@ -3,11 +3,15 @@ import { UserContact } from '../UserContact/user-contact';
 import { UserContactSimpleLayout } from '../UserContact/layouts/user-contact-simple';
 import { useGlobalContext } from '@/features/common/globalContext';
 
-function debounce(func: Promise<void>, ms: number | undefined) {
-  let timeout: string | number | NodeJS.Timeout;
-  return () => {
+function debounce<T extends (...args: unknown[]) => Promise<void>>(
+  func: T,
+  ms: number
+): (...args: Parameters<T>) => void {
+  let timeout: NodeJS.Timeout;
+
+  return (...args: Parameters<T>) => {
     clearTimeout(timeout);
-    timeout = setTimeout(() => func.apply(this, arguments), ms);
+    timeout = setTimeout(() => func(...args), ms);
   };
 }
 async function getUsers(search: boolean, searchValue: string) {
@@ -23,7 +27,26 @@ async function getChats(user_id: string) {
   const chats = await response.json();
   return chats;
 }
-
+interface UserInterface {
+  id: string;
+  name: string;
+  login: string;
+  image: string;
+  online: boolean;
+  last_seen: string;
+  created_at: string;
+  chat_id: string;
+}
+interface ChatInterface {
+  chat_id: string;
+  user_id: string;
+  name: string;
+  image: string;
+  online: boolean;
+  last_message: string;
+  last_message_at: string;
+  unread_count: number;
+}
 
 export function UserContactListLayout() {
   const {
@@ -37,28 +60,30 @@ export function UserContactListLayout() {
     filter,
   } = useGlobalContext();
   const [chats, setChats] = useState([]);
+
   const [filteredChats, setFilteredChats] = useState([]);
+
   useEffect(() => {
-    debounce(
-      getUsers(addNewUsersOpen, searchUser).then((users) => {
-        return setUsers(users);
-      }),
-      250
-    );
+    const debouncedFetch = debounce(async () => {
+      const users = await getUsers(addNewUsersOpen, searchUser);
+      setUsers(users);
+    }, 250);
+
+    debouncedFetch();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [addNewUsersOpen, searchUser]);
 
   useEffect(() => {
     getChats(user.id).then((chats) => {
+      console.log(chats);
       setChats(chats);
     });
   }, [addNewUsersOpen, isModalOpen]);
 
-
   useEffect(() => {
     setFilteredChats(
-      chats.filter((chat) =>
+      chats.filter((chat: ChatInterface) =>
         chat.name.toLowerCase().includes(filter.toLowerCase())
       )
     );
@@ -100,10 +125,11 @@ export function UserContactListLayout() {
           </p>
         </div>
       ) : !addNewUsersOpen && filter && filteredChats.length > 0 ? (
-        filteredChats.map((user) => (
+        filteredChats.map((user: UserInterface) => (
           <UserContact
             newCompanion={{ ...user }}
             key={user.id}
+            user_id={user.id}
             {...user}
             type="USER_CONTACT"
           />
@@ -113,11 +139,12 @@ export function UserContactListLayout() {
           <p className="mb-4 opacity-65">Пользователь не найден</p>
         </div>
       ) : !addNewUsersOpen ? (
-        chats.map((chat) => (
+        chats.map((chat: ChatInterface) => (
           <UserContact
+            id={undefined}
             key={chat.chat_id}
             {...chat}
-            newCompanion={{ ...chat }}
+            newCompanion={{ ...chat, id: chat.chat_id }}
             type="USER_CONTACT"
           />
         ))

@@ -15,6 +15,7 @@ export function SidebarContactsLayout({ className }: ComponentProps) {
 
   const { sidebarIsOpen, addNewUsersOpen, setAddNewUsersOpen, setFilter } =
     useGlobalContext();
+  console.log('render');
   return (
     <aside
       className={clsx(

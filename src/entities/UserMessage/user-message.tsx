@@ -7,7 +7,7 @@ interface MessageProps {
   content: string;
   created_at: Date;
   is_read: boolean;
-  readonly sender_id: 'string';
+  readonly sender_id: string;
   className?: string;
 }
 
@@ -36,7 +36,7 @@ export function UserMessage({
       <article
         className={clsx(
           `max-w-96 min-w-18 inline rounded-xl p-4 relative mb-3 before:bottom-2.5 before:absolute break-all
-        before:content-[''] before:block`,
+        before:content-[''] before:block `,
           className,
           sender_id === user.id
             ? `text-white bg-gradient-to-l ml-auto from-accent-shadow to-accent/80  before:-right-5

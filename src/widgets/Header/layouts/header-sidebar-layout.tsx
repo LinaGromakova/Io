@@ -10,7 +10,6 @@ export function HeaderSidebarLayout() {
   const {
     filterUsers,
     filter,
-    setFilter,
     openOptions,
     addNewUsersOpen,
     setAddNewUsersOpen,
@@ -51,6 +50,8 @@ export function HeaderSidebarLayout() {
             addNewUsersOpen &&
               'input-active outline-2 outline-accent text-accent  duration-300'
           )}
+          onKeyDownHandler={() => null}
+          sendMessage={() => null}
         ></InputMain>
         <SearchIcon className="absolute text-2xl top-1.5 left-4 opacity-50 icon-focus duration-300"></SearchIcon>
       </div>

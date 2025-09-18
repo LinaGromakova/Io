@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { Ref, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { stylePurpose } from './constants/input-styles';
 import { IoMdEye as IconInvisible } from 'react-icons/io';
@@ -6,7 +6,7 @@ import { IoMdEyeOff as IconVisible } from 'react-icons/io';
 import { useGlobalContext } from '@/features/common/globalContext';
 
 interface InputProps {
-  inputRef: any;
+  inputRef?: Ref<HTMLInputElement>;
   purpose: 'FORM' | 'MESSAGE' | 'FILTER';
   name: string;
   type: string;
@@ -23,7 +23,7 @@ interface InputProps {
   valid?: boolean;
   onKeyDownHandler: (e: React.KeyboardEvent) => void;
   changeHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  sendMessage: (value: string) => string;
+  sendMessage: (value: string) => void;
 }
 
 export function InputMain(props: InputProps) {
@@ -34,7 +34,7 @@ export function InputMain(props: InputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     if (addNewUsersOpen) {
-      props.inputRef?.current?.focus();
+      inputRef?.current?.focus();
     }
   }, [addNewUsersOpen]);
   function handlerVisibleClick() {

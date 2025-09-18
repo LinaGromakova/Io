@@ -4,10 +4,12 @@ import { useGlobalContext } from '@/features/common/globalContext';
 import { useEffect, useState } from 'react';
 
 interface BlackListLayoutProps {
+  handlerCloseBlackList: () => void;
+}
+interface UserBlacklistInterface {
   id: string;
   name: string;
-  image?: string;
-  handlerCloseBlackList: () => void;
+  image: string;
 }
 async function getBlackListUsers(user_id: string) {
   try {
@@ -29,6 +31,7 @@ export function BlackListLayout(props: BlackListLayoutProps) {
     });
   }, [isModalOpen]);
   const currentId = user.id;
+  console.log(blacklistUsers);
   return (
     <>
       <header className="w-full px-4 py-2 flex items-center justify-between">
@@ -51,14 +54,17 @@ export function BlackListLayout(props: BlackListLayoutProps) {
               {blacklistUsers.length} заблокированных пользователей
             </h4>
             <div>
-              {blacklistUsers.map((user) => {
+              {blacklistUsers.map((user: UserBlacklistInterface) => {
                 return (
                   <UserContactSimpleLayout
+                    id_1=""
+                    id_2=""
                     key={user.id}
                     {...user}
                     type="unBlock"
                     newCompanion={{
                       ...user,
+                      online: false,
                     }}
                     unBlockUser={() => {
                       changeModalView('unBlock', currentId, user.id, user.name);

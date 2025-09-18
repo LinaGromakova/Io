@@ -1,4 +1,3 @@
-'use client';
 import clsx from 'clsx';
 import { UserMessage } from '../UserMessage/user-message';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
@@ -7,12 +6,6 @@ import io from 'socket.io-client';
 import { ChatInput } from '@/features/ChatInput/ChatInput';
 import { useGlobalContext } from '@/features/common/globalContext';
 
-// interface Message {
-//   message: string;
-//   atPush: string;
-//   read: boolean;
-//   sender: 'ANOTHER' | 'YOU';
-// }
 const socket = io('http://localhost:5000');
 const scroll: string = `[&::-webkit-scrollbar]:w-2
   [&::-webkit-scrollbar-track]:transparent
@@ -37,18 +30,35 @@ async function checkBlackList(user1_id: string, user2_id: string) {
     const response = await data.json();
     return response;
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
   }
+}
+interface MessageInterface {
+  id: string;
+  chat_id: string;
+  readonly sender_id: string;
+  content: string;
+  is_read: boolean;
+  created_at: Date;
+  sender_name: string;
+  sender_image: string;
+}
+interface InterfaceCheckBlacklist {
+  user_id: string;
+  blocked_user_id: string;
+  created_at: string;
 }
 export function ChatBody() {
   const router = useRouter();
   const { user, currentUser } = useGlobalContext();
   const chat_id = router.query.id;
   const chat = useRef<HTMLDivElement>(null);
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<MessageInterface[]>([]);
   const [newMessages, setNewMessages] = useState({});
-  const [userInBlackList, setUserInBlackList] = useState(null);
-  function sendMessages(message, setMessage) {
+  const [userInBlackList, setUserInBlackList] = useState<
+    InterfaceCheckBlacklist | undefined
+  >(undefined);
+  function sendMessages(message: string) {
     if (!message.trim()) {
       return;
     }
@@ -63,9 +73,10 @@ export function ChatBody() {
       chat.current?.scrollIntoView(false);
     }
     if (chat && chat.current) {
-      chat.current.scrollTo({ top: chat.current.scrollHeight + 100 });
+      chat.current.scrollTo({ top: chat.current.scrollHeight });
     }
   }, [messages]);
+
   useEffect(() => {
     checkBlackList(user.id, currentUser.id).then((check) => {
       setUserInBlackList(check);
@@ -85,6 +96,7 @@ export function ChatBody() {
       setMessages(messages);
     });
   }, [chat_id]);
+
   useEffect(() => {
     socket.emit('send_message', newMessages);
     socket.on('new_message', (data) => {
@@ -100,23 +112,22 @@ export function ChatBody() {
     <>
       <section
         className={clsx(
-          'py-5 px-12  max-md:px-6 w-full h-[calc(100vh-80px)] overflow-y-auto',
+          'pt-5 px-12  max-md:px-6 w-full h-[calc(100vh-80px)] overflow-y-auto',
           scroll
         )}
       >
-        <div ref={chat} className="pb-5">
-          {messages.map((message) => {
-            return (
-              <UserMessage
-                key={message.id}
-                sender_id={message.sender_id}
-                content={message.content}
-                is_read={message.is_read}
-                created_at={message.created_at}
-              ></UserMessage>
-            );
-          })}
-        </div>
+        {messages.map((message: MessageInterface) => {
+          return (
+            <UserMessage
+              key={message.id}
+              sender_id={message.sender_id}
+              content={message.content}
+              is_read={message.is_read}
+              created_at={message.created_at}
+            ></UserMessage>
+          );
+        })}
+        <div ref={chat} className="h-15"></div>
       </section>
       {(userInBlackList && (
         <div className="py-2 px-6 bg-inter text-base absolute w-full text-center min-h-10 bottom-14">

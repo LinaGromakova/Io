@@ -1,7 +1,8 @@
 export interface UserContactProps {
+  user_id: string;
   chat_id: string;
-  user_id: string | string[] | undefined;
-  image?: string;
+  id: string | string[] | undefined;
+  image: string;
   name: string;
   online: boolean;
   lastMessage?: string;

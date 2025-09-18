@@ -16,10 +16,11 @@ export function SidebarSettingsUserLayout(props: SidebarSettingsUserLProps) {
     setUser,
     isOpenSettingsUser,
     setIsOpenSettingUser,
+    setIsModalMessageOpen,
   } = useGlobalContext();
 
   const [nameInputValue, setNameInputValue] = useState('');
-  const [newPhotoUser, setNewPhotoUser] = useState(null);
+  const [newPhotoUser, setNewPhotoUser] = useState<File | null>(null);
   async function changeUserName() {
     try {
       const response = await fetch('http://localhost:5000/profile/name', {
@@ -33,7 +34,7 @@ export function SidebarSettingsUserLayout(props: SidebarSettingsUserLProps) {
       const result = await response.json();
       setUser((prev) => ({ ...prev, name: result }));
       console.log(result);
-
+      setIsModalMessageOpen({ message: 'Новое имя сохранено!', open: true });
       setNameInputValue('');
     } catch (error) {
       console.log('Error:', error);
@@ -56,6 +57,7 @@ export function SidebarSettingsUserLayout(props: SidebarSettingsUserLProps) {
       const result = await response.json();
       setNewPhotoUser(null);
       setUser((prev) => ({ ...prev, image: result.avatarUrl }));
+      setIsModalMessageOpen({ message: 'Новое фото сохранено!', open: true });
       console.log(result);
     } catch (error) {
       console.error('Error:', error);
@@ -130,7 +132,10 @@ export function SidebarSettingsUserLayout(props: SidebarSettingsUserLProps) {
               name="image-file"
               accept=".jpg, .png"
               onChange={(e) => {
-                setNewPhotoUser(e.target.files[0]);
+                const file = e.target.files?.[0];
+                if (file) {
+                  setNewPhotoUser(file);
+                }
               }}
               className="opacity-0 absolute p-20 top-0 left-0 w-full h-full cursor-pointer
                   "
@@ -148,7 +153,7 @@ export function SidebarSettingsUserLayout(props: SidebarSettingsUserLProps) {
                 if (e.target.value.length === 32) {
                   return;
                 }
-                setNameInputValue(e.target.value);
+                setNameInputValue(e.target.value.trim());
               }}
               type="text"
               minLength={2}

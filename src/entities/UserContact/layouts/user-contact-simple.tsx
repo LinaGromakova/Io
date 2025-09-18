@@ -7,7 +7,7 @@ import { useState } from 'react';
 interface UserContactSimpleProps {
   id: string;
   name: string;
-  image?: string;
+  image: string;
   type: 'unBlock' | 'writeUser';
   newCompanion: User;
   unBlockUser?: () => void;
@@ -16,7 +16,7 @@ interface UserContactSimpleProps {
 }
 interface User {
   id: string;
-  image?: string;
+  image: string;
   name: string;
   online: boolean;
 }
@@ -45,7 +45,7 @@ export function UserContactSimpleLayout(props: UserContactSimpleProps) {
           <div className="w-14 h-14 relative bg-radial-[at_25%_25%] from-accent to-accent-shadow to-75% rounded-full flex items-center justify-center">
             {(props.image && (
               <img
-                  src={`http://localhost:5000${props?.image}`}
+                src={`http://localhost:5000${props?.image}`}
                 alt={props.name}
                 className="w-full h-full object-cover rounded-full"
               ></img>
@@ -72,6 +72,7 @@ export function UserContactSimpleLayout(props: UserContactSimpleProps) {
           id_1={props.id_1}
           id_2={props.id_2}
           name={props.name}
+          chat_id=""
           visible={isBubbleMenuOpen}
           setVisible={setIsBubbleMenuOpen}
           type={props.type}

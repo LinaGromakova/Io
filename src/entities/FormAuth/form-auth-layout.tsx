@@ -4,15 +4,24 @@ import { LabelForm } from '@/shared/Label-form/label-form-layout';
 import { InputMain } from '@/shared/Input-main/layout-input-main';
 import { ButtonMain } from '@/shared/Button-main/button-main-layout';
 import { formConfig } from './constants/form-fields';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { NextRouter, useRouter } from 'next/router';
 import Link from 'next/link';
 import { useGlobalContext } from '@/features/common/globalContext';
 
+interface UserInterface {
+  id: string;
+  name: string;
+  login: string;
+  image: string;
+  online: boolean;
+  last_seen: string;
+  created_at: string;
+}
 async function signInUser(
   dataAuth: interfaceForm,
   router: NextRouter,
-  setState: (arg0: object) => object
+  setState: React.Dispatch<React.SetStateAction<UserInterface>>
 ) {
   try {
     const data = await fetch('http://localhost:5000/login', {
@@ -34,7 +43,7 @@ async function signInUser(
 async function registrationUser(
   dataAuth: { [k: string]: string },
   router: NextRouter,
-  setState: (arg0: object) => object
+  setState: React.Dispatch<React.SetStateAction<UserInterface>>
 ) {
   try {
     const data = await fetch('http://localhost:5000/register', {
@@ -103,6 +112,8 @@ export function FormAuth() {
             <LabelForm text={field.label} key={index}>
               <InputMain
                 purpose="FORM"
+                inputRef={null}
+                sendMessage={() => ''}
                 value={formData[field.name]}
                 changeHandler={(e) => handlerInput(e)}
                 {...field}

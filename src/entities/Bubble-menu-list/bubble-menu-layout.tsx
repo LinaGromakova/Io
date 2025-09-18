@@ -5,8 +5,8 @@ import { MdDelete as DeleteIcon } from 'react-icons/md';
 import { MdBlockFlipped as BlockIcon } from 'react-icons/md';
 import { IoMdCreate as WriteIcon } from 'react-icons/io';
 import clsx from 'clsx';
-import { useRouter } from 'next/router';
 import { useGlobalContext } from '@/features/common/globalContext';
+import { useRouter } from 'next/navigation';
 
 const chatUsersConfig = [
   {
@@ -47,28 +47,30 @@ interface propsBubbleMenuLayout {
   chat_id: string;
   current_id?: string;
 }
-async function writeUser(id_1: string, id_2: string) {
-  console.log(id_1, id_2);
-  try {
-    const data = await fetch('http://localhost:5000/start-chat', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ user1_id: id_1, user2_id: id_2 }),
-    });
-    const result = await data.json();
-    console.log(result);
-  } catch (error) {
-    console.log(error);
-  }
-}
 
 export function BubbleMenuLayout(props: propsBubbleMenuLayout) {
   const menuRef = React.useRef<HTMLUListElement>(null);
-  const router = useRouter();
   const { changeModalView, setAddNewUsersOpen, setSearchUser } =
     useGlobalContext();
+  const router = useRouter();
+
+  async function writeUser(id_1: string, id_2: string) {
+    console.log(id_1, id_2);
+    try {
+      const data = await fetch('http://localhost:5000/start-chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ user1_id: id_1, user2_id: id_2 }),
+      });
+      const result = await data.json();
+      router.push(`/${result.id}`);
+      return result;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent): void {
@@ -84,6 +86,7 @@ export function BubbleMenuLayout(props: propsBubbleMenuLayout) {
   }, [props]);
   const lockIcon = <LockOpenIcon className="text-lg"></LockOpenIcon>;
   const writeIcon = <WriteIcon className="text-lg"></WriteIcon>;
+
   return (
     <>
       {props.visible && (
@@ -101,6 +104,7 @@ export function BubbleMenuLayout(props: propsBubbleMenuLayout) {
                   {...item}
                   key={index}
                   onClick={() => {
+                    console.log();
                     changeModalView(
                       'deleteChat',
                       props.chat_id,
@@ -131,14 +135,23 @@ export function BubbleMenuLayout(props: propsBubbleMenuLayout) {
                   <BubbleMenuItem
                     {...item}
                     key={index}
-                    onClick={() =>
-                      changeModalView(
-                        item.actionType,
-                        props.id,
-                        props.current_id,
-                        props.name
-                      )
-                    }
+                    onClick={() => {
+                      if (item.actionType === 'block') {
+                        changeModalView(
+                          item.actionType,
+                          props.id,
+                          props.current_id,
+                          props.name
+                        );
+                      } else {
+                        changeModalView(
+                          item.actionType,
+                          props.chat_id,
+                          undefined,
+                          props.name
+                        );
+                      }
+                    }}
                   ></BubbleMenuItem>
                 );
               })) ||
@@ -149,7 +162,6 @@ export function BubbleMenuLayout(props: propsBubbleMenuLayout) {
                 onClick={() => {
                   writeUser(props.id_1, props.id_2);
                   setSearchUser('');
-                  router.replace(`/${props.id_2}`);
                   setAddNewUsersOpen(false);
                 }}
               ></BubbleMenuItem>

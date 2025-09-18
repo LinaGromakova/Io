@@ -55,3 +55,18 @@ body {
 .message {
   font-family: 'Noto Color Emoji', sans-serif;
 }
+
+.modal-anim {
+  animation: modaL 2.5s cubic-bezier(0.18, 0.89, 0.32, 1.28) infinite;
+}
+@keyframes modaL {
+  from {
+    transform: translateY(-130%);
+  }
+  50% {
+    transform: translateY(0%);
+  }
+  to {
+    transform: translateY(-130%);
+  }
+}

@@ -5,8 +5,10 @@ import { RiEmojiStickerLine as EmojiIcon } from 'react-icons/ri';
 import { useGlobalContext } from '../common/globalContext';
 import EmojiPicker from '@emoji-mart/react';
 import { LayoutButtonCircle } from '@/shared/Button-circle/layout-button-circle';
-
-export function ChatInput({ sendMessage }) {
+interface ChatInputProps {
+  sendMessage: (message: string) => void;
+}
+export function ChatInput({ sendMessage }: ChatInputProps) {
   const [message, setMessage] = useState('');
   const { theme } = useGlobalContext();
   const [openEmoji, setOpenEmoji] = useState(false);
@@ -14,8 +16,8 @@ export function ChatInput({ sendMessage }) {
 
   const refEmojiPicker = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    function handleClickOutside(e) {
-      const targetElement = e.target;
+    function handleClickOutside(e: MouseEvent) {
+      const targetElement = e.target as Node;
       if (
         refEmojiPicker.current &&
         !refEmojiPicker.current.contains(targetElement)
@@ -50,7 +52,6 @@ export function ChatInput({ sendMessage }) {
             <EmojiPicker
               theme={theme}
               set="google"
-              onKeyDownHandler={(e) => console.log(e)}
               ref={refEmojiPicker}
               className="top-0 message"
               onEmojiSelect={(emoji: { native: string }) => {
@@ -70,9 +71,7 @@ export function ChatInput({ sendMessage }) {
             placeholder="Сообщение..."
             name="chat"
             className="rounded-3xl h-10 pr-10 w-full pl-10 message "
-            onKeyDownHandler={() => {
-              null;
-            }}
+            onKeyDownHandler={() => null}
             sendMessage={() => {
               sendMessage(message);
               setOpenEmoji(false);

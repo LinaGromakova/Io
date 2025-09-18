@@ -37,7 +37,7 @@ export function ConfirmModalLayout(props: ConfirmModalLayoutProps) {
                 type="ok"
                 className="w-50 mr-5"
                 handlerClick={() =>
-                  modalSettings[isModalOpen.type].handlerOk(Number(props.id))
+                  modalSettings[isModalOpen.type].handlerOk(props.id)
                 }
               ></ButtonMain>
               <ButtonMain

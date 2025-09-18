@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
 type ModalKey = string;
@@ -8,13 +9,18 @@ interface ModalConfig {
   handlerOk: (chat_id: string) => void;
 }
 
+type ModalMessageTypeState = {
+  message: string;
+  open: boolean;
+};
 interface GlobalContextInterface {
-  currentUser;
-  setCurrentUser;
+  currentUser: CurrentUserInterface;
+  setCurrentUser: React.Dispatch<React.SetStateAction<CurrentUserInterface>>;
   theme: 'light' | 'dark';
   changeTheme: () => void;
   filterUsers: (e: React.ChangeEvent<HTMLInputElement>) => void;
   filter: string;
+  setFilter: React.Dispatch<React.SetStateAction<string>>;
   users: User[];
   setUsers: React.Dispatch<React.SetStateAction<User[]>>;
   openOptions: () => void;
@@ -27,7 +33,10 @@ interface GlobalContextInterface {
     currentName?: string
   ) => void;
   modalSettings: Record<ModalKey, ModalConfig>;
-
+  isModalMessageOpen: ModalMessageTypeState;
+  setIsModalMessageOpen: React.Dispatch<
+    React.SetStateAction<ModalMessageTypeState>
+  >;
   arrTest: number[];
   setArrTest: React.Dispatch<React.SetStateAction<number[]>>;
   bubbleMenuOpen: (
@@ -40,8 +49,8 @@ interface GlobalContextInterface {
   setAddNewUsersOpen: React.Dispatch<React.SetStateAction<boolean>>;
   searchUser: string;
   setSearchUser: React.Dispatch<React.SetStateAction<string>>;
-  user: object;
-  setUser: React.Dispatch<React.SetStateAction<object>>;
+  user: UserInterface;
+  setUser: React.Dispatch<React.SetStateAction<UserInterface>>;
   isOpenSettingsUser: boolean;
   setIsOpenSettingUser: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -50,7 +59,7 @@ export const GlobalContext = React.createContext<GlobalContextInterface>(null!);
 
 interface User {
   id: string;
-  image?: string;
+  image: string;
   name: string;
   online: boolean;
 }
@@ -61,16 +70,38 @@ interface ModalData {
   name: string;
   id_2?: string;
 }
-
+interface UserInterface {
+  id: string;
+  name: string;
+  login: string;
+  image: string;
+  online: boolean;
+  last_seen: string;
+  created_at: string;
+}
+interface CurrentUserInterface {
+  id: string;
+  name: string;
+  login: string;
+  image: string;
+  online: boolean;
+  last_seen: string;
+}
 export function GlobalProvider({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
   const [theme, setTheme] = React.useState<'light' | 'dark'>('dark');
   const [filter, setFilter] = React.useState('');
+
   const [users, setUsers] = React.useState<User[]>([]);
   const [isOpen, setIsOpen] = React.useState(false);
   const [sidebarIsOpen, setSidebarIsOpen] = React.useState(false);
   const [addNewUsersOpen, setAddNewUsersOpen] = React.useState(false);
   const [searchUser, setSearchUser] = React.useState('');
   const [isOpenSettingsUser, setIsOpenSettingUser] = useState(false);
+  const [isModalMessageOpen, setIsModalMessageOpen] = useState({
+    message: '',
+    open: false,
+  });
   const [isModalOpen, setIsModalOpen] = React.useState<ModalData>({
     open: false,
     type: '',
@@ -79,16 +110,23 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
     id_2: '',
   });
   const [arrTest, setArrTest] = useState([1, 2, 3, 4, 5]);
-  const [user, setUser] = useState({
+  const [user, setUser] = useState<UserInterface>({
     id: '5HEzeZ4dB0iA2wJ3NdmvS',
     name: 'lina',
     login: 'lina',
-    image: null,
+    image: '',
     online: true,
     last_seen: '2025-08-31T17:02:24.270Z',
     created_at: '2025-08-27T19:03:13.408Z',
   });
-  const [currentUser, setCurrentUser] = useState('');
+  const [currentUser, setCurrentUser] = useState<CurrentUserInterface>({
+    id: '',
+    name: '',
+    login: '',
+    image: '',
+    online: false,
+    last_seen: '',
+  });
   const modalSettings: Record<ModalKey, ModalConfig> = {
     unLogin: {
       message: function (currentNameUser: string) {
@@ -136,7 +174,13 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
       },
       handlerOk: function () {
         deleteUserChat(isModalOpen.id);
+
         changeModalView();
+        setIsModalMessageOpen({
+          message: 'Чат успешно удален!',
+          open: true,
+        });
+        router.replace('/');
       },
     },
     exitNotSave: {
@@ -188,7 +232,7 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  async function blockUser(user_id, blocked_user_id) {
+  async function blockUser(user_id: string, blocked_user_id?: string) {
     console.log(user_id, blocked_user_id);
     try {
       const data = await fetch('http://localhost:5000/blacklist_add', {
@@ -227,7 +271,6 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
       name: currentName ?? prev.name,
       id_2: currentId2 ?? prev.id_2,
     }));
-    console.log(isModalOpen.id);
   }
   function filterUsers(e: { target: { value: React.SetStateAction<string> } }) {
     setFilter(e.target.value);
@@ -265,6 +308,8 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
     setCurrentUser,
     isOpenSettingsUser,
     setIsOpenSettingUser,
+    isModalMessageOpen,
+    setIsModalMessageOpen,
   };
 
   return (
