@@ -1,5 +1,7 @@
+'use client';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
+import { useLocalStorage } from './hooks/useLocalStorage/useLocalStorage';
 
 type ModalKey = string;
 
@@ -73,7 +75,6 @@ interface ModalData {
 interface UserInterface {
   id: string;
   name: string;
-  login: string;
   image: string;
   online: boolean;
   last_seen: string;
@@ -89,9 +90,8 @@ interface CurrentUserInterface {
 }
 export function GlobalProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const [theme, setTheme] = React.useState<'light' | 'dark'>('dark');
-  const [filter, setFilter] = React.useState('');
 
+  const [filter, setFilter] = React.useState('');
   const [users, setUsers] = React.useState<User[]>([]);
   const [isOpen, setIsOpen] = React.useState(false);
   const [sidebarIsOpen, setSidebarIsOpen] = React.useState(false);
@@ -102,6 +102,8 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
     message: '',
     open: false,
   });
+  const { storage, preferTheme, updatePreferTheme } = useLocalStorage();
+  const [theme, setTheme] = React.useState<'light' | 'dark'>('light');
   const [isModalOpen, setIsModalOpen] = React.useState<ModalData>({
     open: false,
     type: '',
@@ -110,15 +112,9 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
     id_2: '',
   });
   const [arrTest, setArrTest] = useState([1, 2, 3, 4, 5]);
-  const [user, setUser] = useState<UserInterface>({
-    id: '5HEzeZ4dB0iA2wJ3NdmvS',
-    name: 'lina',
-    login: 'lina',
-    image: '',
-    online: true,
-    last_seen: '2025-08-31T17:02:24.270Z',
-    created_at: '2025-08-27T19:03:13.408Z',
-  });
+  const [user, setUser] = useState<UserInterface | null>(() =>
+    storage.user ? storage.user : null
+  );
   const [currentUser, setCurrentUser] = useState<CurrentUserInterface>({
     id: '',
     name: '',
@@ -136,7 +132,9 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
         changeModalView();
       },
       handlerOk: function () {
-        console.log('unlogin');
+        logOutUser();
+        localStorage.removeItem('userData');
+        router.replace('/login');
         changeModalView();
       },
     },
@@ -231,7 +229,21 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
       console.log(error, 'Unblock error');
     }
   }
-
+  async function logOutUser() {
+    try {
+      const data = await fetch('http://localhost:5000/logout', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const result = await data.json();
+      console.log(result);
+    } catch (error) {
+      console.log('Logout error', error);
+    }
+  }
   async function blockUser(user_id: string, blocked_user_id?: string) {
     console.log(user_id, blocked_user_id);
     try {
@@ -254,8 +266,17 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
   function bubbleMenuOpen(state: boolean, setState: (arg0: boolean) => void) {
     setState(!state);
   }
+
+  useEffect(() => {
+    if (preferTheme) {
+      setTheme(preferTheme);
+    }
+  }, [preferTheme]);
+
   function changeTheme() {
-    return theme === 'light' ? setTheme('dark') : setTheme('light');
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+    updatePreferTheme(newTheme);
   }
 
   function changeModalView(
@@ -319,4 +340,7 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
 
 export function useGlobalContext(): GlobalContextInterface {
   return React.useContext(GlobalContext);
+}
+function updatePreferTheme(theme: string) {
+  throw new Error('Function not implemented.');
 }

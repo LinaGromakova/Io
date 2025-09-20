@@ -92,7 +92,7 @@ export function InputMain(props: InputProps) {
         </button>
       )}
       {props.purpose === 'FORM' && !props.valid && (
-        <span className="text-xs mt-3 block">{props.message}</span>
+        <span className="text-xs mt-3 block opacity-60 ">{props.message}</span>
       )}
     </>
   );

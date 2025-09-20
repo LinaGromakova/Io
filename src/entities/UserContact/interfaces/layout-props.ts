@@ -6,9 +6,8 @@ export interface UserContactProps {
   name: string;
   online: boolean;
   lastMessage?: string;
-  lastAtCreate?: string;
-  read?: boolean;
-  countMessage?: number;
+  lastCreate: Date;
+  unreadCount: ns;
   handlerOnContextMenu?: () => void;
   type: 'USER_CONTACT' | 'CURRENT_CONTACT';
   newCompanion: User;

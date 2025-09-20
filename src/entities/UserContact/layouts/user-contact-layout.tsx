@@ -10,9 +10,24 @@ import { useGlobalContext } from '@/features/common/globalContext';
 
 export function UserContactLayout(props: UserContactProps) {
   const { query } = useRouter();
+
+  function getValidDate(value: number): string {
+    if (value > 9) {
+      return '' + value;
+    } else {
+      return '0' + value;
+    }
+  }
+
+  const lastCreate =
+    getValidDate(new Date(props.lastCreate).getHours()) +
+    ':' +
+    getValidDate(new Date(props.lastCreate).getMinutes());
+
   const { bubbleMenuOpen, setSidebarIsOpen } = useGlobalContext();
   const [isBubbleMenuOpen, setIsBubbleMenuOpen] = useState(false);
   const isActive = query.id == props.chat_id;
+  const read = props.unreadCount === 0 ? true : false;
   return (
     <Link href={`/${props.chat_id}`}>
       <article
@@ -70,28 +85,26 @@ export function UserContactLayout(props: UserContactProps) {
 
           <div className="flex justify-center flex-col">
             <div className="flex">
-              {(props.read && (
-                <MarkDoneIcon className="mr-1"></MarkDoneIcon>
-              )) || (
+              {(read && <MarkDoneIcon className="mr-1"></MarkDoneIcon>) || (
                 <MarkOutlineIcon
                   className={clsx('mr-1', !isActive && 'opacity-50')}
                 ></MarkOutlineIcon>
               )}
               <span className={clsx('text-sm', !isActive && 'opacity-50')}>
-                {props.lastAtCreate}
+                {lastCreate}
               </span>
             </div>
 
             <div
               className={clsx(
-                props.countMessage === 0 ? 'bg-transparent' : 'bg-accent pt-px',
-                isActive && props.countMessage !== 0
+                isActive && props.unreadCount !== 0
                   ? 'bg-white text-accent'
                   : 'text-white',
-                'w-6 h-6 rounded-full font-bold ml-auto text-center mt-1'
+                props.unreadCount == 0 && 'invisible',
+                'w-7 h-7 rounded-full  bg-accent pt-px font-bold ml-auto mt-1 text-sm flex items-center justify-center'
               )}
             >
-              {props.countMessage !== 0 && props.countMessage}
+              {props.unreadCount}
             </div>
           </div>
         </div>

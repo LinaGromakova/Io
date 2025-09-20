@@ -76,8 +76,17 @@ export function UserContactListLayout() {
 
   useEffect(() => {
     getChats(user.id).then((chats) => {
+      setChats(
+        chats.map(
+          ({ last_message, last_message_at, unread_count, ...rest }) => ({
+            ...rest,
+            lastMessage: last_message,
+            lastCreate: last_message_at,
+            unreadCount: unread_count,
+          })
+        )
+      );
       console.log(chats);
-      setChats(chats);
     });
   }, [addNewUsersOpen, isModalOpen]);
 
@@ -88,6 +97,7 @@ export function UserContactListLayout() {
       )
     );
   }, [filter]);
+  console.log(chats);
   return (
     <>
       {addNewUsersOpen && searchUser === '' ? (
