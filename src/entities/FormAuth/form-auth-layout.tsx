@@ -4,7 +4,7 @@ import { LabelForm } from '@/shared/Label-form/label-form-layout';
 import { InputMain } from '@/shared/Input-main/layout-input-main';
 import { ButtonMain } from '@/shared/Button-main/button-main-layout';
 import { formConfig } from './constants/form-fields';
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { NextRouter, useRouter } from 'next/router';
 import Link from 'next/link';
 import { useGlobalContext } from '@/features/common/globalContext';
@@ -13,7 +13,6 @@ import { useLocalStorage } from '@/features/common/hooks/useLocalStorage/useLoca
 interface UserInterface {
   id: string;
   name: string;
-  login: string;
   image: string;
   online: boolean;
   last_seen: string;
@@ -28,8 +27,8 @@ async function signInUser(
   router: NextRouter,
   setState: React.Dispatch<React.SetStateAction<UserInterface>>,
   setStateModal: React.Dispatch<React.SetStateAction<ModalMessageTypeState>>,
-  updateUser,
-  updateSessionId
+  updateUser: React.Dispatch<React.SetStateAction<UserInterface>>,
+  updateAuth: React.Dispatch<React.SetStateAction<boolean>>
 ) {
   try {
     const data = await fetch('http://localhost:5000/login', {
@@ -47,7 +46,7 @@ async function signInUser(
       if (result) {
         console.log(result);
         updateUser(result.user);
-        updateSessionId(result.sessionId);
+        updateAuth(true);
         setState(result.user);
         router.replace('/');
       }
@@ -61,8 +60,8 @@ async function registrationUser(
   router: NextRouter,
   setState: React.Dispatch<React.SetStateAction<UserInterface>>,
   setStateModal: React.Dispatch<React.SetStateAction<ModalMessageTypeState>>,
-  updateUser,
-  updateSessionId
+  updateUser: React.Dispatch<React.SetStateAction<UserInterface>>,
+  updateAuth: React.Dispatch<React.SetStateAction<boolean>>
 ) {
   try {
     const data = await fetch('http://localhost:5000/register', {
@@ -80,7 +79,7 @@ async function registrationUser(
       console.log(result);
       if (result) {
         updateUser(result.user);
-        updateSessionId(result.sessionId);
+        updateAuth(true);
         setState(result.user);
         router.replace('/');
       }
@@ -104,45 +103,19 @@ const configForm: interfaceForm = {
   duplicate: '',
 };
 export function FormAuth() {
-  const { updateSessionId, updateUser } = useLocalStorage();
-  const { setUser, setIsModalMessageOpen, isModalMessageOpen } =
+  const { updateUser } = useLocalStorage();
+  const { setUser, setIsModalMessageOpen, isAuth, setIsAuth } =
     useGlobalContext();
   const [formData, setFormData] = useState<interfaceForm>(configForm);
-  const [isAuth, setIsAuth] = useState(true);
+
   const router = useRouter();
   const page = router.route.slice(1);
 
-  async function checkSession() {
-    try {
-      const data = await fetch('http://localhost:5000/session-check', {
-        credentials: 'include',
-      });
-      if (data.status === 401) {
-        return await data.json();
-      } else {
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  useLayoutEffect(() => {
-    checkSession().then((res) => {
-      if (res === 401) {
-        setIsAuth(false);
-      }
-    });
-  }, [router]);
-  useLayoutEffect(() => {
-    if (isAuth) {
-      router.replace('/');
-    }
-  }, [isAuth]);
   function handlerInput(e: { target: { value: string; name: string } }) {
     const value = e.target.value;
     const name = e.target.name;
     return setFormData((prev) => ({ ...prev, [name]: value }));
   }
-  console.log(isModalMessageOpen);
   const validArray: boolean[] = [];
   return (
     <>
@@ -199,7 +172,7 @@ export function FormAuth() {
                       setUser,
                       setIsModalMessageOpen,
                       updateUser,
-                      updateSessionId
+                      setIsAuth
                     );
                   }}
                 ></ButtonMain>
@@ -227,7 +200,7 @@ export function FormAuth() {
                       setUser,
                       setIsModalMessageOpen,
                       updateUser,
-                      updateSessionId
+                      setIsAuth
                     );
                   }}
                 ></ButtonMain>

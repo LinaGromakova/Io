@@ -19,6 +19,8 @@ interface GlobalContextInterface {
   currentUser: CurrentUserInterface;
   setCurrentUser: React.Dispatch<React.SetStateAction<CurrentUserInterface>>;
   theme: 'light' | 'dark';
+  isAuth: boolean;
+  setIsAuth: React.Dispatch<React.SetStateAction<boolean>>;
   changeTheme: () => void;
   filterUsers: (e: React.ChangeEvent<HTMLInputElement>) => void;
   filter: string;
@@ -39,8 +41,6 @@ interface GlobalContextInterface {
   setIsModalMessageOpen: React.Dispatch<
     React.SetStateAction<ModalMessageTypeState>
   >;
-  arrTest: number[];
-  setArrTest: React.Dispatch<React.SetStateAction<number[]>>;
   bubbleMenuOpen: (
     state: boolean,
     setState: React.Dispatch<React.SetStateAction<boolean>>
@@ -91,6 +91,7 @@ interface CurrentUserInterface {
 export function GlobalProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
 
+  const [isAuth, setIsAuth] = useState(false);
   const [filter, setFilter] = React.useState('');
   const [users, setUsers] = React.useState<User[]>([]);
   const [isOpen, setIsOpen] = React.useState(false);
@@ -102,7 +103,13 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
     message: '',
     open: false,
   });
-  const { storage, preferTheme, updatePreferTheme } = useLocalStorage();
+  const {
+    storage,
+    preferTheme,
+    updatePreferTheme,
+    removeUserData,
+    updateUser,
+  } = useLocalStorage();
   const [theme, setTheme] = React.useState<'light' | 'dark'>('light');
   const [isModalOpen, setIsModalOpen] = React.useState<ModalData>({
     open: false,
@@ -111,10 +118,9 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
     name: '',
     id_2: '',
   });
-  const [arrTest, setArrTest] = useState([1, 2, 3, 4, 5]);
-  const [user, setUser] = useState<UserInterface | null>(() =>
-    storage.user ? storage.user : null
-  );
+
+  const [user, setUser] = useState<UserInterface>(storage.user);
+
   const [currentUser, setCurrentUser] = useState<CurrentUserInterface>({
     id: '',
     name: '',
@@ -132,8 +138,9 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
         changeModalView();
       },
       handlerOk: function () {
+        setIsAuth(false);
         logOutUser();
-        localStorage.removeItem('userData');
+        removeUserData();
         router.replace('/login');
         changeModalView();
       },
@@ -267,6 +274,80 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
     setState(!state);
   }
 
+  async function checkSession() {
+    try {
+      const data = await fetch('http://localhost:5000/session-check', {
+        credentials: 'include',
+      });
+      if (data.status === 401) {
+        return 401;
+      } else {
+        return await data.json();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async function getUser(id: string) {
+    try {
+      const data = await fetch(`http://localhost:5000/user/${id}`);
+      if (data.status === 200) {
+        const result = await data.json();
+        return result;
+      }
+    } catch (error) {
+      console.log('Error get user!', error);
+    }
+  }
+
+  useLayoutEffect(() => {
+    let isMounted = true;
+
+    if (storage.user) {
+      checkSession().then(async (res) => {
+        if (res === 401) {
+          removeUserData();
+          setIsAuth(false);
+          router.replace('/login');
+        } else setIsAuth(true);
+      });
+    }
+
+    if (!isAuth) {
+      checkSession().then(async (res) => {
+        if (!isMounted) return;
+        if (res === 401) {
+          removeUserData();
+          setIsAuth(false);
+          router.replace('/login');
+        } else {
+          try {
+            const user = await getUser(res.user_id);
+            if (!storage.user) {
+              updateUser(user);
+            }
+
+            if (isMounted) {
+              setUser(user);
+              setIsAuth(true);
+              router.replace('/');
+            }
+          } catch (error) {
+            console.error('Error getting user:', error);
+            if (isMounted) {
+              setIsAuth(false);
+              router.replace('/login');
+            }
+          }
+        }
+      });
+    }
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   useEffect(() => {
     if (preferTheme) {
       setTheme(preferTheme);
@@ -314,8 +395,6 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
     isModalOpen,
     changeModalView,
     modalSettings,
-    arrTest,
-    setArrTest,
     bubbleMenuOpen,
     sidebarIsOpen,
     setSidebarIsOpen,
@@ -331,6 +410,8 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
     setIsOpenSettingUser,
     isModalMessageOpen,
     setIsModalMessageOpen,
+    isAuth,
+    setIsAuth,
   };
 
   return (
@@ -340,7 +421,4 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
 
 export function useGlobalContext(): GlobalContextInterface {
   return React.useContext(GlobalContext);
-}
-function updatePreferTheme(theme: string) {
-  throw new Error('Function not implemented.');
 }

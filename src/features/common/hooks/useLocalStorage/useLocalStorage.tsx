@@ -1,20 +1,26 @@
 'use client';
 import { useEffect, useLayoutEffect, useState } from 'react';
-
+interface UserInterface {
+  id: string;
+  name: string;
+  image: string;
+  online: boolean;
+  last_seen: string;
+  created_at: string;
+}
 export function useLocalStorage() {
   const [storage, setStorage] = useState(() => {
     if (typeof window === 'undefined') {
-      return { user: null, sessionId: '' };
+      return { user: null };
     }
-    const saved = localStorage.getItem('userData');
-    return saved
-      ? JSON.parse(saved)
-      : {
-          user: null,
-          sessionId: '',
-        };
+    return (
+      JSON.parse(localStorage.getItem('userData')) || {
+        user: null,
+      }
+    );
   });
-  const [preferTheme, setPreferTheme] = useState(() => {
+
+  const [preferTheme, setPreferTheme] = useState<'light' | 'dark'>(() => {
     if (typeof window === 'undefined') {
       return 'light';
     }
@@ -23,29 +29,28 @@ export function useLocalStorage() {
 
   useLayoutEffect(() => {
     localStorage.setItem('preferTheme', preferTheme);
-    console.log(preferTheme);
   }, [preferTheme]);
+
   useEffect(() => {
     localStorage.setItem('userData', JSON.stringify(storage));
   }, [storage]);
-  function updateUser(user) {
-    return setStorage((prev) => {
-      return { ...prev, user: user };
-    });
+
+  function updateUser(user: UserInterface) {
+    localStorage.setItem('userData', JSON.stringify(storage));
+    return setStorage({ user: user });
+  }
+  function removeUserData() {
+    localStorage.removeItem('userData');
   }
   function updatePreferTheme(theme: 'light' | 'dark') {
     return setPreferTheme(theme);
   }
-  function updateSessionId(sessionId: string) {
-    return setStorage((prev) => {
-      return { ...prev, sessionId: sessionId };
-    });
-  }
+
   return {
     storage,
     updatePreferTheme,
-    updateSessionId,
     updateUser,
     preferTheme,
+    removeUserData,
   };
 }

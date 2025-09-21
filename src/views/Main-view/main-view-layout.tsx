@@ -3,42 +3,13 @@ import { useGlobalContext } from '@/widgets/Header/layouts/header-sidebar-layout
 import { SidebarContactsLayout } from '@/widgets/SidebarContacts/sidebar-contacts-layout';
 import { SidebarOptionsLayout } from '@/widgets/SidebarOptions/sidebar-options-layout';
 import { clsx } from 'clsx';
-import { useRouter } from 'next/navigation';
 
-import { JSX, useEffect, useState } from 'react';
+import { JSX } from 'react';
 interface Props {
   children?: JSX.Element | null;
 }
 export function MainViewLayout({ children }: Props) {
-  const { isModalOpen } = useGlobalContext();
-  const [isAuth, setIsAuth] = useState(false);
-
-  const router = useRouter();
-  async function checkSession() {
-    try {
-      const data = await fetch('http://localhost:5000/session-check', {
-        credentials: 'include',
-      });
-      if (data.status === 401) {
-        return await data.json();
-      } else {
-        const response = await data.json();
-        return response;
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  useEffect(() => {
-    checkSession().then((res) => {
-      if (res === 401) {
-        setIsAuth(false);
-        router.replace('/login');
-      } else {
-        setIsAuth(true);
-      }
-    });
-  }, [router]);
+  const { isModalOpen, isAuth } = useGlobalContext();
 
   return (
     <>
