@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { UserContact } from '../UserContact/user-contact';
 import { UserContactSimpleLayout } from '../UserContact/layouts/user-contact-simple';
-import { useGlobalContext } from '@/features/common/globalContext';
+import { socket, useGlobalContext } from '@/features/common/globalContext';
 
 function debounce<T extends (...args: unknown[]) => Promise<void>>(
   func: T,
@@ -89,6 +89,29 @@ export function UserContactListLayout() {
       console.log(chats);
     });
   }, [addNewUsersOpen, isModalOpen]);
+
+  useEffect(() => {
+    if (user?.id) {
+      socket.on('update-online', (data) => {
+        console.log('Status changed:', data);
+
+        setChats((prevChats) =>
+          prevChats.map((chat) =>
+            chat.user_id === data.user_id
+              ? { ...chat, online: data.online }
+              : chat
+          )
+        ); // ←
+      });
+    }
+    return () => {
+      socket.off('update-online');
+    };
+  }, [socket, user?.id]);
+
+  // useEffect(()=> {
+
+  // }, [])
 
   useEffect(() => {
     setFilteredChats(

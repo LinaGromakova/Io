@@ -2,11 +2,10 @@ import clsx from 'clsx';
 import { UserMessage } from '../UserMessage/user-message';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
-import io from 'socket.io-client';
-import { ChatInput } from '@/features/ChatInput/ChatInput';
-import { useGlobalContext } from '@/features/common/globalContext';
 
-const socket = io('http://localhost:5000');
+import { ChatInput } from '@/features/ChatInput/ChatInput';
+import { socket, useGlobalContext } from '@/features/common/globalContext';
+
 const scroll: string = `[&::-webkit-scrollbar]:w-2
   [&::-webkit-scrollbar-track]:transparent
   hover:[&::-webkit-scrollbar-thumb]:transparent
@@ -83,13 +82,33 @@ export function ChatBody() {
     });
   }, [chat_id, currentUser]);
   useEffect(() => {
-    if (!chat_id) return;
+    if (!chat_id || !user.id) return;
     socket.emit('join_chat', { chat_id: chat_id, user_id: user.id });
-
+    socket.emit('read_messages', chat_id, user.id);
     return () => {
       socket.emit('leave_chat', { chat_id: chat_id, user_id: user.id });
     };
   }, [chat_id]);
+
+  useEffect(() => {
+    socket.emit('read_messages', chat_id, user.id);
+    socket.on('messages_read', (data) => {
+      console.log(data);
+      setMessages((prev) => prev.map((msg) => ({ ...msg, is_read: true })));
+    });
+
+    return () => {
+      socket.off('messages_read');
+    };
+  }, [chat_id, newMessages]);
+
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     socket.emit('read_messages', chat_id, user.id);
+  //   }, 500);
+
+  //   return () => clearTimeout(timer);
+  // }, [newMessages, chat_id, user.id]);
 
   useEffect(() => {
     getMessages(chat_id).then((messages) => {

@@ -2,7 +2,8 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useLocalStorage } from './hooks/useLocalStorage/useLocalStorage';
-
+import { io } from 'socket.io-client';
+export const socket = io('http://localhost:5000');
 type ModalKey = string;
 
 interface ModalConfig {
@@ -129,6 +130,18 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
     online: false,
     last_seen: '',
   });
+
+  // useEffect(() => {
+  //   // if (user.id) {
+  //   //   socket.emit('connect', user.id, true);
+  //   // }
+  // }, [user.id]);
+  useEffect(() => {
+    if (isAuth) {
+      socket.emit('connect_app', { user_id: user.id, online: true });
+    }
+  }, [user?.id, isAuth]);
+
   const modalSettings: Record<ModalKey, ModalConfig> = {
     unLogin: {
       message: function (currentNameUser: string) {

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useGlobalContext } from './header-sidebar-layout';
 import { useRouter } from 'next/router';
+import { socket } from '@/features/common/globalContext';
 
 async function getCurrentUser(chat_id: string, user_id: string) {
   try {
@@ -34,6 +35,20 @@ export function HeaderMainLayout() {
       });
     }
   }, [chat_id]);
+
+  useEffect(() => {
+    if (user?.id) {
+      socket.on('update-online', (data) => {
+        console.log('Status changed:', data);
+        if (data.user_id === currentUser.id) {
+          setCurrentUser((user) => ({ ...user, online: data.online }));
+        }
+      });
+    }
+    return () => {
+      socket.off('update-online');
+    };
+  }, [socket]);
   return (
     <>
       <Link href="/">
