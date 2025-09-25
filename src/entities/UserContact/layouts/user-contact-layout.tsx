@@ -27,7 +27,6 @@ export function UserContactLayout(props: UserContactProps) {
   const { bubbleMenuOpen, setSidebarIsOpen } = useGlobalContext();
   const [isBubbleMenuOpen, setIsBubbleMenuOpen] = useState(false);
   const isActive = query.id == props.chat_id;
-  const read = props.unreadCount === 0 ? true : false;
   return (
     <Link href={`/${props.chat_id}`}>
       <article
@@ -85,7 +84,9 @@ export function UserContactLayout(props: UserContactProps) {
 
           <div className="flex justify-center flex-col">
             <div className="flex">
-              {(read && <MarkDoneIcon className="mr-1"></MarkDoneIcon>) || (
+              {(props.read && (
+                <MarkDoneIcon className="mr-1"></MarkDoneIcon>
+              )) || (
                 <MarkOutlineIcon
                   className={clsx('mr-1', !isActive && 'opacity-50')}
                 ></MarkOutlineIcon>

@@ -76,13 +76,22 @@ export function UserContactListLayout() {
 
   useEffect(() => {
     getChats(user.id).then((chats) => {
+      console.log(chats, 'chats');
       setChats(
         chats.map(
-          ({ last_message, last_message_at, unread_count, ...rest }) => ({
+          ({
+            last_message,
+            last_message_at,
+            unread_count,
+            last_message_is_read,
+
+            ...rest
+          }) => ({
             ...rest,
             lastMessage: last_message,
             lastCreate: last_message_at,
             unreadCount: unread_count,
+            read: last_message_is_read,
           })
         )
       );
@@ -94,24 +103,27 @@ export function UserContactListLayout() {
     if (user?.id) {
       socket.on('update-online', (data) => {
         console.log('Status changed:', data);
-
         setChats((prevChats) =>
           prevChats.map((chat) =>
             chat.user_id === data.user_id
               ? { ...chat, online: data.online }
               : chat
           )
-        ); // ←
+        );
       });
+      // socket.on('messages_read', (data) => {
+      //   console.log(data, 'here lina');
+      //   setChats((prevChats) =>
+      //     prevChats.map((chat) =>
+      //       chat.user_id === data.user_id ? { ...chat, read: true } : chat
+      //     )
+      //   );
+      // });
     }
     return () => {
       socket.off('update-online');
     };
   }, [socket, user?.id]);
-
-  // useEffect(()=> {
-
-  // }, [])
 
   useEffect(() => {
     setFilteredChats(

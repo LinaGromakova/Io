@@ -325,7 +325,6 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
         } else setIsAuth(true);
       });
     }
-
     if (!isAuth) {
       checkSession().then(async (res) => {
         if (!isMounted) return;
@@ -343,7 +342,6 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
             if (isMounted) {
               setUser(user);
               setIsAuth(true);
-              router.replace('/');
             }
           } catch (error) {
             console.error('Error getting user:', error);

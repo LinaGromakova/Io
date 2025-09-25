@@ -67,6 +67,7 @@ export function ChatBody() {
       content: message,
     });
   }
+  // useEffect(() => {}, [chat_id]);
   useLayoutEffect(() => {
     if (chat) {
       chat.current?.scrollIntoView(false);
@@ -83,42 +84,40 @@ export function ChatBody() {
   }, [chat_id, currentUser]);
   useEffect(() => {
     if (!chat_id || !user.id) return;
+    getMessages(chat_id).then((messages) => {
+      setMessages(messages);
+    });
     socket.emit('join_chat', { chat_id: chat_id, user_id: user.id });
+
     socket.emit('read_messages', chat_id, user.id);
+
     return () => {
       socket.emit('leave_chat', { chat_id: chat_id, user_id: user.id });
     };
   }, [chat_id]);
 
   useEffect(() => {
-    socket.emit('read_messages', chat_id, user.id);
     socket.on('messages_read', (data) => {
-      console.log(data);
-      setMessages((prev) => prev.map((msg) => ({ ...msg, is_read: true })));
+      if (data.length !== 0) {
+        const updatedIds = new Set(data.map((msg) => msg.id));
+        setMessages((prev) =>
+          prev.map((mgs) =>
+            updatedIds.has(mgs.id) ? { ...mgs, is_read: true } : mgs
+          )
+        );
+      }
     });
-
     return () => {
       socket.off('messages_read');
     };
-  }, [chat_id, newMessages]);
-
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     socket.emit('read_messages', chat_id, user.id);
-  //   }, 500);
-
-  //   return () => clearTimeout(timer);
-  // }, [newMessages, chat_id, user.id]);
-
-  useEffect(() => {
-    getMessages(chat_id).then((messages) => {
-      setMessages(messages);
-    });
-  }, [chat_id]);
+  }, [socket]);
 
   useEffect(() => {
     socket.emit('send_message', newMessages);
     socket.on('new_message', (data) => {
+      if (data.sender_id !== user.id) {
+        socket.emit('read_messages', chat_id, user.id);
+      }
       setMessages((prev) => [...prev, data]);
     });
 

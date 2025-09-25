@@ -5,9 +5,10 @@ export interface UserContactProps {
   image: string;
   name: string;
   online: boolean;
+  read: boolean;
   lastMessage?: string;
   lastCreate: Date;
-  unreadCount: ns;
+  unreadCount: number;
   handlerOnContextMenu?: () => void;
   type: 'USER_CONTACT' | 'CURRENT_CONTACT';
   newCompanion: User;
