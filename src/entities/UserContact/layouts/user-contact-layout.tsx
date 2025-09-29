@@ -77,7 +77,12 @@ export function UserContactLayout(props: UserContactProps) {
           </div>
           <div className="ml-4 flex-1/2 overflow-hidden">
             <p className="font-medium text-lg">{props.name}</p>
-            <p className={clsx('text-md truncate', !isActive && 'opacity-50')}>
+            <p
+              className={clsx(
+                'text-md truncate message',
+                !isActive && 'opacity-50'
+              )}
+            >
               {props.lastMessage}
             </p>
           </div>

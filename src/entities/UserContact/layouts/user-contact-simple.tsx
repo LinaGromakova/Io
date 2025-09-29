@@ -72,6 +72,7 @@ export function UserContactSimpleLayout(props: UserContactSimpleProps) {
           id_1={props.id_1}
           id_2={props.id_2}
           name={props.name}
+          current_id={props.id_2}
           chat_id=""
           visible={isBubbleMenuOpen}
           setVisible={setIsBubbleMenuOpen}

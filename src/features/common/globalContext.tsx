@@ -17,6 +17,8 @@ type ModalMessageTypeState = {
   open: boolean;
 };
 interface GlobalContextInterface {
+  isBlock: boolean;
+  setIsBlock: React.Dispatch<React.SetStateAction<boolean>>;
   currentUser: CurrentUserInterface;
   setCurrentUser: React.Dispatch<React.SetStateAction<CurrentUserInterface>>;
   theme: 'light' | 'dark';
@@ -93,6 +95,7 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
 
   const [isAuth, setIsAuth] = useState(false);
+  const [isBlock, setIsBlock] = useState(false);
   const [filter, setFilter] = React.useState('');
   const [users, setUsers] = React.useState<User[]>([]);
   const [isOpen, setIsOpen] = React.useState(false);
@@ -104,6 +107,7 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
     message: '',
     open: false,
   });
+
   const {
     storage,
     preferTheme,
@@ -131,11 +135,6 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
     last_seen: '',
   });
 
-  // useEffect(() => {
-  //   // if (user.id) {
-  //   //   socket.emit('connect', user.id, true);
-  //   // }
-  // }, [user.id]);
   useEffect(() => {
     if (isAuth) {
       socket.emit('connect_app', { user_id: user.id, online: true });
@@ -156,6 +155,7 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
         removeUserData();
         router.replace('/login');
         changeModalView();
+        setIsOpen(false);
       },
     },
     unBlock: {
@@ -166,7 +166,9 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
         changeModalView();
       },
       handlerOk: function () {
-        unBlockUser(user.id, isModalOpen.id);
+        console.log(isModalOpen);
+        unBlockUser(user.id, isModalOpen.id_2);
+        setIsBlock(false);
         changeModalView();
       },
     },
@@ -192,7 +194,6 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
       },
       handlerOk: function () {
         deleteUserChat(isModalOpen.id);
-
         changeModalView();
         setIsModalMessageOpen({
           message: 'Чат успешно удален!',
@@ -224,6 +225,7 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
       });
 
       const result = await data.json();
+      console.log(result);
       console.log('Delete:', result);
       return result;
     } catch (error) {
@@ -259,6 +261,7 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
         },
       });
       const result = await data.json();
+
       console.log(result);
     } catch (error) {
       console.log('Logout error', error);
@@ -338,7 +341,6 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
             if (!storage.user) {
               updateUser(user);
             }
-
             if (isMounted) {
               setUser(user);
               setIsAuth(true);
@@ -423,6 +425,8 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
     setIsModalMessageOpen,
     isAuth,
     setIsAuth,
+    isBlock,
+    setIsBlock,
   };
 
   return (

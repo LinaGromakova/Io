@@ -58,16 +58,17 @@ export function BlackListLayout(props: BlackListLayoutProps) {
                 return (
                   <UserContactSimpleLayout
                     id_1=""
-                    id_2=""
+                    id_2={user.id}
                     key={user.id}
                     {...user}
+                    id={currentId}
                     type="unBlock"
                     newCompanion={{
                       ...user,
                       online: false,
                     }}
                     unBlockUser={() => {
-                      changeModalView('unBlock', currentId, user.id, user.name);
+                      changeModalView('unBlock', currentId, user.name, user.id);
                     }}
                   ></UserContactSimpleLayout>
                 );

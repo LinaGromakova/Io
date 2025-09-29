@@ -37,18 +37,40 @@ export function HeaderMainLayout() {
   }, [chat_id]);
 
   useEffect(() => {
-    if (user?.id) {
-      socket.on('update-online', (data) => {
-        console.log('Status changed:', data);
-        if (data.user_id === currentUser.id) {
-          setCurrentUser((user) => ({ ...user, online: data.online }));
-        }
+    socket.on('update-online', (data) => {
+      setCurrentUser((user) => {
+        return data.user_id === user.id
+          ? { ...user, online: data.online }
+          : user;
       });
-    }
+    });
     return () => {
       socket.off('update-online');
     };
   }, [socket]);
+
+  useEffect(() => {
+    socket.on('update-image', (data) => {
+      setCurrentUser((user) => {
+        return data.id === user.id ? { ...user, image: data.image } : user;
+      });
+    });
+    return () => {
+      socket.off('update-image');
+    };
+  }, [socket]);
+
+  useEffect(() => {
+    socket.on('update-name', (data) => {
+      setCurrentUser((user) => {
+        return data.id === user.id ? { ...user, name: data.name } : user;
+      });
+    });
+    return () => {
+      socket.off('update-name');
+    };
+  }, [socket]);
+
   return (
     <>
       <Link href="/">
@@ -73,10 +95,11 @@ export function HeaderMainLayout() {
         className="ml-auto"
         handlerClick={() => setIsBubbleMenuOpen(true)}
       ></LayoutButtonCircle>
+
       <BubbleMenuLayout
         id={typeof user.id === 'string' ? user.id : ''}
         name={typeof currentUser?.name === 'string' ? currentUser?.name : ''}
-        current_id={currentUser?.id}
+        current_id={currentUser.id}
         visible={isBubbleMenuOpen}
         setVisible={setIsBubbleMenuOpen}
         className="top-18 right-5"

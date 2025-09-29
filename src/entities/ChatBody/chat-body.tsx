@@ -49,7 +49,7 @@ interface InterfaceCheckBlacklist {
 }
 export function ChatBody() {
   const router = useRouter();
-  const { user, currentUser } = useGlobalContext();
+  const { user, currentUser, setIsBlock } = useGlobalContext();
   const chat_id = router.query.id;
   const chat = useRef<HTMLDivElement>(null);
   const [messages, setMessages] = useState<MessageInterface[]>([]);
@@ -67,7 +67,6 @@ export function ChatBody() {
       content: message,
     });
   }
-  // useEffect(() => {}, [chat_id]);
   useLayoutEffect(() => {
     if (chat) {
       chat.current?.scrollIntoView(false);
@@ -78,10 +77,39 @@ export function ChatBody() {
   }, [messages]);
 
   useEffect(() => {
+    setUserInBlackList(undefined);
+    setIsBlock(false);
     checkBlackList(user.id, currentUser.id).then((check) => {
-      setUserInBlackList(check);
+      if (check) {
+        setUserInBlackList(check);
+        if (check.user_id === user.id) {
+          setIsBlock(true);
+        }
+      }
     });
   }, [chat_id, currentUser]);
+
+  useEffect(() => {
+    socket.on('add-blacklist', (data) => {
+      if (data) {
+        setUserInBlackList(data);
+        if (data.user_id === user.id) {
+          setIsBlock(true);
+        }
+      }
+    });
+  }, [socket]);
+
+  useEffect(() => {
+    socket.on('delete-blacklist', (result) => {
+      console.log(result, 'this is result delete');
+      setUserInBlackList(undefined);
+      if (result.user_id === user.id) {
+        setIsBlock(false);
+      }
+    });
+  }, [socket]);
+
   useEffect(() => {
     if (!chat_id || !user.id) return;
     getMessages(chat_id).then((messages) => {
@@ -125,7 +153,7 @@ export function ChatBody() {
       socket.off('new_message');
     };
   }, [newMessages]);
-  console.log(userInBlackList);
+
   return (
     <>
       <section

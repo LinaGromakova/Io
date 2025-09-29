@@ -50,12 +50,11 @@ interface propsBubbleMenuLayout {
 
 export function BubbleMenuLayout(props: propsBubbleMenuLayout) {
   const menuRef = React.useRef<HTMLUListElement>(null);
-  const { changeModalView, setAddNewUsersOpen, setSearchUser } =
+  const { changeModalView, setAddNewUsersOpen, setSearchUser, isBlock } =
     useGlobalContext();
   const router = useRouter();
 
   async function writeUser(id_1: string, id_2: string) {
-    console.log(id_1, id_2);
     try {
       const data = await fetch('http://localhost:5000/start-chat', {
         method: 'POST',
@@ -65,7 +64,8 @@ export function BubbleMenuLayout(props: propsBubbleMenuLayout) {
         body: JSON.stringify({ user1_id: id_1, user2_id: id_2 }),
       });
       const result = await data.json();
-      router.push(`/${result.id}`);
+      console.log(result, 'href');
+      router.push(`/${result}`);
       return result;
     } catch (error) {
       console.log(error);
@@ -86,7 +86,7 @@ export function BubbleMenuLayout(props: propsBubbleMenuLayout) {
   }, [props]);
   const lockIcon = <LockOpenIcon className="text-lg"></LockOpenIcon>;
   const writeIcon = <WriteIcon className="text-lg"></WriteIcon>;
-
+  const deleteIcon = <DeleteIcon className="text-lg"></DeleteIcon>;
   return (
     <>
       {props.visible && (
@@ -104,7 +104,6 @@ export function BubbleMenuLayout(props: propsBubbleMenuLayout) {
                   {...item}
                   key={index}
                   onClick={() => {
-                    console.log();
                     changeModalView(
                       'deleteChat',
                       props.chat_id,
@@ -130,6 +129,7 @@ export function BubbleMenuLayout(props: propsBubbleMenuLayout) {
               ></BubbleMenuItem>
             )) ||
             (props.type === 'currentUser' &&
+              !isBlock &&
               currentUserConfig.map((item, index) => {
                 return (
                   <BubbleMenuItem
@@ -155,6 +155,34 @@ export function BubbleMenuLayout(props: propsBubbleMenuLayout) {
                   ></BubbleMenuItem>
                 );
               })) ||
+            (props.type === 'currentUser' && isBlock && (
+              <>
+                <BubbleMenuItem
+                  text="Разблокировать"
+                  icon={lockIcon}
+                  onClick={() => {
+                    changeModalView(
+                      'unBlock',
+                      props.id,
+                      props.current_id,
+                      props.name
+                    );
+                  }}
+                ></BubbleMenuItem>
+                <BubbleMenuItem
+                  text="Удалить чат"
+                  icon={deleteIcon}
+                  onClick={() => {
+                    changeModalView(
+                      'deleteChat',
+                      props.chat_id,
+                      undefined,
+                      props.name
+                    );
+                  }}
+                ></BubbleMenuItem>
+              </>
+            )) ||
             (props.type === 'writeUser' && (
               <BubbleMenuItem
                 text="Написать"

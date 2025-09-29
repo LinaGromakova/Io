@@ -56,7 +56,6 @@ export function UserContactListLayout() {
     setAddNewUsersOpen,
     searchUser,
     user,
-    isModalOpen,
     filter,
   } = useGlobalContext();
   const [chats, setChats] = useState([]);
@@ -76,7 +75,6 @@ export function UserContactListLayout() {
 
   useEffect(() => {
     getChats(user.id).then((chats) => {
-      console.log(chats, 'chats');
       setChats(
         chats.map(
           ({
@@ -84,7 +82,6 @@ export function UserContactListLayout() {
             last_message_at,
             unread_count,
             last_message_is_read,
-
             ...rest
           }) => ({
             ...rest,
@@ -95,14 +92,25 @@ export function UserContactListLayout() {
           })
         )
       );
-      console.log(chats);
     });
-  }, [addNewUsersOpen, isModalOpen]);
+  }, []);
+  useEffect(() => {
+    socket.on('delete-chat', (id) => {
+      setChats((prevChats) => prevChats.filter((chat) => chat.chat_id !== id));
+    });
+  }, [socket]);
+
+  useEffect(() => {
+    socket.on('start-chat', (data) => {
+      if (data) {
+        setChats((prevChats) => [...prevChats, data]);
+      }
+    });
+  }, [socket]);
 
   useEffect(() => {
     if (user?.id) {
       socket.on('update-online', (data) => {
-        console.log('Status changed:', data);
         setChats((prevChats) =>
           prevChats.map((chat) =>
             chat.user_id === data.user_id
@@ -111,14 +119,6 @@ export function UserContactListLayout() {
           )
         );
       });
-      // socket.on('messages_read', (data) => {
-      //   console.log(data, 'here lina');
-      //   setChats((prevChats) =>
-      //     prevChats.map((chat) =>
-      //       chat.user_id === data.user_id ? { ...chat, read: true } : chat
-      //     )
-      //   );
-      // });
     }
     return () => {
       socket.off('update-online');
@@ -126,12 +126,105 @@ export function UserContactListLayout() {
   }, [socket, user?.id]);
 
   useEffect(() => {
+    socket.on('update-last-message', (data) => {
+      setChats((prevChats) =>
+        prevChats.map((chat) =>
+          chat.chat_id === data.chat_id
+            ? {
+                ...chat,
+                lastMessage: data.content,
+                lastCreate: data.created_at,
+                read: data.is_read,
+              }
+            : chat
+        )
+      );
+    });
+    return () => {
+      socket.off('update-last-message');
+    };
+  }, [socket]);
+
+  useEffect(() => {
+    socket.on('update-read-message', (data) => {
+      if (data) {
+        setChats((prevChats) =>
+          prevChats.map((chat) => {
+            return chat.chat_id === data.chat_id
+              ? { ...chat, read: true }
+              : chat;
+          })
+        );
+      }
+    });
+    return () => {
+      socket.off('update-read-message');
+    };
+  }, [socket]);
+
+  useEffect(() => {
+    socket.on('update-name', (data) => {
+      if (data) {
+        setChats((prevChats) =>
+          prevChats.map((chat) => {
+            return chat.user_id === data.id
+              ? { ...chat, name: data.name }
+              : chat;
+          })
+        );
+      }
+    });
+  }, [socket]);
+
+  useEffect(() => {
+    socket.on('update-image', (data) => {
+      if (data) {
+        setChats((prevChats) =>
+          prevChats.map((chat) => {
+            return chat.user_id === data.id
+              ? { ...chat, image: data.image }
+              : chat;
+          })
+        );
+      }
+    });
+  }, [socket]);
+  useEffect(() => {
     setFilteredChats(
       chats.filter((chat: ChatInterface) =>
         chat.name.toLowerCase().includes(filter.toLowerCase())
       )
     );
   }, [filter]);
+
+  useEffect(() => {
+    socket.on('unread_updated', (data) => {
+      if (data) {
+        setChats((prevChats) =>
+          prevChats.map((chat) => {
+            return chat.chat_id === data.chat_id
+              ? { ...chat, unreadCount: 0 }
+              : chat;
+          })
+        );
+      }
+    });
+  }, [socket]);
+  useEffect(() => {
+    socket.on('inc-unread-message', (data) => {
+      console.log(data);
+      if (data) {
+        setChats((prevChats) =>
+          prevChats.map((chat) => {
+            return chat.chat_id === data.chat_id
+              ? { ...chat, unreadCount: data.count }
+              : chat;
+          })
+        );
+      }
+    });
+  }, [socket]);
+
   console.log(chats);
   return (
     <>
