@@ -7,7 +7,7 @@ interface HeaderProps {
 }
 export function Header({ type }: HeaderProps) {
   return (
-    <HeaderContainerLayout>
+    <HeaderContainerLayout className={type !== 'SIDEBAR' ? 'h-[60px]' : ''}>
       {(type === 'SIDEBAR' && <HeaderSidebarLayout></HeaderSidebarLayout>) || (
         <HeaderMainLayout></HeaderMainLayout>
       )}

@@ -9,12 +9,18 @@ interface Props {
   children?: JSX.Element | null;
 }
 export function MainViewLayout({ children }: Props) {
-  const { isModalOpen, isAuth } = useGlobalContext();
+  const { isModalOpen, isAuth, theme } = useGlobalContext();
 
   return (
-    <>
+    <div
+      className={
+        theme === 'dark'
+          ? 'bg-gradient-to-t from-[#373942]  to-[#101113]'
+          : ' bg-gradient-to-t to-[#fafafa] from-[#9aa6b2]'
+      }
+    >
       {isAuth && (
-        <div className="flex overflow-y-hidden relative">
+        <div className="flex overflow-y-hidden relative ">
           <ConfirmModalLayout
             id={isModalOpen.id}
             name={isModalOpen.name}
@@ -27,6 +33,6 @@ export function MainViewLayout({ children }: Props) {
           {children}
         </div>
       )}
-    </>
+    </div>
   );
 }

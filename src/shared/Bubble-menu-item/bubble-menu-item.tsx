@@ -11,7 +11,8 @@ export function BubbleMenuItem(props: BubbleMenuItemProps) {
   return (
     <li
       className={clsx(
-        'px-4 py-1.5 text-md border-b-[1px] border-b-foreground/10 text-foreground duration-300 select-none cursor-pointer rounded-sm flex items-center hover:bg-foreground/5',
+        `px-4 py-1.5 text-md border-b-[1px] border-b-foreground/10 bg-background hover:bg-background/50
+         shadow-md duration-300 select-none cursor-pointer rounded-sm flex items-center`,
         props?.className
       )}
       onClick={() => props.onClick()}

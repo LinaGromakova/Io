@@ -27,8 +27,10 @@ export function UserContactSimpleLayout(props: UserContactSimpleProps) {
     <article
       className={clsx(
         `py-3 px-5 relative flex items-center cursor-pointer
-         rounded-2xl duration-300 transition-colors  justify-between`,
-        isBubbleMenuOpen ? 'bg-accent hover:bg-accent' : 'hover:bg-inter'
+         rounded-2xl duration-300 transition-colors  justify-between  my-2`,
+        isBubbleMenuOpen
+          ? 'bg-inter/90 hover:bg-inter'
+          : 'bg-inter/40 hover:bg-inter/60'
       )}
       onContextMenu={(e) => {
         e.preventDefault();
@@ -42,7 +44,13 @@ export function UserContactSimpleLayout(props: UserContactSimpleProps) {
     >
       <div className="flex items-center">
         <div className="flex items-center justify-between">
-          <div className="w-14 h-14 relative bg-radial-[at_25%_25%] from-accent to-accent-shadow to-75% rounded-full flex items-center justify-center">
+          <div
+            className={clsx(
+              'w-14 h-14 relative rounded-full flex items-center justify-center',
+              !props.image &&
+                'bg-radial-[at_25%_25%] from-accent to-accent-shadow to-75% '
+            )}
+          >
             {(props.image && (
               <img
                 src={`http://localhost:5000${props?.image}`}

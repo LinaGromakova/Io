@@ -11,12 +11,16 @@ interface ButtonStylesOfType {
 }
 const iconStyles: string = 'text-xl mr-1';
 export const ButtonMainStyles: ButtonStylesOfType = {
+  back: {
+    style: `bg-gradient-to-r from-red-800 via-accent-shadow to-accent w-full`,
+    icon: null,
+  },
   login: {
-    style: `bg-gradient-to-r from-red-800 via-accent-shadow to-accent`,
+    style: `bg-gradient-to-r from-red-800 via-accent-shadow to-accent w-full`,
     icon: <LoginIcon className={iconStyles}></LoginIcon>,
   },
   register: {
-    style: 'bg-gradient-to-l  from-accent-shadow to-accent',
+    style: 'bg-gradient-to-l  from-accent-shadow to-accent w-full',
     icon: <CreateIcon className={iconStyles}></CreateIcon>,
   },
   ok: {
@@ -29,7 +33,7 @@ export const ButtonMainStyles: ButtonStylesOfType = {
     icon: null,
   },
   'apply photo': {
-    style: 'bg-gradient-to-r from-red-800 via-accent-shadow to-accent',
+    style: 'bg-gradient-to-r from-red-800 via-accent-shadow to-accent w-full',
 
     icon: <ImagesIcon className={iconStyles}></ImagesIcon>,
   },

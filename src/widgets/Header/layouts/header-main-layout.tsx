@@ -76,7 +76,7 @@ export function HeaderMainLayout() {
       <Link href="/">
         <LayoutButtonCircle
           type="BACK"
-          className="mr-4 hidden max-sm:flex"
+          className="mr-4 hidden max-md:flex"
           handlerClick={() => setSidebarIsOpen(true)}
         ></LayoutButtonCircle>
       </Link>
@@ -89,6 +89,7 @@ export function HeaderMainLayout() {
         id={currentUser?.id}
         user_id=""
         chat_id=""
+        lastCreate={''}
       ></UserContact>
       <LayoutButtonCircle
         type="MORE"

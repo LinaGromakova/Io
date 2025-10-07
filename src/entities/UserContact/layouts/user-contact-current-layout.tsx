@@ -1,13 +1,20 @@
+import clsx from 'clsx';
 import { UserContactProps } from '../interfaces/layout-props';
 
 export function UserContactCurrentLayout(props: UserContactProps) {
   return (
     <article
       className="interface flex items-center 
-    justify-between px-1"
+    justify-between px-1 h-10"
     >
       <div className="flex items-center">
-        <div className="w-10 h-10 relative bg-radial-[at_25%_25%] from-accent to-accent-shadow to-75%  rounded-full flex items-center justify-center">
+        <div
+          className={clsx(
+            'w-10 h-10 max-h-10 relative rounded-full flex items-center justify-center',
+            !props.image &&
+              'bg-radial-[at_25%_25%] to-accent from-accent-shadow to-75% '
+          )}
+        >
           {(props.image && (
             <img
               src={`http://localhost:5000${props?.image}`}

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { UserContact } from '../UserContact/user-contact';
 import { UserContactSimpleLayout } from '../UserContact/layouts/user-contact-simple';
 import { socket, useGlobalContext } from '@/features/common/globalContext';
+import { GiAstronautHelmet as AstronautIcon } from 'react-icons/gi';
 
 function debounce<T extends (...args: unknown[]) => Promise<void>>(
   func: T,
@@ -27,17 +28,7 @@ async function getChats(user_id: string) {
   const chats = await response.json();
   return chats;
 }
-interface UserInterface {
-  id: string;
-  name: string;
-  login: string;
-  image: string;
-  online: boolean;
-  last_seen: string;
-  created_at: string;
-  chat_id: string;
-}
-interface ChatInterface {
+interface ChatInterfaceFetch {
   chat_id: string;
   user_id: string;
   name: string;
@@ -46,6 +37,19 @@ interface ChatInterface {
   last_message: string;
   last_message_at: string;
   unread_count: number;
+  last_message_is_read: boolean;
+}
+
+interface ChatInterface {
+  chat_id: string;
+  user_id: string;
+  name: string;
+  image: string;
+  online: boolean;
+  lastMessage: string;
+  lastCreate: string;
+  unreadCount: number;
+  read: boolean;
 }
 
 export function UserContactListLayout() {
@@ -58,9 +62,9 @@ export function UserContactListLayout() {
     user,
     filter,
   } = useGlobalContext();
-  const [chats, setChats] = useState([]);
+  const [chats, setChats] = useState<ChatInterface[]>([]);
 
-  const [filteredChats, setFilteredChats] = useState([]);
+  const [filteredChats, setFilteredChats] = useState<ChatInterface[]>([]);
 
   useEffect(() => {
     const debouncedFetch = debounce(async () => {
@@ -83,7 +87,7 @@ export function UserContactListLayout() {
             unread_count,
             last_message_is_read,
             ...rest
-          }) => ({
+          }: ChatInterfaceFetch) => ({
             ...rest,
             lastMessage: last_message,
             lastCreate: last_message_at,
@@ -96,7 +100,9 @@ export function UserContactListLayout() {
   }, []);
   useEffect(() => {
     socket.on('delete-chat', (id) => {
-      setChats((prevChats) => prevChats.filter((chat) => chat.chat_id !== id));
+      setChats((prevChats) =>
+        prevChats.filter((chat: ChatInterface) => chat.chat_id !== id)
+      );
     });
   }, [socket]);
 
@@ -248,38 +254,41 @@ export function UserContactListLayout() {
         : addNewUsersOpen &&
           searchUser !== '' && (
             <div className="flex flex-col items-center justify-center h-9/12 text-base">
-              <p className="mb-4 opacity-65">Пользователь не найден</p>
+              <AstronautIcon className="mb-4 text-[200px] opacity-30"></AstronautIcon>
+              <p className="mb-4 opacity-65 text-xl">Пользователь не найден</p>
             </div>
           )}
 
       {!addNewUsersOpen && chats.length === 0 ? (
         <div className="flex flex-col items-center justify-center h-9/12 text-base">
-          <p className="mb-4 opacity-65">Сейчас у Вас нет активных чатов.</p>
+          <AstronautIcon className="mb-4 text-[200px] opacity-30"></AstronautIcon>
+          <p className="mb-4 opacity-65 text-xl">У вас пока нет чатов</p>
           <p
-            className="opacity-65 hover:opacity-100 hover:underline cursor-pointer"
+            className="opacity-65 hover:opacity-100 underline cursor-pointer"
             onClick={() => setAddNewUsersOpen(true)}
           >
             Добавить собеседника
           </p>
         </div>
       ) : !addNewUsersOpen && filter && filteredChats.length > 0 ? (
-        filteredChats.map((user: UserInterface) => (
+        filteredChats.map((user) => (
           <UserContact
-            newCompanion={{ ...user }}
-            key={user.id}
-            user_id={user.id}
+            newCompanion={{ ...user, id: user.user_id }}
+            id={user.chat_id}
+            key={user.chat_id}
             {...user}
             type="USER_CONTACT"
           />
         ))
       ) : !addNewUsersOpen && filter && filteredChats.length === 0 ? (
         <div className="flex flex-col items-center justify-center h-9/12 text-base">
-          <p className="mb-4 opacity-65">Пользователь не найден</p>
+          <AstronautIcon className="mb-4 text-[200px] opacity-30"></AstronautIcon>
+          <p className="mb-4 opacity-65 text-xl">У вас пока нет чатов</p>
         </div>
       ) : !addNewUsersOpen ? (
         chats.map((chat: ChatInterface) => (
           <UserContact
-            id={undefined}
+            id={chat.user_id}
             key={chat.chat_id}
             {...chat}
             newCompanion={{ ...chat, id: chat.chat_id }}

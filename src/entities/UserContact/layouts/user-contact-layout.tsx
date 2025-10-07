@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { IoCheckmarkDoneOutline as MarkDoneIcon } from 'react-icons/io5';
 import { IoCheckmarkOutline as MarkOutlineIcon } from 'react-icons/io5';
 import clsx from 'clsx';
@@ -27,16 +27,32 @@ export function UserContactLayout(props: UserContactProps) {
   const { bubbleMenuOpen, setSidebarIsOpen } = useGlobalContext();
   const [isBubbleMenuOpen, setIsBubbleMenuOpen] = useState(false);
   const isActive = query.id == props.chat_id;
+  const timeoutRef = useRef<NodeJS.Timeout>(null);
+
+  const handleTouchStart = () => {
+    timeoutRef.current = setTimeout(() => {
+      bubbleMenuOpen(isBubbleMenuOpen, setIsBubbleMenuOpen);
+    }, 600);
+  };
+  const handleTouchEnd = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+  };
   return (
     <Link href={`/${props.chat_id}`}>
       <article
         className={clsx(
-          'py-3 px-5 relative flex items-center cursor-pointer rounded-2xl duration-300 transition-colors group/user',
-          isActive ? 'bg-accent text-white hover:bg-accent' : 'hover:bg-inter'
+          'py-3 px-5 relative rounded-2xl flex items-center cursor-pointer duration-300 transition-colors group/user my-2',
+          isActive
+            ? 'bg-inter/90 hover:bg-inter'
+            : 'bg-inter/40 hover:bg-inter/60'
         )}
         onClick={() => {
           setSidebarIsOpen(false);
         }}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
         onContextMenu={(e) => {
           e.preventDefault();
           if (e.button === 2) {
@@ -58,7 +74,13 @@ export function UserContactLayout(props: UserContactProps) {
         ></BubbleMenuLayout>
 
         <div className="flex items-center w-full justify-between">
-          <div className="w-14 h-14 relative bg-radial-[at_25%_25%] from-accent to-accent-shadow to-75% rounded-full flex items-center justify-center">
+          <div
+            className={clsx(
+              'w-14 h-14 min-w-14 max-w-14 relative rounded-full flex items-center justify-center',
+              !props.image &&
+                'bg-radial-[at_25%_25%] from-accent to-accent-shadow to-75% '
+            )}
+          >
             {(props.image && (
               <img
                 src={`http://localhost:5000${props?.image}`}
@@ -72,7 +94,7 @@ export function UserContactLayout(props: UserContactProps) {
             )}
 
             {props.online && (
-              <div className="w-4 h-4 bg-accent absolute bottom-0 right-1 border-background rounded-full border-2 duration-300 transition-colors group-hover/user:border-inter"></div>
+              <div className="w-4 h-4 bg-[#32d154] absolute bottom-0 right-1 border-background rounded-full border-2 duration-300 transition-colors group-hover/user:border-inter"></div>
             )}
           </div>
           <div className="ml-4 flex-1/2 overflow-hidden">
@@ -83,36 +105,37 @@ export function UserContactLayout(props: UserContactProps) {
                 !isActive && 'opacity-50'
               )}
             >
-              {props.lastMessage}
+              {props.lastMessage || `Поприветствуйте ${props.name}!`}
             </p>
           </div>
+          {props.lastMessage && (
+            <div className="flex justify-center flex-col">
+              <div className="flex">
+                {(props.read && (
+                  <MarkDoneIcon className="mr-1"></MarkDoneIcon>
+                )) || (
+                  <MarkOutlineIcon
+                    className={clsx('mr-1', !isActive && 'opacity-50')}
+                  ></MarkOutlineIcon>
+                )}
+                <span className={clsx('text-sm', !isActive && 'opacity-50')}>
+                  {lastCreate}
+                </span>
+              </div>
 
-          <div className="flex justify-center flex-col">
-            <div className="flex">
-              {(props.read && (
-                <MarkDoneIcon className="mr-1"></MarkDoneIcon>
-              )) || (
-                <MarkOutlineIcon
-                  className={clsx('mr-1', !isActive && 'opacity-50')}
-                ></MarkOutlineIcon>
-              )}
-              <span className={clsx('text-sm', !isActive && 'opacity-50')}>
-                {lastCreate}
-              </span>
+              <div
+                className={clsx(
+                  isActive && props.unreadCount !== 0
+                    ? 'bg-white text-accent'
+                    : 'text-white',
+                  props.unreadCount == 0 && 'invisible',
+                  'w-7 h-7 rounded-full bg-accent pt-px font-bold ml-auto mt-1 text-sm flex items-center justify-center'
+                )}
+              >
+                {props.unreadCount}
+              </div>
             </div>
-
-            <div
-              className={clsx(
-                isActive && props.unreadCount !== 0
-                  ? 'bg-white text-accent'
-                  : 'text-white',
-                props.unreadCount == 0 && 'invisible',
-                'w-7 h-7 rounded-full  bg-accent pt-px font-bold ml-auto mt-1 text-sm flex items-center justify-center'
-              )}
-            >
-              {props.unreadCount}
-            </div>
-          </div>
+          )}
         </div>
       </article>
     </Link>

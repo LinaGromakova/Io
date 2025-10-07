@@ -1,6 +1,7 @@
 import { IoSearchOutline as SearchIcon } from 'react-icons/io5';
 import { IoMdCreate as CreateIcon } from 'react-icons/io';
-import { FaTelegramPlane as MessageIcon } from 'react-icons/fa';
+import { IoIosRocket as MessageIcon } from 'react-icons/io';
+
 import { IoArrowBack as ArrowBackIcon } from 'react-icons/io5';
 import { MdOutlineAddPhotoAlternate as PhotoAddIcon } from 'react-icons/md';
 import { RxHamburgerMenu as HamburgerIcon } from 'react-icons/rx';
@@ -13,5 +14,5 @@ export const ButtonIcons = {
   OPTIONS: <HamburgerIcon></HamburgerIcon>,
   PHOTO_ADD: <PhotoAddIcon></PhotoAddIcon>,
   MORE: <MoreIcon></MoreIcon>,
-  MESSAGE: <MessageIcon />,
+  MESSAGE: <MessageIcon className="text-2xl" />,
 };

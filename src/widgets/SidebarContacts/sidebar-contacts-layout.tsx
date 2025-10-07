@@ -15,12 +15,11 @@ export function SidebarContactsLayout({ className }: ComponentProps) {
 
   const { sidebarIsOpen, addNewUsersOpen, setAddNewUsersOpen, setFilter } =
     useGlobalContext();
-  console.log('render');
   return (
     <aside
       className={clsx(
-        `overflow-y-scroll relative overflow-x-hidden h-screen border-r border-r-foreground/10 group/sidebar
-         max-sm:w-full max-sm:fixed bg-background z-50 max-md:w-8/12`,
+        `overflow-y-scroll relative overflow-x-hidden h-screen group/sidebar
+         max-md:w-full max-md:fixed bg-background z-50`,
         scroll,
         className,
         !sidebarIsOpen && 'max-md:hidden'
@@ -30,8 +29,8 @@ export function SidebarContactsLayout({ className }: ComponentProps) {
       {!addNewUsersOpen && (
         <LayoutButtonCircle
           type="CREATE"
-          className="sm:group-hover/sidebar:-translate-y-4 w-12 h-12 fixed z-30 text-xl 
-        left-[29%] bottom-0 translate-y-full max-sm:translate-y-0 max-sm:left-auto max-sm:right-3 max-sm:bottom-3"
+          className="sm:group-hover/sidebar:-translate-y-4 w-12 h-12 fixed z-30 text-xl translate-y-full
+        left-[28.2%] bottom-0 max-md:left-auto max-md:right-3 max-md:bottom-3 max-lg:left-[26.5%] min-2xl:left-[29.5%]"
           handlerClick={() => {
             setAddNewUsersOpen(true);
             setFilter('');

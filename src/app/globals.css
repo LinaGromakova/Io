@@ -14,13 +14,46 @@ aside[data-open='true'] {
   opacity: 1;
   z-index: 100;
 }
+
 @theme {
-  --color-accent: #fea400;
-  --color-inter: #f4f4f5;
-  --color-accent-shadow: #dc561b;
+  --color-accent: #ff740b;
+  --color-accent-shadow: #ff0000;
+  --color-inter: #e7e7e7;
+  --color-extra: #9aa6b2;
+  --animate-fly: fly 30s ease-in-out 5s infinite;
+  --animate-spaceship: spaceship 7s linear 3s infinite;
+  --animate-meteor: meteor 5s linear 7s infinite;
+  @keyframes fly {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      left: 110%;
+      bottom: 80%;
+      transform: rotate(180deg);
+    }
+  }
+  @keyframes spaceship {
+    from {
+      bottom: -100px;
+    }
+    to {
+      bottom: 100%;
+    }
+  }
+  @keyframes meteor {
+    from {
+      top: 50%;
+    }
+    to {
+      left: 50%;
+      top: -110%;
+    }
+  }
 }
 html::selection {
   background-color: var(--color-accent);
+  color: white;
 }
 input[type='search']:focus + .icon-focus,
 .input-active + .icon-focus {
@@ -31,14 +64,16 @@ input[type='search']:focus + .icon-focus,
 }
 @layer base {
   html:has(.wrapper[data-theme='dark']) {
-    --foreground: #ffffff;
-    --background: #212121;
-    --color-inter: #2c2c2c;
+    --foreground: #faf7e8;
+    --background: #101113;
+    --color-inter: #303138;
+    --color-extra: #373942;
   }
   html:has(.wrapper[data-theme='light']) {
-    --foreground: #212121;
-    --background: #ffffff;
-    --color-inter: #f4f4f5;
+    --foreground: #101113;
+    --background: #fafafa;
+    --color-inter: #e7e7e7;
+    --color-extra: #9aa6b2;
   }
 }
 

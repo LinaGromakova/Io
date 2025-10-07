@@ -9,6 +9,7 @@ import { NextRouter, useRouter } from 'next/router';
 import Link from 'next/link';
 import { useGlobalContext } from '@/features/common/globalContext';
 import { useLocalStorage } from '@/features/common/hooks/useLocalStorage/useLocalStorage';
+import clsx from 'clsx';
 
 interface UserInterface {
   id: string;
@@ -27,7 +28,7 @@ async function signInUser(
   router: NextRouter,
   setState: React.Dispatch<React.SetStateAction<UserInterface>>,
   setStateModal: React.Dispatch<React.SetStateAction<ModalMessageTypeState>>,
-  updateUser: React.Dispatch<React.SetStateAction<UserInterface>>,
+  updateUser: (user: UserInterface) => void,
   updateAuth: React.Dispatch<React.SetStateAction<boolean>>
 ) {
   try {
@@ -60,7 +61,7 @@ async function registrationUser(
   router: NextRouter,
   setState: React.Dispatch<React.SetStateAction<UserInterface>>,
   setStateModal: React.Dispatch<React.SetStateAction<ModalMessageTypeState>>,
-  updateUser: React.Dispatch<React.SetStateAction<UserInterface>>,
+  updateUser: (user: UserInterface) => void,
   updateAuth: React.Dispatch<React.SetStateAction<boolean>>
 ) {
   try {
@@ -78,9 +79,9 @@ async function registrationUser(
     } else {
       console.log(result);
       if (result) {
-        updateUser(result.user);
         updateAuth(true);
         setState(result.user);
+        updateUser(result.user);
         router.replace('/');
       }
     }
@@ -107,7 +108,6 @@ export function FormAuth() {
   const { setUser, setIsModalMessageOpen, isAuth, setIsAuth } =
     useGlobalContext();
   const [formData, setFormData] = useState<interfaceForm>(configForm);
-
   const router = useRouter();
   const page = router.route.slice(1);
 
@@ -120,11 +120,15 @@ export function FormAuth() {
   return (
     <>
       {!isAuth && (
-        <div className="flex w-full items-center my-[5%] h-auto portrait:h-screen portrait:my-0">
+        <div
+          className={clsx(
+            'flex w-full h-screen items-center   portrait:h-screen portrait:my-0  bg-gradient-to-t from-accent/80  to-accent-shadow/50'
+          )}
+        >
           <form
             action="#"
             method="post"
-            className="border border-foreground/10 py-6 px-12 md:min-w-[400px] mx-auto rounded-lg max-md:px-6 max-md:w-10/12 "
+            className="border border-foreground/10 bg-background py-6 px-12 md:min-w-[400px] mx-auto rounded-lg max-md:px-6 max-md:w-10/12 "
           >
             <MainTitle title={page}></MainTitle>
             {formConfig.map((field, index) => {
@@ -177,7 +181,7 @@ export function FormAuth() {
                   }}
                 ></ButtonMain>
                 <Link href="/register">
-                  <p className="mt-3 text-xs opacity-70 hover:opacity-100 hover:underline duration-300">
+                  <p className="mt-3 text-xs opacity-70 hover:opacity-100 hover:underline duration-300 ml-2">
                     Нет аккаунта? Зарегистрироваться!
                   </p>
                 </Link>
@@ -205,7 +209,7 @@ export function FormAuth() {
                   }}
                 ></ButtonMain>
                 <Link href="/login">
-                  <p className="mt-3 text-xs opacity-70 hover:opacity-100 hover:underline">
+                  <p className="mt-3 text-xs opacity-70 hover:opacity-100 hover:underline ml-2">
                     Уже есть аккаунт? Войти!
                   </p>
                 </Link>

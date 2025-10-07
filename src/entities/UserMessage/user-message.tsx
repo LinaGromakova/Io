@@ -18,7 +18,7 @@ export function UserMessage({
   sender_id,
   className,
 }: MessageProps) {
-  const { user } = useGlobalContext();
+  const { user, theme } = useGlobalContext();
   function getValidDate(value: number): string {
     if (value > 9) {
       return '' + value;
@@ -35,17 +35,12 @@ export function UserMessage({
     <div className="flex flex-col ">
       <article
         className={clsx(
-          `max-w-96 min-w-18 inline rounded-xl p-4 relative mb-3 before:bottom-2.5 before:absolute break-all
-        before:content-[''] before:block `,
+          `max-w-96 min-w-18 inline rounded-xl p-4 relative mb-3 before:bottom-2.5 before:absolute break-all border-foreground/40
+        before:content-[''] before:block text-white`,
           className,
           sender_id === user.id
-            ? `text-white bg-gradient-to-l ml-auto from-accent-shadow to-accent/80  before:-right-5
-          before:border-r-transparent before:border-r-20 before:border-b-accent-shadow
-          before:border-t-transparent before:border-y-20 border-l-0`
-            : `bg-background before:-left-5
-           before:border-l-transparent before:border-l-20
-           before:border-b-background before:border-t-transparent
-            before:border-y-20 border-r-0 mr-auto`
+            ? ` ml-auto  bg-gradient-to-l from-accent-shadow/70 to-accent`
+            : ` mr-auto bg-gradient-to-r from-accent-shadow/70 to-accent`
         )}
       >
         <p className="text-lg message pb-0.5">{content}</p>

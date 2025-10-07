@@ -36,7 +36,7 @@ interface GlobalContextInterface {
   changeModalView: (
     actionType?: string,
     currentId?: string,
-    id_2?: string,
+    id_2?: string | undefined,
     currentName?: string
   ) => void;
   modalSettings: Record<ModalKey, ModalConfig>;
@@ -73,7 +73,7 @@ interface ModalData {
   type: string;
   id: string;
   name: string;
-  id_2?: string;
+  id_2?: string | undefined;
 }
 interface UserInterface {
   id: string;
@@ -124,7 +124,7 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
     id_2: '',
   });
 
-  const [user, setUser] = useState<UserInterface>(storage.user);
+  const [user, setUser] = useState<UserInterface>(storage.user!);
 
   const [currentUser, setCurrentUser] = useState<CurrentUserInterface>({
     id: '',
@@ -166,7 +166,6 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
         changeModalView();
       },
       handlerOk: function () {
-        console.log(isModalOpen);
         unBlockUser(user.id, isModalOpen.id_2);
         setIsBlock(false);
         changeModalView();
@@ -232,7 +231,7 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
       console.log(error, 'Delete error');
     }
   }
-  async function unBlockUser(user_id: string, blocked_user_id: string) {
+  async function unBlockUser(user_id: string, blocked_user_id?: string) {
     try {
       const data = await fetch(
         `http://localhost:5000/delete_user_blacklist/${user_id}/${blocked_user_id}`,

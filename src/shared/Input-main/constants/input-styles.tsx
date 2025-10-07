@@ -9,9 +9,10 @@ export const stylePurpose: stylesOfType = {
   },
   FILTER: {
     style:
-      'focus:outline-2 focus:outline-accent focus:text-accent focus:placeholder:text-accent duration-300',
+      'focus:outline-1 focus:outline-accent focus:text-accent focus:placeholder:text-accent duration-300 border-none ',
   },
   MESSAGE: {
-    style: 'border-none outline-none max-md:w-full max-md:rounded-none',
+    style:
+      'border border-foreground/20 outline-none max-md:w-full max-md:rounded-none focus:border-foreground/50 ',
   },
 };

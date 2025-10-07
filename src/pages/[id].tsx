@@ -5,7 +5,7 @@ import { Header } from '@/widgets/Header/header';
 function ChatUser() {
   return (
     <MainViewLayout>
-      <div className="w-full max-h-screen">
+      <div className="w-full max-h-screen ">
         <Header type="HEADER_MAIN"></Header>
         <Chat></Chat>
       </div>

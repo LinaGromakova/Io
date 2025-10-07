@@ -8,13 +8,18 @@ interface UserInterface {
   last_seen: string;
   created_at: string;
 }
+interface StorageData {
+  user: UserInterface | null;
+  sessionId?: string;
+  theme?: 'light' | 'dark';
+}
 export function useLocalStorage() {
-  const [storage, setStorage] = useState(() => {
+  const [storage, setStorage] = useState<StorageData>(() => {
     if (typeof window === 'undefined') {
       return { user: null };
     }
     return (
-      JSON.parse(localStorage.getItem('userData')) || {
+      JSON.parse(localStorage.getItem('userData') || 'null') || {
         user: null,
       }
     );
@@ -24,7 +29,7 @@ export function useLocalStorage() {
     if (typeof window === 'undefined') {
       return 'light';
     }
-    return localStorage.getItem('preferTheme') || 'light';
+    return (localStorage.getItem('preferTheme') as 'light' | 'dark') || 'light';
   });
 
   useLayoutEffect(() => {
@@ -35,7 +40,7 @@ export function useLocalStorage() {
     localStorage.setItem('userData', JSON.stringify(storage));
   }, [storage]);
 
-  function updateUser(user: UserInterface) {
+  function updateUser(user: UserInterface): void {
     localStorage.setItem('userData', JSON.stringify(storage));
     return setStorage({ user: user });
   }
