@@ -23,8 +23,9 @@ type ModalMessageTypeState = {
   message: string;
   open: boolean;
 };
-async function signInUser(
-  dataAuth: interfaceForm,
+async function authUser(
+  actionType: 'login' | 'register',
+  dataAuth: interfaceForm | { [k: string]: string },
   router: NextRouter,
   setState: React.Dispatch<React.SetStateAction<UserInterface>>,
   setStateModal: React.Dispatch<React.SetStateAction<ModalMessageTypeState>>,
@@ -32,7 +33,7 @@ async function signInUser(
   updateAuth: React.Dispatch<React.SetStateAction<boolean>>
 ) {
   try {
-    const data = await fetch('http://localhost:5000/login', {
+    const data = await fetch(`http://localhost:5000/${actionType}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -41,47 +42,13 @@ async function signInUser(
       body: JSON.stringify(dataAuth),
     });
     const result = await data.json();
-    if (data.status === 401) {
+    if (data.status === 401 || data.status === 409) {
       return setStateModal({ message: result.message, open: true });
     } else {
       if (result) {
-        console.log(result);
         updateUser(result.user);
         updateAuth(true);
         setState(result.user);
-        router.replace('/');
-      }
-    }
-  } catch (error) {
-    console.log(error);
-  }
-}
-async function registrationUser(
-  dataAuth: { [k: string]: string },
-  router: NextRouter,
-  setState: React.Dispatch<React.SetStateAction<UserInterface>>,
-  setStateModal: React.Dispatch<React.SetStateAction<ModalMessageTypeState>>,
-  updateUser: (user: UserInterface) => void,
-  updateAuth: React.Dispatch<React.SetStateAction<boolean>>
-) {
-  try {
-    const data = await fetch('http://localhost:5000/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify(dataAuth),
-    });
-    const result = await data.json();
-    if (data.status === 409) {
-      return setStateModal({ message: result.message, open: true });
-    } else {
-      console.log(result);
-      if (result) {
-        updateAuth(true);
-        setState(result.user);
-        updateUser(result.user);
         router.replace('/');
       }
     }
@@ -170,7 +137,8 @@ export function FormAuth() {
                   disabled={!validArray.every((par) => par)}
                   handlerClick={(e) => {
                     e.preventDefault();
-                    signInUser(
+                    authUser(
+                      'login',
                       formData,
                       router,
                       setUser,
@@ -198,7 +166,8 @@ export function FormAuth() {
                         ([key]) => key !== 'duplicate'
                       )
                     );
-                    registrationUser(
+                    authUser(
+                      'register',
                       dataAuth,
                       router,
                       setUser,

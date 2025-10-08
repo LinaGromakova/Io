@@ -7,18 +7,6 @@ import { useGlobalContext } from './header-sidebar-layout';
 import { useRouter } from 'next/router';
 import { socket } from '@/features/common/globalContext';
 
-async function getCurrentUser(chat_id: string, user_id: string) {
-  try {
-    const data = await fetch(
-      `http://localhost:5000/${chat_id}/user/${user_id}`
-    );
-    const user = await data.json();
-    console.log(user);
-    return user;
-  } catch (error) {
-    console.log(error, 'Error');
-  }
-}
 export function HeaderMainLayout() {
   const { setSidebarIsOpen, currentUser, setCurrentUser, user } =
     useGlobalContext();
@@ -28,9 +16,30 @@ export function HeaderMainLayout() {
 
   const chat_id = String(router.query.id);
 
+  async function getCurrentUser(chat_id: string, user_id: string) {
+    try {
+      const data = await fetch(
+        `http://localhost:5000/${chat_id}/user/${user_id}`
+      );
+      const user = await data.json();
+      if (!user) {
+        router.replace('/404');
+        return null;
+      }
+      console.log(user);
+      return user;
+    } catch (error) {
+      router.replace('/404');
+      console.log(error, 'Error');
+      return null;
+    }
+  }
+
   useEffect(() => {
     if (router.isReady) {
       getCurrentUser(chat_id, user.id).then((user) => {
+        if (!user) return;
+
         return setCurrentUser(user);
       });
     }

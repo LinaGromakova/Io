@@ -283,7 +283,7 @@ export function UserContactListLayout() {
       ) : !addNewUsersOpen && filter && filteredChats.length === 0 ? (
         <div className="flex flex-col items-center justify-center h-9/12 text-base">
           <AstronautIcon className="mb-4 text-[200px] opacity-30"></AstronautIcon>
-          <p className="mb-4 opacity-65 text-xl">У вас пока нет чатов</p>
+          <p className="mb-4 opacity-65 text-xl">Пользователь не найден</p>
         </div>
       ) : !addNewUsersOpen ? (
         chats.map((chat: ChatInterface) => (

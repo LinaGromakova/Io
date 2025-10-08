@@ -6,9 +6,9 @@
 input::-webkit-search-cancel-button {
   appearance: none;
   cursor: pointer;
-  width: 30px;
-  height: 30px;
-  background: center url('../../public/icons/cross.svg');
+  width: 15px;
+  height: 15px;
+  background: center url('/icons/cross.svg') no-repeat;
 }
 aside[data-open='true'] {
   opacity: 1;
@@ -19,7 +19,7 @@ aside[data-open='true'] {
   --color-accent: #ff740b;
   --color-accent-shadow: #ff0000;
   --color-inter: #e7e7e7;
-  --color-extra: #9aa6b2;
+  --color-extra: #a3aeb9;
   --animate-fly: fly 30s ease-in-out 5s infinite;
   --animate-spaceship: spaceship 7s linear 3s infinite;
   --animate-meteor: meteor 5s linear 7s infinite;
@@ -67,13 +67,13 @@ input[type='search']:focus + .icon-focus,
     --foreground: #faf7e8;
     --background: #101113;
     --color-inter: #303138;
-    --color-extra: #373942;
+    --color-extra: #34363e;
   }
   html:has(.wrapper[data-theme='light']) {
     --foreground: #101113;
     --background: #fafafa;
     --color-inter: #e7e7e7;
-    --color-extra: #9aa6b2;
+    --color-extra: #a3aeb9;
   }
 }
 
