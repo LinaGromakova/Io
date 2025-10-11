@@ -1,11 +1,10 @@
-import { LayoutButtonCircle } from '@/shared/Button-circle/layout-button-circle';
 import { IoSunnyOutline as SunIcon } from 'react-icons/io5';
 import { IoMoonOutline as MoonIcon } from 'react-icons/io5';
 import { MdBlock as BlockIcon } from 'react-icons/md';
 import { IoIosLogOut as LogOutIcon } from 'react-icons/io';
 import { useGlobalContext } from '@/features/common/globalContext';
-
 import { SidebarSettingsUserLayout } from './sidebar-settings-user';
+import { ButtonCircle } from '@/shared/ui/ButtonCircle';
 
 interface SidebarOptionsProps {
   name: string;
@@ -33,10 +32,10 @@ export function SidebarOptions(props: SidebarOptionsProps) {
       )) || (
         <>
           <header className="w-full px-4 py-2">
-            <LayoutButtonCircle
-              type="BACK"
+            <ButtonCircle
+              actionType="back"
               handlerClick={() => openOptions()}
-            ></LayoutButtonCircle>
+            ></ButtonCircle>
           </header>
           <section className="flex items-center justify-center ">
             <div className="w-35 h-35 relative bg-radial-[at_25%_25%] from-accent to-accent-shadow to-75% rounded-full flex items-center justify-center">
@@ -51,11 +50,11 @@ export function SidebarOptions(props: SidebarOptionsProps) {
                   {props.name?.slice(0, 1).toUpperCase()}
                 </p>
               )}
-              <LayoutButtonCircle
+              <ButtonCircle
                 handlerClick={() => setIsOpenSettingUser(true)}
-                type="CREATE"
+                actionType="create"
                 className="absolute bottom-0 right-0 overflow-hidden"
-              ></LayoutButtonCircle>
+              ></ButtonCircle>
             </div>
             <div className="ml-8">
               <p className="text-xl">{props.name}</p>

@@ -1,15 +1,15 @@
 'use client';
-import { MainTitle } from '@/shared/Main-title/main-title';
-import { LabelForm } from '@/shared/Label-form/label-form-layout';
-import { InputMain } from '@/shared/Input-main/layout-input-main';
-import { ButtonMain } from '@/shared/Button-main/button-main-layout';
-import { formConfig } from './constants/form-fields';
 import React, { useState } from 'react';
-import { NextRouter, useRouter } from 'next/router';
 import Link from 'next/link';
+import clsx from 'clsx';
+import { CustomTitle } from '@/shared/ui/CustomTitle';
+import { LabelForm } from '@/shared/ui/LabelForm';
+import { InputMain } from '@/shared/ui/InputMain';
+import { ButtonMain } from '@/shared/ui/ButtonMain';
+import { formConfig } from './constants/form-fields';
+import { NextRouter, useRouter } from 'next/router';
 import { useGlobalContext } from '@/features/common/globalContext';
 import { useLocalStorage } from '@/features/common/hooks/useLocalStorage/useLocalStorage';
-import clsx from 'clsx';
 
 interface UserInterface {
   id: string;
@@ -97,7 +97,7 @@ export function FormAuth() {
             method="post"
             className="border border-foreground/10 bg-background py-6 px-12 md:min-w-[400px] mx-auto rounded-lg max-md:px-6 max-md:w-10/12 "
           >
-            <MainTitle title={page}></MainTitle>
+            <CustomTitle title={page}></CustomTitle>
             {formConfig.map((field, index) => {
               validArray.push(field.validate(formData, page));
               if (
@@ -110,13 +110,10 @@ export function FormAuth() {
               return (
                 <LabelForm text={field.label} key={index}>
                   <InputMain
-                    purpose="FORM"
-                    inputRef={null}
-                    sendMessage={() => ''}
+                    purpose="form"
                     value={formData[field.name]}
                     changeHandler={(e) => handlerInput(e)}
                     {...field}
-                    className="w-full"
                     valid={field.validate?.(formData, page)}
                     message={
                       formData[field.name] !== '' ? field.errorMessage : ''
@@ -133,7 +130,9 @@ export function FormAuth() {
             {(page === 'login' && (
               <>
                 <ButtonMain
-                  type="login"
+                  actionType="login"
+                  type="submit"
+                  text="Login"
                   disabled={!validArray.every((par) => par)}
                   handlerClick={(e) => {
                     e.preventDefault();
@@ -157,7 +156,9 @@ export function FormAuth() {
             )) || (
               <>
                 <ButtonMain
-                  type="register"
+                  actionType="register"
+                  type="submit"
+                  text="Register"
                   disabled={!validArray.every((par) => par)}
                   handlerClick={(e) => {
                     e.preventDefault();

@@ -1,4 +1,3 @@
-import { BubbleMenuItem } from '@/shared/Bubble-menu-item/bubble-menu-item';
 import { IoLockOpenOutline as LockOpenIcon } from 'react-icons/io5';
 import React, { useEffect } from 'react';
 import { MdDelete as DeleteIcon } from 'react-icons/md';
@@ -7,6 +6,7 @@ import { IoMdCreate as WriteIcon } from 'react-icons/io';
 import clsx from 'clsx';
 import { useGlobalContext } from '@/features/common/globalContext';
 import { useRouter } from 'next/navigation';
+import { BubbleMenuItem } from '@/shared/ui/BubbleMenuItem';
 
 const chatUsersConfig = [
   {

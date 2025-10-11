@@ -1,11 +1,11 @@
 import { BubbleMenuLayout } from '@/entities/Bubble-menu-list/bubble-menu-layout';
 import { UserContact } from '@/entities/UserContact/user-contact';
-import { LayoutButtonCircle } from '@/shared/Button-circle/layout-button-circle';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useGlobalContext } from './header-sidebar-layout';
 import { useRouter } from 'next/router';
 import { socket } from '@/features/common/globalContext';
+import { ButtonCircle } from '@/shared/ui/ButtonCircle';
 
 export function HeaderMainLayout() {
   const { setSidebarIsOpen, currentUser, setCurrentUser, user } =
@@ -83,11 +83,11 @@ export function HeaderMainLayout() {
   return (
     <>
       <Link href="/">
-        <LayoutButtonCircle
-          type="BACK"
+        <ButtonCircle
+          actionType="back"
           className="mr-4 hidden max-md:flex"
           handlerClick={() => setSidebarIsOpen(true)}
-        ></LayoutButtonCircle>
+        ></ButtonCircle>
       </Link>
       <UserContact
         newCompanion={{ ...currentUser }}
@@ -100,11 +100,11 @@ export function HeaderMainLayout() {
         chat_id=""
         lastCreate={''}
       ></UserContact>
-      <LayoutButtonCircle
-        type="MORE"
+      <ButtonCircle
+        actionType="more"
         className="ml-auto"
         handlerClick={() => setIsBubbleMenuOpen(true)}
-      ></LayoutButtonCircle>
+      ></ButtonCircle>
 
       <BubbleMenuLayout
         id={typeof user.id === 'string' ? user.id : ''}

@@ -1,10 +1,10 @@
 'use client';
-import { InputMain } from '@/shared/Input-main/layout-input-main';
 import { useEffect, useRef, useState } from 'react';
 import { RiEmojiStickerLine as EmojiIcon } from 'react-icons/ri';
 import { useGlobalContext } from '../common/globalContext';
 import EmojiPicker from '@emoji-mart/react';
-import { LayoutButtonCircle } from '@/shared/Button-circle/layout-button-circle';
+import { InputMain } from '@/shared/ui/InputMain';
+import { ButtonCircle } from '@/shared/ui/ButtonCircle';
 interface ChatInputProps {
   sendMessage: (message: string) => void;
 }
@@ -67,25 +67,24 @@ export function ChatInput({ sendMessage }: ChatInputProps) {
             changeHandler={(e) => setMessage(e.target.value)}
             type="text"
             value={message}
-            purpose="MESSAGE"
+            purpose="message"
             placeholder="Сообщение..."
             name="chat"
-            className="rounded-3xl h-10 pr-10 w-full pl-10 message "
-            onKeyDownHandler={() => null}
+           
             sendMessage={() => {
               sendMessage(message);
               setOpenEmoji(false);
               setMessage('');
             }}
           ></InputMain>
-          <LayoutButtonCircle
-            type="MESSAGE"
+          <ButtonCircle
+            actionType="message"
             handlerClick={() => {
               sendMessage(message);
               setMessage('');
             }}
             className="text-base max-md:ml-0 max-md:absolute max-md:right-0 text-foreground/50 bg-accent ml-5"
-          ></LayoutButtonCircle>
+          ></ButtonCircle>
         </div>
       </div>
     </form>

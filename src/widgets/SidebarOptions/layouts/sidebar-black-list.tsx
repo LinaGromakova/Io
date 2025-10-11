@@ -1,7 +1,7 @@
-import { LayoutButtonCircle } from '@/shared/Button-circle/layout-button-circle';
 import { UserContactSimpleLayout } from '@/entities/UserContact/layouts/user-contact-simple';
 import { useGlobalContext } from '@/features/common/globalContext';
 import { useEffect, useState } from 'react';
+import { ButtonCircle } from '@/shared/ui/ButtonCircle';
 
 interface BlackListLayoutProps {
   handlerCloseBlackList: () => void;
@@ -35,10 +35,10 @@ export function BlackListLayout(props: BlackListLayoutProps) {
   return (
     <>
       <header className="w-full px-4 py-2 flex items-center justify-between">
-        <LayoutButtonCircle
-          type="BACK"
+        <ButtonCircle
+          actionType="back"
           handlerClick={() => props.handlerCloseBlackList()}
-        ></LayoutButtonCircle>
+        ></ButtonCircle>
         <h3 className="mx-auto text-xl pr-8">Чёрный список</h3>
       </header>
       <section>

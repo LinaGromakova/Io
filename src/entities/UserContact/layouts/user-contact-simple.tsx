@@ -1,6 +1,7 @@
 import { BubbleMenuLayout } from '@/entities/Bubble-menu-list/bubble-menu-layout';
 import { useGlobalContext } from '@/features/common/globalContext';
-import { LayoutButtonCircle } from '@/shared/Button-circle/layout-button-circle';
+import { ButtonCircle } from '@/shared/ui/ButtonCircle';
+
 import clsx from 'clsx';
 import { useState } from 'react';
 
@@ -70,10 +71,10 @@ export function UserContactSimpleLayout(props: UserContactSimpleProps) {
       </div>
       <div className="relative">
         {props.type === 'unBlock' && (
-          <LayoutButtonCircle
-            type="MORE"
+          <ButtonCircle
+            actionType="more"
             handlerClick={() => setIsBubbleMenuOpen(true)}
-          ></LayoutButtonCircle>
+          ></ButtonCircle>
         )}
         <BubbleMenuLayout
           id={props.id}

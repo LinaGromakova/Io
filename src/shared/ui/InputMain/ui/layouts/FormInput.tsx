@@ -1,0 +1,74 @@
+import React, { useRef, useState } from 'react';
+import clsx from 'clsx';
+import {
+  IoMdEye as IconInvisible,
+  IoMdEyeOff as IconVisible,
+} from 'react-icons/io';
+
+export type FormInputProps = {
+  type: string;
+  label: string;
+  value: string;
+  className?: string;
+  placeholder: string;
+  category?: string;
+  message: string;
+  maxLength: number;
+  minLength: number;
+  required: boolean;
+  valid: boolean;
+  onKeyDownHandler: (e: React.KeyboardEvent) => void;
+  changeHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
+};
+
+export function FormInput(props: FormInputProps) {
+  const [visible, setVisible] = useState(true);
+  const [inputType, setInputType] = useState('password');
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  function handlerVisibleClick() {
+    setVisible(!visible);
+    setInputType((prev) => (prev === 'password' ? 'text' : 'password'));
+  }
+  return (
+    <>
+      <input
+        {...props}
+        ref={inputRef}
+        autoComplete="off"
+        value={props.value}
+        onChange={(e) => props.changeHandler(e)}
+        type={props.category === 'password' ? inputType : props.type}
+        onKeyDown={(e) => {
+          props.onKeyDownHandler(e);
+        }}
+        className={clsx(
+          props.className,
+          'rounded-md w-full focus:outline-1  focus:outline-offset-6 mt-2 focus:invalid:outline-red-500/70',
+          {
+            'focus:valid:outline-green-400/70': props.valid,
+          },
+          {
+            'focus:outline-red-500/70': !props.valid,
+          }
+        )}
+      />
+      {props.category === 'password' && (
+        <button
+          type="button"
+          onClick={() => handlerVisibleClick()}
+          className="cursor-pointer absolute text-xl opacity-50 right-2 top-4 hover:opacity-90 duration-500 "
+        >
+          {visible ? (
+            <IconVisible></IconVisible>
+          ) : (
+            <IconInvisible></IconInvisible>
+          )}
+        </button>
+      )}
+      {!props.valid && (
+        <span className="text-xs mt-3 block opacity-50 ">{props.message}</span>
+      )}
+    </>
+  );
+}

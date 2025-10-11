@@ -1,8 +1,8 @@
 import { IoIosCheckmark as CheckmarkIcon } from 'react-icons/io';
-import { ButtonMain } from '@/shared/Button-main/button-main-layout';
 import { useGlobalContext } from '@/features/common/globalContext';
 import { useEffect, useState } from 'react';
-import { LayoutButtonCircle } from '@/shared/Button-circle/layout-button-circle';
+import { ButtonCircle } from '@/shared/ui/ButtonCircle';
+import { ButtonMain } from '@/shared/ui/ButtonMain';
 
 interface SidebarSettingsUserLProps {
   name: string;
@@ -80,8 +80,8 @@ export function SidebarSettingsUserLayout(props: SidebarSettingsUserLProps) {
   return (
     <>
       <header className="w-full px-4 flex items-center mt-2">
-        <LayoutButtonCircle
-          type="BACK"
+        <ButtonCircle
+          actionType="back"
           className="min-w-9"
           handlerClick={() => {
             if (newPhotoUser || nameInputValue) {
@@ -92,7 +92,7 @@ export function SidebarSettingsUserLayout(props: SidebarSettingsUserLProps) {
               setNewPhotoUser(null);
             }
           }}
-        ></LayoutButtonCircle>
+        ></ButtonCircle>
         <h3 className="text-2xl px-4 text-center ml-auto mr-auto">
           Настройки пользователя
         </h3>
@@ -122,9 +122,9 @@ export function SidebarSettingsUserLayout(props: SidebarSettingsUserLProps) {
             </p>
           )}
 
-          <LayoutButtonCircle
+          <ButtonCircle
             handlerClick={() => null}
-            type="PHOTO_ADD"
+            actionType="photoAdd"
             className="absolute bottom-0 right-0 overflow-hidden"
           >
             <input
@@ -140,7 +140,7 @@ export function SidebarSettingsUserLayout(props: SidebarSettingsUserLProps) {
               className="opacity-0 absolute p-20 top-0 left-0 w-full h-full cursor-pointer
                   "
             />
-          </LayoutButtonCircle>
+          </ButtonCircle>
         </div>
         <div className="ml-4 h-24 mt-6 w-40  ">
           <div className="relative mb-2.5 flex max-w-2/3">
@@ -189,7 +189,9 @@ export function SidebarSettingsUserLayout(props: SidebarSettingsUserLProps) {
       </section>
       {newPhotoUser && (
         <ButtonMain
-          type="apply photo"
+          actionType="applyPhoto"
+          type="button"
+          text="Apply Photo"
           className="max-w-1/2 mx-auto max-lg:max-w-3/4 "
           handlerClick={handleFileSelect}
         ></ButtonMain>

@@ -1,16 +1,16 @@
-import { ConfirmModalLayout } from '@/shared/Confirm-modal/confirm-modal-layout';
+import { ConfirmModal } from '@/shared/ui/Modals/ConfirmModal/ui/ConfirmModal';
 import { useGlobalContext } from '@/widgets/Header/layouts/header-sidebar-layout';
 import { SidebarContactsLayout } from '@/widgets/SidebarContacts/sidebar-contacts-layout';
 import { SidebarOptionsLayout } from '@/widgets/SidebarOptions/sidebar-options-layout';
 import { clsx } from 'clsx';
-
 import { JSX } from 'react';
+
 interface Props {
   children?: JSX.Element | null;
 }
 export function MainViewLayout({ children }: Props) {
-  const { isModalOpen, isAuth, theme } = useGlobalContext();
-
+  const { isModalOpen, isAuth, theme, modalSettings } = useGlobalContext();
+  console.log('high', isModalOpen);
   return (
     <div
       className={
@@ -21,10 +21,13 @@ export function MainViewLayout({ children }: Props) {
     >
       {isAuth && (
         <div className="flex overflow-y-hidden relative ">
-          <ConfirmModalLayout
+          <ConfirmModal
             id={isModalOpen.id}
             name={isModalOpen.name}
-          ></ConfirmModalLayout>
+            isOpen={isModalOpen.open}
+            confirmType={isModalOpen.type}
+            modalSettings={modalSettings}
+          ></ConfirmModal>
           <SidebarOptionsLayout></SidebarOptionsLayout>
           <SidebarContactsLayout
             className={clsx((!!children && 'w-6/12') || 'w-4/12')}

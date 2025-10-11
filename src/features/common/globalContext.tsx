@@ -4,7 +4,6 @@ import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useLocalStorage } from './hooks/useLocalStorage/useLocalStorage';
 import { io } from 'socket.io-client';
 export const socket = io('http://localhost:5000');
-type ModalKey = string;
 
 interface ModalConfig {
   message: (arg0: string) => string;
@@ -39,7 +38,7 @@ interface GlobalContextInterface {
     id_2?: string | undefined,
     currentName?: string
   ) => void;
-  modalSettings: Record<ModalKey, ModalConfig>;
+  modalSettings: Record<string, ModalConfig>;
   isModalMessageOpen: ModalMessageTypeState;
   setIsModalMessageOpen: React.Dispatch<
     React.SetStateAction<ModalMessageTypeState>
@@ -141,7 +140,7 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
     }
   }, [user?.id, isAuth]);
 
-  const modalSettings: Record<ModalKey, ModalConfig> = {
+  const modalSettings: Record<string, ModalConfig> = {
     unLogin: {
       message: function (currentNameUser: string) {
         return `Вы точно хотите выйти из аккаунта, ${currentNameUser}?`;
