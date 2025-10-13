@@ -1,11 +1,12 @@
 import clsx from 'clsx';
-import { UserMessage } from '../UserMessage/user-message';
+import { MessageItem } from '../../entities/message';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { ChatInput } from '@/features/ChatInput/ChatInput';
 import { socket, useGlobalContext } from '@/features/common/globalContext';
 import Stellar from '../../../public/chat-bg/Stellar.svg';
 import Empty from '../../../public/chat-icons/Empty.svg';
+
 const scroll: string = `[&::-webkit-scrollbar]:w-2
   [&::-webkit-scrollbar-track]:transparent
   hover:[&::-webkit-scrollbar-thumb]:transparent
@@ -170,13 +171,14 @@ export function ChatBody() {
         <div>
           {messages.map((message: MessageInterface) => {
             return (
-              <UserMessage
+              <MessageItem
+                currentUserId={user.id}
                 key={message.id}
-                sender_id={message.sender_id}
-                content={message.content}
-                is_read={message.is_read}
-                created_at={message.created_at}
-              ></UserMessage>
+                senderId={message.sender_id}
+                messageContent={message.content}
+                isRead={message.is_read}
+                createdAt={message.created_at}
+              ></MessageItem>
             );
           })}
           <div ref={chat} className="h-15"></div>

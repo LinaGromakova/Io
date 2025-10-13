@@ -1,4 +1,6 @@
-import { FormAuth } from '@/entities/FormAuth/form-auth-layout';
+import { FormAuth } from "@/features/FormAuth/form-auth-layout";
+
+
 function Login() {
   return <FormAuth></FormAuth>;
 }

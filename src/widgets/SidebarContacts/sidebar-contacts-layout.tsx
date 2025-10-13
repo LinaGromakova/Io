@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { UserContactListLayout } from '@/entities/UserContactsList/user-contacts-list-layout';
+import { UserContactListLayout } from '@/features/UserContactsList/user-contacts-list-layout';
 import { Header } from '../Header/header';
 import { useGlobalContext } from '../Header/layouts/header-sidebar-layout';
 import { ButtonCircle } from '@/shared/ui/ButtonCircle';

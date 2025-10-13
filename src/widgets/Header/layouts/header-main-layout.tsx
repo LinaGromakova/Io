@@ -1,15 +1,20 @@
-import { BubbleMenuLayout } from '@/entities/Bubble-menu-list/bubble-menu-layout';
-import { UserContact } from '@/entities/UserContact/user-contact';
+import { UserContact } from '@/entities/UserContact/ui/UserContact';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useGlobalContext } from './header-sidebar-layout';
 import { useRouter } from 'next/router';
 import { socket } from '@/features/common/globalContext';
 import { ButtonCircle } from '@/shared/ui/ButtonCircle';
+import { BubbleMenu } from '@/entities/BubbleMenu';
 
 export function HeaderMainLayout() {
-  const { setSidebarIsOpen, currentUser, setCurrentUser, user } =
-    useGlobalContext();
+  const {
+    setSidebarIsOpen,
+    currentUser,
+    setCurrentUser,
+    user,
+    changeModalView,
+  } = useGlobalContext();
   const [isBubbleMenuOpen, setIsBubbleMenuOpen] = useState(false);
 
   const router = useRouter();
@@ -105,20 +110,45 @@ export function HeaderMainLayout() {
         className="ml-auto"
         handlerClick={() => setIsBubbleMenuOpen(true)}
       ></ButtonCircle>
-
-      <BubbleMenuLayout
+      <BubbleMenu
+        menuType={'contactHeader'}
+        visible={isBubbleMenuOpen}
+        setVisible={setIsBubbleMenuOpen}
+        isBlock={false}
+        onClick={(actionType) => {
+          console.log(actionType);
+          // changeModalView('action', {});
+        }}
+        className="top-18 right-5"
+      ></BubbleMenu>
+      {/* <BubbleMenuLayout
         id={typeof user.id === 'string' ? user.id : ''}
         name={typeof currentUser?.name === 'string' ? currentUser?.name : ''}
         current_id={currentUser.id}
         visible={isBubbleMenuOpen}
-        setVisible={setIsBubbleMenuOpen}
+        setVisible={}
         className="top-18 right-5"
         type="currentUser"
         newCompanion={{ ...currentUser }}
         chat_id={chat_id}
         id_1=""
         id_2=""
-      ></BubbleMenuLayout>
+      ></BubbleMenuLayout> */}
     </>
   );
 }
+// if (item.actionType === 'block') {
+//                       changeModalView(
+//                         item.actionType,
+//                         props.id,
+//                         props.current_id,
+//                         props.name
+//                       );
+//                     } else {
+//                       changeModalView(
+//                         item.actionType,
+//                         props.chat_id,
+//                         undefined,
+//                         props.name
+//                       );
+//                     }

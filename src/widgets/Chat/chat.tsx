@@ -1,4 +1,4 @@
-import { ChatBody } from '@/entities/ChatBody/chat-body';
+import { ChatBody } from '@/features/ChatBody/chat-body';
 
 export function Chat() {
   return (

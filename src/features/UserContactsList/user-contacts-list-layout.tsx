@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { UserContact } from '../UserContact/user-contact';
+import { UserContact } from '../../entities/UserContact/ui/UserContact';
 import { UserContactSimpleLayout } from '../UserContact/layouts/user-contact-simple';
 import { socket, useGlobalContext } from '@/features/common/globalContext';
 import { GiAstronautHelmet as AstronautIcon } from 'react-icons/gi';

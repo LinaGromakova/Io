@@ -68,11 +68,12 @@ interface User {
   online: boolean;
 }
 interface ModalData {
+  chatId?: string;
   open: boolean;
   type: string;
-  id: string;
+  currentUserId: string;
   name: string;
-  id_2?: string | undefined;
+  targetUserId?: string | undefined;
 }
 interface UserInterface {
   id: string;
@@ -118,9 +119,10 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
   const [isModalOpen, setIsModalOpen] = React.useState<ModalData>({
     open: false,
     type: '',
-    id: '',
+    currentUserId: '',
     name: '',
-    id_2: '',
+    targetUserId: '',
+    chatId: '',
   });
 
   const [user, setUser] = useState<UserInterface>(storage.user!);
@@ -165,7 +167,7 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
         changeModalView();
       },
       handlerOk: function () {
-        unBlockUser(user.id, isModalOpen.id_2);
+        unBlockUser(user.id, isModalOpen.targetUserId);
         setIsBlock(false);
         changeModalView();
       },
@@ -178,7 +180,7 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
         changeModalView();
       },
       handlerOk: function () {
-        blockUser(user.id, isModalOpen.id_2);
+        blockUser(user.id, isModalOpen.targetUserId);
         changeModalView();
       },
     },
@@ -191,7 +193,7 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
         changeModalView();
       },
       handlerOk: function () {
-        deleteUserChat(isModalOpen.id);
+        deleteUserChat(isModalOpen.chatId);
         changeModalView();
         setIsModalMessageOpen({
           message: 'Чат успешно удален!',
@@ -230,6 +232,23 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
       console.log(error, 'Delete error');
     }
   }
+  async function writeUser(id_1: string, id_2: string) {
+    try {
+      const data = await fetch('http://localhost:5000/start-chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ user1_id: id_1, user2_id: id_2 }),
+      });
+      const result = await data.json();
+      router.push(`/${result}`);
+      return result;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async function unBlockUser(user_id: string, blocked_user_id?: string) {
     try {
       const data = await fetch(
@@ -425,6 +444,7 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
     setIsAuth,
     isBlock,
     setIsBlock,
+    writeUser,
   };
 
   return (
