@@ -8,54 +8,54 @@ import { InputMain } from '@/shared/ui/InputMain';
 import { ButtonMain } from '@/shared/ui/ButtonMain';
 import { formConfig } from './constants/form-fields';
 import { NextRouter, useRouter } from 'next/router';
-import { useGlobalContext } from '@/features/common/globalContext';
-import { useLocalStorage } from '@/shared/lib/hooks/useLocalStorage';
 
-interface UserInterface {
-  id: string;
-  name: string;
-  image: string;
-  online: boolean;
-  last_seen: string;
-  created_at: string;
-}
-type ModalMessageTypeState = {
-  message: string;
-  open: boolean;
-};
-async function authUser(
-  actionType: 'login' | 'register',
-  dataAuth: interfaceForm | { [k: string]: string },
-  router: NextRouter,
-  setState: React.Dispatch<React.SetStateAction<UserInterface>>,
-  setStateModal: React.Dispatch<React.SetStateAction<ModalMessageTypeState>>,
-  updateUser: (user: UserInterface) => void,
-  updateAuth: React.Dispatch<React.SetStateAction<boolean>>
-) {
-  try {
-    const data = await fetch(`http://localhost:5000/${actionType}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify(dataAuth),
-    });
-    const result = await data.json();
-    if (data.status === 401 || data.status === 409) {
-      return setStateModal({ message: result.message, open: true });
-    } else {
-      if (result) {
-        updateUser(result.user);
-        updateAuth(true);
-        setState(result.user);
-        router.replace('/');
-      }
-    }
-  } catch (error) {
-    console.log(error);
-  }
-}
+
+
+// interface UserInterface {
+//   id: string;
+//   name: string;
+//   image: string;
+//   online: boolean;
+//   last_seen: string;
+//   created_at: string;
+// }
+// type ModalMessageTypeState = {
+//   message: string;
+//   open: boolean;
+// };
+// async function authUser(
+//   actionType: 'login' | 'register',
+//   dataAuth: interfaceForm | { [k: string]: string },
+//   router: NextRouter,
+//   setState: React.Dispatch<React.SetStateAction<UserInterface>>,
+//   setStateModal: React.Dispatch<React.SetStateAction<ModalMessageTypeState>>,
+//   updateUser: (user: UserInterface) => void,
+//   updateAuth: React.Dispatch<React.SetStateAction<boolean>>
+// ) {
+//   try {
+//     const data = await fetch(`http://localhost:5000/${actionType}`, {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       credentials: 'include',
+//       body: JSON.stringify(dataAuth),
+//     });
+//     const result = await data.json();
+//     if (data.status === 401 || data.status === 409) {
+//       return setStateModal({ message: result.message, open: true });
+//     } else {
+//       if (result) {
+//         updateUser(result.user);
+//         updateAuth(true);
+//         setState(result.user);
+//         router.replace('/');
+//       }
+//     }
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
 
 interface interfaceForm {
   login: string;

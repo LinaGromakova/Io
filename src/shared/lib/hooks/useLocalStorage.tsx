@@ -1,12 +1,12 @@
 'use client';
 import { useEffect, useLayoutEffect, useState } from 'react';
 interface UserInterface {
-  id: string;
-  name: string;
-  image: string;
-  online: boolean;
-  last_seen: string;
-  created_at: string;
+  userId: string;
+  userName: string;
+  userImage: string;
+  onlineStatus: boolean;
+  lastSeen: string;
+  createdAt: string;
 }
 interface StorageData {
   user: UserInterface | null;
