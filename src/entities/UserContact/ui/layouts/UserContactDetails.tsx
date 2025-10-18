@@ -8,7 +8,6 @@ import { useUserContact } from '../../model/useUserContact';
 
 export interface UserContactDetailsProps {
   chatId: string;
-  menuIsOpen: boolean;
   userId: string;
   userImage: string;
   userName: string;
@@ -88,19 +87,4 @@ export function UserContactDetails(props: UserContactDetailsProps) {
       </article>
     </Link>
   );
-}
-
-{
-  /* <BubbleMenuLayout
-          id={typeof props.user_id === 'string' ? props.user_id : ''}
-          chat_id={props.chat_id}
-          id_1=""
-          id_2=""
-          name={props.name}
-          visible={isBubbleMenuOpen}
-          setVisible={setIsBubbleMenuOpen}
-          type="userChat"
-          className="top-7 right-25"
-          newCompanion={props.newCompanion}
-        ></BubbleMenuLayout> */
 }

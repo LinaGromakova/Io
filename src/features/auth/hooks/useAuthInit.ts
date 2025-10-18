@@ -1,22 +1,14 @@
-import { useLayoutEffect, useState } from 'react';
+import { useLayoutEffect } from 'react';
 import { useAuth } from './useAuth';
 import { useFetch, useLocalStorage } from '@/shared/lib/hooks';
 import { useRouter } from 'next/router';
-interface UserInterface {
-  userId: string;
-  userName: string;
-  userImage: string;
-  onlineStatus: boolean;
-  lastSeen: string;
-  createdAt: string;
-}
+
 export function useAuthInit() {
   const router = useRouter();
   const { storage, removeUserData, updateUser } = useLocalStorage();
-  const [isAuth, setIsAuth] = useState(false);
-  const { checkSession } = useAuth();
+
+  const { checkSession, setUser, setIsAuth } = useAuth();
   const { getData } = useFetch();
-  const [user, setUser] = useState<UserInterface>(storage.user!);
 
   const getUser = (userId: string) => {
     return getData(`http://localhost:5000/user/${userId}`);
@@ -64,5 +56,5 @@ export function useAuthInit() {
     };
   }, []);
 
-  return { user, isAuth, setUser, setIsAuth, getUser };
+  return { getUser };
 }

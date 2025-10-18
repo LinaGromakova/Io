@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useAuthInit } from '../hooks/useAuthInit';
 import { useSocketContext } from '@/features/socket/context/socketContext';
+import { useAuth } from '../hooks/useAuth';
 
 interface UserInterface {
   userId: string;
@@ -10,6 +11,7 @@ interface UserInterface {
   lastSeen: string;
   createdAt: string;
 }
+
 interface AuthContextInterface {
   user: UserInterface;
   setUser: React.Dispatch<React.SetStateAction<UserInterface>>;
@@ -20,23 +22,24 @@ interface AuthContextInterface {
 export const AuthContext = React.createContext<AuthContextInterface>(null!);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const authState = useAuthInit();
+  useAuthInit();
+  const { isAuth, setIsAuth, user, setUser } = useAuth();
   const { socket, isConnected } = useSocketContext();
-  
   useEffect(() => {
-    if (authState.isAuth && isConnected && authState.user?.userId) {
+    if (isAuth && isConnected && user?.userId) {
       socket.emit('connect_app', {
-        userId: authState.user.userId,
+        userId: user.userId,
         onlineStatus: true,
       });
     }
-  }, [authState.isAuth, isConnected, authState.user?.userId, socket]);
+  }, [isAuth, isConnected, user?.userId, socket]);
 
-  return (
-    <AuthContext.Provider value={authState}>{children}</AuthContext.Provider>
-  );
-}
+  const value = {
+    user,
+    setUser,
+    isAuth,
+    setIsAuth,
+  };
 
-export function useAuthContext(): AuthContextInterface {
-  return React.useContext(AuthContext);
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

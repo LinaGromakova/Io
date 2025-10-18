@@ -78,18 +78,3 @@ export function UserContactSimple(props: UserContactSimpleProps) {
     </article>
   );
 }
-{
-  /* <BubbleMenuLayout
-          id={props.id}
-          id_1={props.id_1}
-          id_2={props.id_2}
-          name={props.name}
-          current_id={props.id_2}
-          chat_id=""
-          visible={isBubbleMenuOpen}
-          setVisible={setIsBubbleMenuOpen}
-          type={props.type}
-          className="top-0 right-10"
-          newCompanion={props.newCompanion}
-        ></BubbleMenuLayout> */
-}

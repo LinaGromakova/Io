@@ -5,20 +5,25 @@ import {
   IoMdEyeOff as IconVisible,
 } from 'react-icons/io';
 
+interface FormInterface {
+  login: string;
+  name: string;
+  password: string;
+  duplicate: string;
+  [key: string]: string;
+}
 export type FormInputProps = {
   type: string;
   label: string;
   value: string;
   className?: string;
   placeholder: string;
-  category?: string;
   message: string;
   maxLength: number;
   minLength: number;
   required: boolean;
   valid: boolean;
-  onKeyDownHandler: (e: React.KeyboardEvent) => void;
-  changeHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  setState: React.Dispatch<React.SetStateAction<FormInterface>>;
 };
 
 export function FormInput(props: FormInputProps) {
@@ -30,6 +35,14 @@ export function FormInput(props: FormInputProps) {
     setVisible(!visible);
     setInputType((prev) => (prev === 'password' ? 'text' : 'password'));
   }
+  function handlerInput(
+    e: { target: { value: string; name: string } },
+    setState: React.Dispatch<React.SetStateAction<FormInterface>>
+  ) {
+    const value = e.target.value;
+    const name = e.target.name;
+    return setState((prev) => ({ ...prev, [name]: value }));
+  }
   return (
     <>
       <input
@@ -37,11 +50,11 @@ export function FormInput(props: FormInputProps) {
         ref={inputRef}
         autoComplete="off"
         value={props.value}
-        onChange={(e) => props.changeHandler(e)}
-        type={props.category === 'password' ? inputType : props.type}
-        onKeyDown={(e) => {
-          props.onKeyDownHandler(e);
-        }}
+        onChange={(e) => handlerInput(e, props.setState)}
+        type={props.type === 'password' ? inputType : props.type}
+        onKeyDown={(e: { key: string; preventDefault: () => void }) =>
+          e.key === ' ' && e.preventDefault()
+        }
         className={clsx(
           props.className,
           'rounded-md w-full focus:outline-1  focus:outline-offset-6 mt-2 focus:invalid:outline-red-500/70',
@@ -53,7 +66,7 @@ export function FormInput(props: FormInputProps) {
           }
         )}
       />
-      {props.category === 'password' && (
+      {props.type === 'password' && (
         <button
           type="button"
           onClick={() => handlerVisibleClick()}

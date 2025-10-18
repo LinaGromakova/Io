@@ -1,11 +1,10 @@
 import { useRouter } from 'next/router';
 import React from 'react';
 import { useActionContext } from './actionContext';
-import { useAuthInit } from '@/features/auth/hooks/useAuthInit';
 import { useAuth } from '@/features/auth/hooks/useAuth';
 import { useLocalStorage } from '@/shared/lib/hooks';
 import { useUiContext } from './uiContext';
-import { useChatContext } from './chatContext';
+import { useChatContext } from '../../chat/context/chatContext';
 
 interface ModalConfig {
   message: (arg0: string) => string;
@@ -13,7 +12,7 @@ interface ModalConfig {
   handlerOk: (chat_id: string) => void;
 }
 interface ModalData {
-  isOpen: boolean;
+  isOpen?: boolean;
   modalType: string;
   currentUserId: string;
   targetUserId: string;
@@ -22,13 +21,13 @@ interface ModalData {
 }
 interface ModalContextInterface {
   modalActions: Record<string, ModalConfig>;
+  changeModalView: ({ ...arg }: ModalData) => void;
 }
 export const ModalContext = React.createContext<ModalContextInterface>(null!);
 
 export function ModalProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const { setIsAuth } = useAuthInit();
-  const { logOutUser } = useAuth();
+  const { logOutUser, setIsAuth } = useAuth();
   const { removeUserData } = useLocalStorage();
   const { toggleOptionsSidebar, setIsModalMessageOpen, setIsUserSettingsOpen } =
     useUiContext();
@@ -115,24 +114,16 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
       },
     },
   };
-  function changeModalView(
-    modalType?: string,
-    currentUserId?: string,
-    targetUserId?: string,
-    targetUserName?: string,
-    chatId?: string
-  ) {
+
+  function changeModalView(params?: Partial<ModalData>) {
     setIsModalOpen((prev) => ({
+      ...prev,
+      ...params,
       isOpen: !prev.isOpen,
-      modalType: modalType ?? prev.modalType,
-      currentUserId: currentUserId ?? prev.currentUserId,
-      targetUserId: targetUserId ?? prev.targetUserId,
-      targetUserName: targetUserName ?? prev.targetUserName,
-      chatId: chatId ?? prev.chatId,
     }));
   }
 
-  const value = { modalActions, setIsModalOpen };
+  const value = { modalActions, changeModalView };
   return (
     <ModalContext.Provider value={value}>{children}</ModalContext.Provider>
   );
