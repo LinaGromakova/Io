@@ -1,3 +1,4 @@
+'use client';
 import React, { useEffect } from 'react';
 import { useAuthInit } from '../hooks/useAuthInit';
 import { useSocketContext } from '@/features/socket/context/socketContext';

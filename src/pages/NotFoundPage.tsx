@@ -4,7 +4,8 @@ import { IoMdRocket } from 'react-icons/io';
 import { GiSpaceSuit } from 'react-icons/gi';
 import ErrorIcon from '../../public/errors-icons/404.svg';
 import { ButtonMain } from '@/shared/ui/ButtonMain';
-function Page404() {
+
+export function NotFoundPage() {
   return (
     <div className="relative flex flex-col w-full h-screen  items-center justify-center text-accent/80 overflow-hidden">
       <ErrorIcon className="z-10 w-2xl h-72 mb-17 max-sm:w-64 max-sm:mb-5" />
@@ -22,4 +23,3 @@ function Page404() {
     </div>
   );
 }
-export default Page404;

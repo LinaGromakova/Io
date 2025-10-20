@@ -1,3 +1,4 @@
+'use client';
 import { useSocketContext } from '@/features/socket/context/socketContext';
 import { useEffect } from 'react';
 import { ChatInterface } from '../types/ChatInterface';

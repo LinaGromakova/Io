@@ -1,3 +1,4 @@
+'use client';
 import { UserContactAvatar } from '@/shared/ui/UserContact/UserContactAvatar';
 
 export interface UserContactHeaderProps {

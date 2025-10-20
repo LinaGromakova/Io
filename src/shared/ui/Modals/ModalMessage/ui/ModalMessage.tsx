@@ -1,3 +1,4 @@
+'use client';
 import { Portal } from '@/shared/ui/portal';
 import { useEffect } from 'react';
 

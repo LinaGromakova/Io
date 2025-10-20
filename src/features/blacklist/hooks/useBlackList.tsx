@@ -1,3 +1,4 @@
+'use client';
 import { useChatContext } from '@/features/common/contexts';
 import { useSocketContext } from '@/features/socket/context/socketContext';
 import { useFetch } from '@/shared/lib/hooks';

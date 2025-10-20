@@ -1,3 +1,4 @@
+'use client';
 import { useFetch } from '@/shared/lib/hooks';
 import React from 'react';
 import { MessageInterface } from '../types/MessageInterface';

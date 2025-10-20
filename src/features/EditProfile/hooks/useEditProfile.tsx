@@ -1,3 +1,4 @@
+'use client';
 import { useAuth } from '@/features/auth/hooks/useAuth';
 import { useUiContext } from '@/features/common/contexts';
 import { useEffect, useState } from 'react';
@@ -5,9 +6,7 @@ import { useEffect, useState } from 'react';
 export function useEditProfile() {
   const { isUserSettingsOpen, setIsModalMessageOpen } = useUiContext();
   const [nameInputValue, setNameInputValue] = useState('');
-  const [newPhotoUser, setNewPhotoUser] = useState<File | null>(
-    null
-  );
+  const [newPhotoUser, setNewPhotoUser] = useState<File | null>(null);
   const { user, setUser } = useAuth();
 
   async function changeUserName() {

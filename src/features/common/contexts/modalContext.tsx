@@ -1,3 +1,4 @@
+'use client';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { useActionContext } from './actionContext';
@@ -12,7 +13,7 @@ interface ModalConfig {
   handlerOk: (chat_id: string) => void;
 }
 interface ModalData {
-  isOpen?: boolean;
+  isOpen: boolean;
   modalType: string;
   currentUserId: string;
   targetUserId: string;
@@ -20,13 +21,14 @@ interface ModalData {
   chatId: string;
 }
 interface ModalContextInterface {
+  isModalOpen: ModalData;
   modalActions: Record<string, ModalConfig>;
   changeModalView: ({ ...arg }: ModalData) => void;
 }
 export const ModalContext = React.createContext<ModalContextInterface>(null!);
 
 export function ModalProvider({ children }: { children: React.ReactNode }) {
-  const router = useRouter();
+  // const router = useRouter();
   const { logOutUser, setIsAuth } = useAuth();
   const { removeUserData } = useLocalStorage();
   const { toggleOptionsSidebar, setIsModalMessageOpen, setIsUserSettingsOpen } =
@@ -54,7 +56,7 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
         setIsAuth(false);
         logOutUser();
         removeUserData();
-        router.replace('/login');
+        // router.replace('/login');
         changeModalView();
         toggleOptionsSidebar();
       },
@@ -98,7 +100,7 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
           message: 'Чат успешно удален!',
           open: true,
         });
-        router.replace('/');
+        // router.replace('/');
       },
     },
     exitNotSave: {
@@ -123,7 +125,7 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
     }));
   }
 
-  const value = { modalActions, changeModalView };
+  const value = { modalActions, isModalOpen, changeModalView };
   return (
     <ModalContext.Provider value={value}>{children}</ModalContext.Provider>
   );

@@ -1,3 +1,4 @@
+'use client';
 import { BubbleMenu } from '@/entities/BubbleMenu';
 import { ButtonCircle } from '@/shared/ui/ButtonCircle';
 import { UserContactAvatar } from '@/shared/ui/UserContact/UserContactAvatar';

@@ -4,7 +4,7 @@ import { useFetch, useLocalStorage } from '@/shared/lib/hooks';
 import { useRouter } from 'next/router';
 
 export function useAuthInit() {
-  const router = useRouter();
+  // const router = useRouter();
   const { storage, removeUserData, updateUser } = useLocalStorage();
 
   const { checkSession, setUser, setIsAuth } = useAuth();
@@ -25,7 +25,7 @@ export function useAuthInit() {
           removeUserData();
           if (isMounted) {
             setIsAuth(false);
-            router.replace('/login');
+            // router.replace('/login');
           }
           return;
         }
@@ -44,7 +44,7 @@ export function useAuthInit() {
         console.error('Auth init error:', error);
         if (isMounted) {
           setIsAuth(false);
-          router.replace('/login');
+          // router.replace('/login');
         }
       }
     };

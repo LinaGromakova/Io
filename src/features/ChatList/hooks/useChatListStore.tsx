@@ -1,3 +1,4 @@
+'use client';
 import { useEffect, useState } from 'react';
 import { ChatInterface } from '../types/ChatInterface';
 import { useSearchContext, useUiContext } from '@/features/common/contexts';

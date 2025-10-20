@@ -1,3 +1,4 @@
+'use client';
 import { useUiContext } from '@/features/common/contexts';
 import { useFetch, useLocalStorage } from '@/shared/lib/hooks';
 import { useRouter } from 'next/router';
@@ -20,7 +21,7 @@ interface interfaceForm {
 }
 
 export function useAuth() {
-  const router = useRouter();
+  // const router = useRouter();
   const { getData } = useFetch();
   const [isAuth, setIsAuth] = useState(false);
   const [user, setUser] = useState<UserInterface>(null!);
@@ -61,7 +62,7 @@ export function useAuth() {
         setIsAuth(true);
         updateUser(result.user);
         setUser(result.user);
-        router.replace('/');
+        // router.replace('/');
       }
     } catch (error) {
       return setIsModalMessageOpen({ message: `Ошибка ${error}`, open: true });

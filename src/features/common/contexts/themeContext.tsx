@@ -1,3 +1,4 @@
+'use client';
 import React, { useEffect, useState } from 'react';
 import { useLocalStorage } from '../../../shared/lib/hooks/useLocalStorage';
 
