@@ -5,7 +5,7 @@ import { UserContact } from '@/entities/UserContact';
 import { useUiContext } from '@/features/common/contexts/uiContext';
 import { useState } from 'react';
 import { useModalContext } from '@/features/common/contexts';
-import { useInitCurrentUser } from '../hooks/useInitCurrentUser';
+import { useInitTargetUser } from '../hooks/useInitTargetUser';
 import { useAuth } from '@/features/auth/hooks/useAuth';
 
 export function ChatHeader({ chatId }: { chatId: string }) {
@@ -13,8 +13,7 @@ export function ChatHeader({ chatId }: { chatId: string }) {
   const [isBubbleMenuOpen, setIsBubbleMenuOpen] = useState(false);
   const { changeModalView } = useModalContext();
   const { setIsSidebarOpen } = useUiContext();
-  const { currentUser } = useInitCurrentUser(chatId);
-
+  const { targetUser } = useInitTargetUser(chatId);
   
   return (
     <header className="flex items-center px-4 py-2 w-full">
@@ -27,9 +26,9 @@ export function ChatHeader({ chatId }: { chatId: string }) {
       </Link>
       <UserContact
         type="header"
-        userImage={currentUser.userImage}
-        userName={currentUser.userName}
-        onlineStatus={currentUser.onlineStatus}
+        userImage={targetUser.userImage}
+        userName={targetUser.userName}
+        onlineStatus={targetUser.onlineStatus}
       ></UserContact>
       <ButtonCircle
         actionType="more"
@@ -45,8 +44,8 @@ export function ChatHeader({ chatId }: { chatId: string }) {
           changeModalView({
             modalType: actionType,
             currentUserId: user.userId,
-            targetUserId: currentUser.userId,
-            targetUserName: currentUser.userName,
+            targetUserId: targetUser.userId,
+            targetUserName: targetUser.userName,
             chatId: chatId,
           });
         }}

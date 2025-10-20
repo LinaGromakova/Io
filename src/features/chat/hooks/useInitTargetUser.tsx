@@ -3,18 +3,18 @@ import { useChatContext } from '../context';
 import { useAuth } from '@/features/auth/hooks/useAuth';
 import { useSocketContext } from '@/features/socket/context/socketContext';
 
-type CurrentUserInterface = {
+type TargetUserInterface = {
   userId: string;
   userName: string;
   userImage: string;
   onlineStatus: boolean;
 };
 
-export function useInitCurrentUser(chatId: string) {
+export function useInitTargetUser(chatId: string) {
   const { socket } = useSocketContext();
   const { user } = useAuth();
-  const { getCurrentUser } = useChatContext();
-  const [currentUser, setCurrentUser] = useState<CurrentUserInterface>({
+  const { getTargetUser } = useChatContext();
+  const [targetUser, setTargetUser] = useState<TargetUserInterface>({
     userId: '',
     userName: '',
     userImage: '',
@@ -25,8 +25,8 @@ export function useInitCurrentUser(chatId: string) {
     if (!chatId || !user?.userId) return;
 
     const fetchUser = async () => {
-      const userData = await getCurrentUser(chatId, user.userId);
-      setCurrentUser(userData);
+      const userData = await getTargetUser(chatId, user.userId);
+      setTargetUser(userData);
     };
 
     fetchUser();
@@ -34,7 +34,7 @@ export function useInitCurrentUser(chatId: string) {
 
   useEffect(() => {
     socket.on('update-online', (data) => {
-      setCurrentUser((user) => {
+      setTargetUser((user) => {
         return data.userId === user.userId
           ? { ...user, onlineStatus: data.onlineStatus }
           : user;
@@ -47,7 +47,7 @@ export function useInitCurrentUser(chatId: string) {
 
   useEffect(() => {
     socket.on('update-image', (data) => {
-      setCurrentUser((user) => {
+      setTargetUser((user) => {
         return data.userId === user.userId
           ? { ...user, userImage: data.userimage }
           : user;
@@ -60,7 +60,7 @@ export function useInitCurrentUser(chatId: string) {
 
   useEffect(() => {
     socket.on('update-name', (data) => {
-      setCurrentUser((user) => {
+      setTargetUser((user) => {
         return data.userId === user.userId
           ? { ...user, userName: data.userName }
           : user;
@@ -70,6 +70,6 @@ export function useInitCurrentUser(chatId: string) {
       socket.off('update-name');
     };
   }, [socket]);
-  
-  return { currentUser };
+
+  return { targetUser };
 }

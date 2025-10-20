@@ -3,7 +3,7 @@ import React from 'react';
 import { MessageInterface } from '../types/MessageInterface';
 import { useRouter } from 'next/navigation';
 
-type CurrentUserInterface = {
+type TargetUserInterface = {
   userId: string;
   userName: string;
   userImage: string;
@@ -11,10 +11,10 @@ type CurrentUserInterface = {
 };
 
 interface ChatContextInterface {
-  getCurrentUser: (
+  getTargetUser: (
     chatId: string,
     userId: string
-  ) => Promise<CurrentUserInterface>;
+  ) => Promise<TargetUserInterface>;
   isBlock: boolean;
   setIsBlock: React.Dispatch<React.SetStateAction<boolean>>;
   getMessages: (chatId: string) => Promise<MessageInterface[]>;
@@ -28,7 +28,7 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
   const { getData } = useFetch();
   const [isBlock, setIsBlock] = React.useState(false);
 
-  const getCurrentUser = async (chatId: string, userId: string) => {
+  const getTargetUser = async (chatId: string, userId: string) => {
     try {
       const user = await getData(
         `http://localhost:5000/${chatId}/user/${userId}`
@@ -62,18 +62,18 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
         `http://localhost:5000/check_blacklist/${currentUserId}/${targetUserId}`
       );
       setIsBlock(!userInBlackList);
+      return userInBlackList;
     } catch (error) {
       console.error('Blacklist check failed:', error);
       setIsBlock(false);
     }
   };
-
   const value = {
     isBlock,
     setIsBlock,
     getMessages,
     checkBlackList,
-    getCurrentUser,
+    getTargetUser,
   };
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;
 }

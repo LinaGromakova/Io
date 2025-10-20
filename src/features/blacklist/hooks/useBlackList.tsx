@@ -1,0 +1,93 @@
+import { useChatContext } from '@/features/common/contexts';
+import { useSocketContext } from '@/features/socket/context/socketContext';
+import { useFetch } from '@/shared/lib/hooks';
+import { useEffect, useState } from 'react';
+
+interface userInBlackList {
+  block: boolean;
+  targetUserId: string | null;
+  currentuserId: string | null;
+}
+
+export function useBlackList(
+  currentUserId: string,
+  targetUserId?: string,
+  chatId?: string
+) {
+  const { socket } = useSocketContext();
+  const { setIsBlock, checkBlackList } = useChatContext();
+  const [blackListUsers, setBlackListUsers] = useState([]);
+  const [userInBlackList, setUserInBlackList] = useState<userInBlackList>({
+    block: false,
+    targetUserId: null,
+    currentuserId: null,
+  });
+  const [blackListLength, setBlackListLength] = useState(0);
+  const { getData } = useFetch();
+
+  useEffect(() => {
+    async function loadBlackList() {
+      const blackList = await getData(
+        `http://localhost:5000/blacklist/${currentUserId}`
+      );
+      setBlackListUsers(blackList);
+      setBlackListLength(blackList.length);
+    }
+    loadBlackList();
+  }, []);
+
+  useEffect(() => {
+    if (!targetUserId) return;
+    setUserInBlackList(() => ({
+      block: false,
+      targetUserId: null,
+      currentuserId: null,
+    }));
+    setIsBlock(false);
+    checkBlackList(currentUserId, targetUserId).then((check) => {
+      if (check) {
+        setUserInBlackList({
+          block: true,
+          targetUserId: check.targetUserId,
+          currentuserId: check.currentUserId,
+        });
+        if (check.userId === currentUserId) {
+          setIsBlock(true);
+        }
+      }
+    });
+  }, [chatId, targetUserId]);
+
+  useEffect(() => {
+    socket.on('add-blacklist', (data) => {
+      if (data) {
+        setUserInBlackList({
+          block: true,
+          targetUserId: data.targetUserId,
+          currentuserId: data.currentUserId,
+        });
+        if (data.userId === currentUserId) {
+          setIsBlock(true);
+        }
+      }
+    });
+  }, [socket]);
+
+  useEffect(() => {
+    socket.on('delete-blacklist', (result) => {
+      setUserInBlackList({
+        block: false,
+        targetUserId: null,
+        currentuserId: null,
+      });
+      if (result.userId === currentUserId) {
+        setIsBlock(false);
+      }
+    });
+  }, [socket]);
+  return {
+    userInBlackList,
+    blackListUsers,
+    blackListLength,
+  };
+}

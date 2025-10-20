@@ -1,5 +1,5 @@
 import { MainViewLayout } from '@/views/Main-view/main-view-layout';
-import { Chat } from '@/widgets/Chat/chat';
+import { Chat } from '@/widgets/Chat/ui/chat';
 import { Header } from '@/widgets/Header/header';
 
 function ChatUser() {

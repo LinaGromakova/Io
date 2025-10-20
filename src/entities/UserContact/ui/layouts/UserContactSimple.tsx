@@ -11,7 +11,7 @@ export interface UserContactSimpleProps {
   userName: string;
   userImage: string;
   menuType: 'contactSimpleWrite' | 'contactSimpleInBlock';
-  newCompanion: User;
+  newCompanion?: User;
   unBlockUser?: () => void;
   onBubbleMenuOpen: (
     isOpen: boolean,
@@ -30,7 +30,7 @@ export function UserContactSimple(props: UserContactSimpleProps) {
   const { handleContextMenu } = useUserContact(
     props.onBubbleMenuOpen,
     isBubbleMenuOpen,
-    setIsBubbleMenuOpen,
+    setIsBubbleMenuOpen
   );
   return (
     <article

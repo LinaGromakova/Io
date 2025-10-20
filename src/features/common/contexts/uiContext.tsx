@@ -10,6 +10,8 @@ interface UiContextInterface {
   isAddUserOpen: boolean;
   isModalMessageOpen: { message: string; open: boolean };
   isSidebarOpen: boolean;
+  isBlackListOpen: boolean;
+  setIsBlackListOpen: React.Dispatch<React.SetStateAction<boolean>>;
   toggleOptionsSidebar: () => void;
   toggleBubbleMenu: (state: boolean, setState: (arg0: boolean) => void) => void;
   setIsUserSettingsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -26,6 +28,7 @@ export function UiProvider({ children }: { children: React.ReactNode }) {
   const [isAddUserOpen, setIsAddUserOpen] = React.useState(false);
   const [isUserSettingsOpen, setIsUserSettingsOpen] = React.useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
+  const [isBlackListOpen, setIsBlackListOpen] = React.useState(false);
   const [isModalMessageOpen, setIsModalMessageOpen] = React.useState({
     message: '',
     open: false,
@@ -50,6 +53,8 @@ export function UiProvider({ children }: { children: React.ReactNode }) {
     setIsAddUserOpen,
     setIsModalMessageOpen,
     setIsSidebarOpen,
+    isBlackListOpen,
+    setIsBlackListOpen,
   };
   return <UiContext.Provider value={value}>{children}</UiContext.Provider>;
 }
@@ -57,3 +62,4 @@ export function UiProvider({ children }: { children: React.ReactNode }) {
 export function useUiContext(): UiContextInterface {
   return React.useContext(UiContext);
 }
+ 

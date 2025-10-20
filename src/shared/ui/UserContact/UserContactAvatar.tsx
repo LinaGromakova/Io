@@ -2,10 +2,10 @@ import { clsx } from 'clsx';
 import Image from 'next/image';
 
 interface UserContactAvatarProps {
-  image: string;
+  image: string | File | null;
   name: string;
   online?: boolean;
-  size: 'base' | 'small';
+  size: 'base' | 'small' | 'big';
 }
 export function UserContactAvatar({
   image,
@@ -16,11 +16,11 @@ export function UserContactAvatar({
   return (
     <div
       className={clsx(
-        ' relative rounded-full flex items-center justify-center',
+        'relative rounded-full flex items-center justify-center',
         !image && 'bg-radial-[at_25%_25%] from-accent to-accent-shadow to-75%',
-        size === 'base'
-          ? 'w-14 h-14 min-w-14 max-w-14'
-          : 'w-10 h-10 min-w-10 max-w-10'
+        size === 'base' && 'w-14 h-14 min-w-14 max-w-14',
+        size === 'small' && 'w-10 h-10 min-w-10 max-w-10',
+        size === 'big' && 'w-35 h-35 min-w-35 max-w-35'
       )}
     >
       {(image && (
@@ -32,7 +32,12 @@ export function UserContactAvatar({
           className="w-full h-full object-cover rounded-full"
         ></Image>
       )) || (
-        <p className="text-center text-3xl font-bold text-white">
+        <p
+          className={clsx(
+            'text-center font-bold text-white',
+            size === 'big' ? 'text-6xl' : 'text-3xl'
+          )}
+        >
           {name.slice(0, 1).toUpperCase()}
         </p>
       )}

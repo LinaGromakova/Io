@@ -5,6 +5,7 @@ interface SearchContextInterface {
   searchUser: string;
   setSearchUser: React.Dispatch<React.SetStateAction<string>>;
   filterUsers: (e: { target: { value: React.SetStateAction<string> } }) => void;
+  setFilter: React.Dispatch<React.SetStateAction<string>>;
 }
 export const SearchContext = React.createContext<SearchContextInterface>(null!);
 
@@ -15,7 +16,7 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
     setFilter(e.target.value);
   }
 
-  const value = { filter, searchUser, setSearchUser, filterUsers };
+  const value = { filter, searchUser, setSearchUser, filterUsers, setFilter };
   return (
     <SearchContext.Provider value={value}>{children}</SearchContext.Provider>
   );

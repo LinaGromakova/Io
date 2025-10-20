@@ -10,7 +10,7 @@ export function HeaderSidebarLayout() {
   const { isAddUserOpen, setIsAddUserOpen, toggleOptionsSidebar } =
     useUiContext();
   return (
-    <header className="flex mb-4 w-full items-center">
+    <header className="flex mb-4 w-full items-center px-4 py-2 ">
       <Logo className="w-18 mr-2"></Logo>
       <ChatListInput
         isAdd={isAddUserOpen}
