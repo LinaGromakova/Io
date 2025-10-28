@@ -1,3 +1,4 @@
+'use client';
 import { ChatHeader } from '@/features/chat/ui/ChatHeader';
 import { ChatInput } from '@/features/chat/ui/ChatInput';
 import { MessageList } from '@/features/chat/ui/MessageList';

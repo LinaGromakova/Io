@@ -14,14 +14,23 @@ interface ChatInputProps {
 export function ChatInput({ chatId }: ChatInputProps) {
   const [message, setMessage] = useState('');
   const { theme } = useThemeContext();
-  const { user } = useAuth();
+  // const { user } = useAuth();
+  const user = {
+    userId: '5HEzeZ4dB0iA2wJ3NdmvS',
+    userName: 'Lina=',
+    userImage: '/uploads/avatars/avatar-1759159994251-893137663.jpg',
+    onlineStatus: false,
+    lastSeen: '2025-10-13T00:49:32.751Z',
+    createdAt: '2025-08-27T19:03:13.408Z',
+  };
   const { targetUser } = useInitTargetUser(chatId);
-  const { sendMessage } = useSendMessage(chatId, user.userId);
+  const { sendMessage } = useSendMessage(chatId, user?.userId || '');
   const { userInBlackList } = useBlackList(
-    user.userId,
+    user?.userId || '',
     targetUser.userId,
     chatId
   );
+  console.log('Chat Input rendering');
   return (
     <>
       {userInBlackList.block ? (

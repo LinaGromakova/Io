@@ -5,10 +5,19 @@ import { useChatListStore } from '../../hooks/useChatListStore';
 import { ChatInterface } from '../../types/ChatInterface';
 import { useUiContext } from '@/features/common/contexts';
 import { useAuth } from '@/features/auth/hooks/useAuth';
+import { HeaderListLayout } from '../ChatListHeader/ChatListHeader';
 
 export function ChatList() {
-  const { user } = useAuth();
-  const { chats, users, filteredChats } = useChatListStore(user.userId);
+  // const { user } = useAuth();
+  const user = {
+    userId: '5HEzeZ4dB0iA2wJ3NdmvS',
+    userName: 'Lina=',
+    userImage: '/uploads/avatars/avatar-1759159994251-893137663.jpg',
+    onlineStatus: false,
+    lastSeen: '2025-10-13T00:49:32.751Z',
+    createdAt: '2025-08-27T19:03:13.408Z',
+  };
+  const { chats, users, filteredChats } = useChatListStore(user?.userId || '');
   const { setIsAddUserOpen, toggleBubbleMenu, setIsSidebarOpen } =
     useUiContext();
   const {
@@ -19,9 +28,15 @@ export function ChatList() {
     showFilteredChats,
     showNoFilteredResults,
     showAllChats,
-  } = useChatListState([], chats, filteredChats);
+  } = useChatListState(users, chats, filteredChats);
+
+  if (!user || !user.userId) {
+    return <div>Loading chats...</div>;
+  }
+  console.log('Chat List rendered');
   return (
     <>
+      <HeaderListLayout></HeaderListLayout>
       {showEmptySearchPrompt && <ChatListAlt text="Введите имя пользователя" />}
       {showUserList
         ? users.map((u) => (

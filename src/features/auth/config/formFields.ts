@@ -68,17 +68,17 @@ export const formFields: Record<pagesTypes, InterfaceFormField[]> = {
     },
     {
       type: 'text',
-      name: 'name',
+      name: 'userName',
       label: 'Имя пользователя',
       required: true,
       placeholder: 'Твоё имя',
       maxLength: 32,
       minLength: 2,
-      validate: function (state: { name: string }) {
+      validate: function (state: { userName: string }) {
         return (
-          state.name.length >= this.minLength &&
-          state.name.length <= this.maxLength &&
-          state.name.trim() !== ''
+          state.userName.length >= this.minLength &&
+          state.userName.length <= this.maxLength &&
+          state.userName.trim() !== ''
         );
       },
       errorMessage: 'Имя должно содержать 2-32 символа',

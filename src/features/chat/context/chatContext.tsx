@@ -25,14 +25,13 @@ export const ChatContext = React.createContext<ChatContextInterface>(null!);
 
 export function ChatProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-
   const { getData } = useFetch();
   const [isBlock, setIsBlock] = React.useState(false);
 
   const getTargetUser = async (chatId: string, userId: string) => {
     try {
       const user = await getData(
-        `http://localhost:5000/${chatId}/user/${userId}`
+        `http://localhost:5000/api/chats/${chatId}/${userId}`
       );
       return user;
     } catch (error) {
@@ -60,7 +59,7 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
   ) => {
     try {
       const userInBlackList = await getData(
-        `http://localhost:5000/check_blacklist/${currentUserId}/${targetUserId}`
+        `http://localhost:5000/api/blacklist/check/${currentUserId}/${targetUserId}`
       );
       setIsBlock(!userInBlackList);
       return userInBlackList;

@@ -15,7 +15,7 @@ export interface UserContactDetailsProps {
   userName: string;
   onlineStatus: boolean;
   isRead: boolean;
-  lastMessage?: string;
+  lastMessage: string;
   lastCreate: Date | string | number;
   unreadCount: number;
   onBubbleMenuOpen: (
@@ -41,7 +41,7 @@ export function UserContactDetails(props: UserContactDetailsProps) {
   );
 
   return (
-    <Link href={`/${props.chatId}`}>
+    <Link href={`/chat/${props.chatId}`}>
       <article
         className={clsx(
           'py-3 px-5 relative rounded-2xl flex items-center cursor-pointer duration-300 transition-colors group/user my-2',

@@ -11,10 +11,10 @@ export function useUserContact(
   onSidebarClose?: (arg0: boolean) => void,
   chatId?: string
 ) {
-  const { query } = useRouter();
+  // const { query } = useRouter();
   const timeoutRef = useRef<NodeJS.Timeout>(null);
-  const isActive = query.id == chatId;
-
+  // const isActive = query.id == chatId;
+  const isActive = false;
   const handleTouchStart = () => {
     timeoutRef.current = setTimeout(() => {
       onBubbleMenuOpen(isBubbleMenuOpen, setIsBubbleMenuOpen);

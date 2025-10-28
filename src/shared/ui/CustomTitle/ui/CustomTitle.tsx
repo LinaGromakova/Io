@@ -1,5 +1,5 @@
-import Login from '@/shared/assets/auth-icons/Login.svg';
-import Register from '@/shared/assets/auth-icons/Register.svg';
+import Login from '@/shared/assets/authIcons/Login.svg';
+import Register from '@/shared/assets/authIcons/Register.svg';
 
 interface CustomTitleProps {
   title: 'login' | 'register';

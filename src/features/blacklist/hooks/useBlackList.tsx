@@ -1,9 +1,8 @@
 'use client';
 import { useChatContext } from '@/features/common/contexts';
-import { useSocketContext } from '@/features/socket/context/socketContext';
 import { useFetch } from '@/shared/lib/hooks';
 import { useEffect, useState } from 'react';
-
+import { socket } from '@/features/socket/context/socketContext';
 interface userInBlackList {
   block: boolean;
   targetUserId: string | null;
@@ -15,7 +14,7 @@ export function useBlackList(
   targetUserId?: string,
   chatId?: string
 ) {
-  const { socket } = useSocketContext();
+ 
   const { setIsBlock, checkBlackList } = useChatContext();
   const [blackListUsers, setBlackListUsers] = useState([]);
   const [userInBlackList, setUserInBlackList] = useState<userInBlackList>({
@@ -29,7 +28,7 @@ export function useBlackList(
   useEffect(() => {
     async function loadBlackList() {
       const blackList = await getData(
-        `http://localhost:5000/blacklist/${currentUserId}`
+        `http://localhost:5000/api/blacklist/${currentUserId}`
       );
       setBlackListUsers(blackList);
       setBlackListLength(blackList.length);
@@ -60,7 +59,7 @@ export function useBlackList(
   }, [chatId, targetUserId]);
 
   useEffect(() => {
-    socket.on('add-blacklist', (data) => {
+    socket.on('addBlacklist', (data) => {
       if (data) {
         setUserInBlackList({
           block: true,
@@ -75,7 +74,7 @@ export function useBlackList(
   }, [socket]);
 
   useEffect(() => {
-    socket.on('delete-blacklist', (result) => {
+    socket.on('deleteBlacklist', (result) => {
       setUserInBlackList({
         block: false,
         targetUserId: null,

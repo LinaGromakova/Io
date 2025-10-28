@@ -12,6 +12,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const { preferTheme, updatePreferTheme } = useLocalStorage();
 
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  useEffect(() => {
+    document.body.className = `theme-${theme}`;
+  }, [theme]);
   function changeTheme() {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);

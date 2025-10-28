@@ -1,8 +1,6 @@
-import { useSocketContext } from '@/features/socket/context/socketContext';
 import { useEffect, useState } from 'react';
-
+import { socket } from '@/features/socket/context/socketContext';
 export function useSendMessage(chatId: string, userId: string) {
-  const { socket } = useSocketContext();
   const [newMessage, setNewMessage] = useState({});
   function sendMessage(message: string) {
     if (!message.trim()) {
@@ -15,10 +13,8 @@ export function useSendMessage(chatId: string, userId: string) {
     });
   }
   useEffect(() => {
-    socket.emit('send_message', newMessage);
-    return () => {
-      socket.off('new_message');
-    };
+    console.log(newMessage);
+    socket.emit('sendMessage', newMessage);
   }, [newMessage]);
   return {
     newMessage,

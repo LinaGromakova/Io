@@ -1,13 +1,13 @@
 'use client';
 import React from 'react';
-import Logo from '../../../../public/logo/Logo.svg';
+import Logo from '../../../../shared/assets/logo/Logo.svg';
 import { ButtonCircle } from '@/shared/ui/ButtonCircle';
 import { ChatListInput } from './ChatListInput';
 import { useSearchContext, useUiContext } from '@/features/common/contexts';
 
-export function HeaderSidebarLayout() {
+export function HeaderListLayout() {
   const { filter, searchUser, setSearchUser, filterUsers } = useSearchContext();
-  const { isAddUserOpen, setIsAddUserOpen, toggleOptionsSidebar } =
+  const { isAddUserOpen, setIsAddUserOpen, setIsOptionsSidebarOpen } =
     useUiContext();
   return (
     <header className="flex mb-4 w-full items-center px-4 py-2 ">
@@ -32,7 +32,7 @@ export function HeaderSidebarLayout() {
         <ButtonCircle
           actionType="options"
           className="ml-2 block min-w-9"
-          handlerClick={() => toggleOptionsSidebar()}
+          handlerClick={() => setIsOptionsSidebarOpen(true)}
         ></ButtonCircle>
       )}
     </header>

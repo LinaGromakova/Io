@@ -11,6 +11,7 @@ interface SearchContextInterface {
 export const SearchContext = React.createContext<SearchContextInterface>(null!);
 
 export function SearchProvider({ children }: { children: React.ReactNode }) {
+
   const [searchUser, setSearchUser] = React.useState('');
   const [filter, setFilter] = React.useState('');
   function filterUsers(e: { target: { value: React.SetStateAction<string> } }) {

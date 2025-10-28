@@ -5,7 +5,7 @@ import { useMessageStyles } from '../hooks/useMessageStyles';
 interface MessageProps {
   senderId: string;
   currentUserId: string;
-  messageContent: string;
+  content: string;
   createdAt: Date;
   isRead: boolean;
 }
@@ -13,15 +13,16 @@ interface MessageProps {
 export function MessageItem({
   senderId,
   currentUserId,
-  messageContent,
+  content,
   createdAt,
   isRead,
 }: MessageProps) {
   const { styles } = useMessageStyles(senderId, currentUserId);
+
   return (
     <div className="flex flex-col ">
       <article className={styles}>
-        <p className="text-lg message pb-0.5">{messageContent}</p>
+        <p className="text-lg message pb-0.5">{content}</p>
         <div className="absolute bottom-0.5 right-0.5 flex">
           <MessageTime createdAt={createdAt}></MessageTime>
           <MessageStatus isRead={isRead}></MessageStatus>

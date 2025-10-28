@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useMemo } from 'react';
 
 type ModalMessageTypeState = {
   message: string;
@@ -13,7 +13,7 @@ interface UiContextInterface {
   isSidebarOpen: boolean;
   isBlackListOpen: boolean;
   setIsBlackListOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  toggleOptionsSidebar: () => void;
+  setIsOptionsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
   toggleBubbleMenu: (state: boolean, setState: (arg0: boolean) => void) => void;
   setIsUserSettingsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setIsAddUserOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -34,33 +34,39 @@ export function UiProvider({ children }: { children: React.ReactNode }) {
     message: '',
     open: false,
   });
-
-  function toggleOptionsSidebar() {
-    setIsOptionsSidebarOpen(!isOptionsSidebarOpen);
-  }
+  console.log('uiprov');
   function toggleBubbleMenu(state: boolean, setState: (arg0: boolean) => void) {
     setState(!state);
   }
 
-  const value = {
-    isOptionsSidebarOpen,
-    isUserSettingsOpen,
-    isAddUserOpen,
-    isModalMessageOpen,
-    isSidebarOpen,
-    toggleOptionsSidebar,
-    toggleBubbleMenu,
-    setIsUserSettingsOpen,
-    setIsAddUserOpen,
-    setIsModalMessageOpen,
-    setIsSidebarOpen,
-    isBlackListOpen,
-    setIsBlackListOpen,
-  };
+  const value = useMemo(
+    () => ({
+      isOptionsSidebarOpen,
+      isUserSettingsOpen,
+      isAddUserOpen,
+      isModalMessageOpen,
+      isSidebarOpen,
+      setIsOptionsSidebarOpen,
+      toggleBubbleMenu,
+      setIsUserSettingsOpen,
+      setIsAddUserOpen,
+      setIsModalMessageOpen,
+      setIsSidebarOpen,
+      isBlackListOpen,
+      setIsBlackListOpen,
+    }),
+    [
+      isOptionsSidebarOpen,
+      isUserSettingsOpen,
+      isAddUserOpen,
+      isModalMessageOpen,
+      isSidebarOpen,
+      isBlackListOpen,
+    ]
+  );
   return <UiContext.Provider value={value}>{children}</UiContext.Provider>;
 }
 
 export function useUiContext(): UiContextInterface {
   return React.useContext(UiContext);
 }
- 

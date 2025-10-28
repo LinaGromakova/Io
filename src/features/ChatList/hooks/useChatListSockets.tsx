@@ -1,46 +1,48 @@
 'use client';
-import { useSocketContext } from '@/features/socket/context/socketContext';
 import { useEffect } from 'react';
 import { ChatInterface } from '../types/ChatInterface';
 import { useChatListStore } from './useChatListStore';
 import { useAuth } from '@/features/auth/hooks/useAuth';
-
+import { socket } from '@/features/socket/context/socketContext';
 export function useChatListSockets() {
-  const { socket } = useSocketContext();
-  const { user } = useAuth();
-  const { setChats } = useChatListStore(user.userId);
+  // const { user } = useAuth();
+  const user = {
+    userId: '5HEzeZ4dB0iA2wJ3NdmvS',
+    userName: 'Lina=',
+    userImage: '/uploads/avatars/avatar-1759159994251-893137663.jpg',
+    onlineStatus: false,
+    lastSeen: '2025-10-13T00:49:32.751Z',
+    createdAt: '2025-08-27T19:03:13.408Z',
+  };
+  const { setChats } = useChatListStore(user?.userId || '');
   useEffect(() => {
-    socket.on('delete-chat', (chatId) => {
+    socket.on('deleteChat', (chatId) => {
       setChats((prevChats: ChatInterface[]) =>
         prevChats.filter((chat: ChatInterface) => chat.chatId !== chatId)
       );
     });
   }, [socket]);
-
   useEffect(() => {
-    socket.on('start-chat', (data) => {
+    socket.on('startChat', (data) => {
       if (data) {
         setChats((prevChats: ChatInterface[]) => [...prevChats, data]);
       }
     });
   }, [socket]);
-
   useEffect(() => {
-    socket.on('update-online', (data) => {
+    socket.on('updateOnline', (data) => {
       setChats((prevChats: ChatInterface[]) =>
         prevChats.map((chat) =>
           chat.userId === data.userId ? { ...chat, online: data.online } : chat
         )
       );
     });
-
     return () => {
-      socket.off('update-online');
+      socket.off('updateOnline');
     };
   }, [socket]);
-
   useEffect(() => {
-    socket.on('update-last-message', (data) => {
+    socket.on('updateLastMessage', (data) => {
       setChats((prevChats: ChatInterface[]) =>
         prevChats.map((chat) =>
           chat.chatId === data.chat_id
@@ -48,19 +50,18 @@ export function useChatListSockets() {
                 ...chat,
                 lastMessage: data.content,
                 lastCreate: data.created_at,
-                read: data.isRead,
+                isRead: data.isRead,
               }
             : chat
         )
       );
     });
     return () => {
-      socket.off('update-last-message');
+      socket.off('updateLastMessage');
     };
   }, [socket]);
-
   useEffect(() => {
-    socket.on('update-read-message', (data) => {
+    socket.on('updateReadMessage', (data) => {
       if (data) {
         setChats((prevChats: ChatInterface[]) =>
           prevChats.map((chat) => {
@@ -70,12 +71,11 @@ export function useChatListSockets() {
       }
     });
     return () => {
-      socket.off('update-read-message');
+      socket.off('updateReadMessage');
     };
   }, [socket]);
-
   useEffect(() => {
-    socket.on('update-name', (data) => {
+    socket.on('updateName', (data) => {
       if (data) {
         setChats((prevChats: ChatInterface[]) =>
           prevChats.map((chat) => {
@@ -87,9 +87,8 @@ export function useChatListSockets() {
       }
     });
   }, [socket]);
-
   useEffect(() => {
-    socket.on('update-image', (data) => {
+    socket.on('updateImage', (data) => {
       if (data) {
         setChats((prevChats: ChatInterface[]) =>
           prevChats.map((chat) => {
@@ -101,9 +100,8 @@ export function useChatListSockets() {
       }
     });
   }, [socket]);
-
   useEffect(() => {
-    socket.on('unread_updated', (data) => {
+    socket.on('unreadUpdated', (data) => {
       if (data) {
         setChats((prevChats: ChatInterface[]) =>
           prevChats.map((chat) => {
@@ -116,7 +114,7 @@ export function useChatListSockets() {
     });
   }, [socket]);
   useEffect(() => {
-    socket.on('inc-unread-message', (data) => {
+    socket.on('incUnreadMessage', (data) => {
       if (data) {
         setChats((prevChats: ChatInterface[]) =>
           prevChats.map((chat) => {

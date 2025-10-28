@@ -10,7 +10,7 @@ export function useFetch<T>() {
     setLoading(true);
     try {
       const response = await fetch(url, options);
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
       const result = await response.json();
       setData(result);
       return result;

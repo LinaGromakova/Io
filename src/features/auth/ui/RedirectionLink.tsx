@@ -9,11 +9,11 @@ type pageTypes = 'login' | 'register';
 export function RedirectionLink({ page }: { page: 'login' | 'register' }) {
   const linkConfig: Record<pageTypes, LinkConfig> = {
     login: {
-      link: '/login',
+      link: '/register',
       content: 'Нет аккаунта? Зарегистрироваться!',
     },
     register: {
-      link: '/register',
+      link: '/login',
       content: 'Уже есть аккаунт? Войти!',
     },
   };

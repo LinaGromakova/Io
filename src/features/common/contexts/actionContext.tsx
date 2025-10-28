@@ -22,17 +22,20 @@ export function ActionProvider({ children }: { children: React.ReactNode }) {
     });
   };
   const writeUser = (currentUserId: string, targetUserId: string) => {
-    return getData('http://localhost:5000/start-chat', {
+    return getData('http://localhost:5000/api/chats/start-chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ user1_id: currentUserId, user2_id: targetUserId }),
+      body: JSON.stringify({
+        сhatMemberId1: currentUserId,
+        сhatMemberId2: targetUserId,
+      }),
     });
   };
   const unBlockUser = (userId: string, targetUserId: string) => {
     return getData(
-      `http://localhost:5000/delete_user_blacklist/${userId}/${targetUserId}`,
+      `http://localhost:5000/api/blacklist/delete/${userId}/${targetUserId}`,
       {
         method: 'DELETE',
         headers: {
@@ -43,7 +46,7 @@ export function ActionProvider({ children }: { children: React.ReactNode }) {
   };
 
   const blockUser = (userId: string, targetUserId: string) => {
-    return getData('http://localhost:5000/blacklist_add', {
+    return getData('http://localhost:5000/api/blacklist/add', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

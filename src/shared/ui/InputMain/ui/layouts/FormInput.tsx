@@ -7,7 +7,7 @@ import {
 
 interface FormInterface {
   login: string;
-  name: string;
+  userName: string;
   password: string;
   duplicate: string;
   [key: string]: string;

@@ -8,34 +8,44 @@ import { UserInterface } from '../types/UserInterface';
 
 export function useChatListStore(userId: string) {
   const { getData } = useFetch();
-  const { filter } = useSearchContext();
-  const { searchUser } = useSearchContext();
+
   const [chats, setChats] = useState<ChatInterface[]>([]);
   const [users, setUsers] = useState<UserInterface[]>([]);
-
   const [filteredChats, setFilteredChats] = useState<ChatInterface[]>([]);
-  const { isAddUserOpen } = useUiContext();
 
+  const filter = useSearchContext().filter; // ← перерендер ТОЛЬКО когда меняется filter
+  const searchUser = useSearchContext().searchUser; // ← перерендер ТОЛЬКО когда меняется searchUser
+  const isAddUserOpen = useUiContext().isAddUserOpen; // ← перерендер ТОЛЬКО когда меняется isAddUserO
   useEffect(() => {
     async function loadChats() {
-      const data = await getData(`http://localhost:5000/chats/${userId}`);
-      setChats(data);
+      if (!userId || userId === '') {
+        return;
+      }
+      try {
+        const data = await getData(
+          `http://localhost:5000/api/chats/user/${userId}`
+        );
+        return setChats(data);
+      } catch (error) {
+        console.error('Load chat error: ', error);
+      }
     }
+
     loadChats();
-  }, []);
+  }, [userId]);
 
   useEffect(() => {
     const debouncedFetch = debounce(async () => {
       if (isAddUserOpen) {
         const users = await getData(
-          `http://localhost:5000/search/${searchUser}`
+          `http://localhost:5000/api/users/search/${searchUser}`
         );
         setUsers(users);
       }
     }, 250);
 
     debouncedFetch();
-  }, [isAddUserOpen, searchUser]);
+  }, [isAddUserOpen, searchUser, userId]);
 
   useEffect(() => {
     setFilteredChats(
@@ -43,7 +53,7 @@ export function useChatListStore(userId: string) {
         chat.userName.toLowerCase().includes(filter.toLowerCase())
       )
     );
-  }, [filter]);
+  }, [filter, chats]);
 
   return { chats, setChats, users, setUsers, filteredChats, setFilteredChats };
 }

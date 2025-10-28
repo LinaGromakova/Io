@@ -31,8 +31,11 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
   // const router = useRouter();
   const { logOutUser, setIsAuth } = useAuth();
   const { removeUserData } = useLocalStorage();
-  const { toggleOptionsSidebar, setIsModalMessageOpen, setIsUserSettingsOpen } =
-    useUiContext();
+  const {
+    setIsOptionsSidebarOpen,
+    setIsModalMessageOpen,
+    setIsUserSettingsOpen,
+  } = useUiContext();
   const { setIsBlock } = useChatContext();
   const { deleteUserChat, unBlockUser, blockUser } = useActionContext();
   const [isModalOpen, setIsModalOpen] = React.useState<ModalData>({
@@ -58,7 +61,7 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
         removeUserData();
         // router.replace('/login');
         changeModalView();
-        toggleOptionsSidebar();
+        setIsOptionsSidebarOpen(false);
       },
     },
     unBlock: {

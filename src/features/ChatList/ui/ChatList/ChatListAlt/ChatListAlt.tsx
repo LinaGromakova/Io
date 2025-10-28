@@ -9,6 +9,7 @@ export function ChatListAlt({
   icon?: boolean;
   link?: { onClick: () => void; linkText: string };
 }) {
+  console.log('ChatListAlt rendering');
   return (
     <div className="flex flex-col items-center justify-center h-9/12 text-base">
       {icon && (
@@ -26,5 +27,3 @@ export function ChatListAlt({
     </div>
   );
 }
-
-

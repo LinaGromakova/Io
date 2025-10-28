@@ -12,9 +12,6 @@ export function MainPage({ children }: MainPageProps) {
   const { isAuth } = useAuth();
   const { isModalOpen, modalActions } = useModalContext();
   const { theme } = useThemeContext();
-
-  if (!isAuth) return null;
-
   return (
     <div
       className={

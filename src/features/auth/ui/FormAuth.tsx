@@ -11,14 +11,14 @@ import { formFields } from '../config/formFields';
 
 interface interfaceForm {
   login: string;
-  name: string;
+  userName: string;
   password: string;
   duplicate: string;
   [key: string]: string;
 }
 const configForm: interfaceForm = {
   login: '',
-  name: '',
+  userName: '',
   password: '',
   duplicate: '',
 };

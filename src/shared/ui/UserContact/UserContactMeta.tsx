@@ -23,16 +23,14 @@ export function UserContactMeta({
   unreadCount,
 }: UserContactMetaProps) {
   const time = parseValidDate(lastCreate);
-  if (!lastMessage) {
-    return (
+  return (
+    <>
       <p
         className={clsx('text-md truncate message', !isActive && 'opacity-50')}
       >
-        {lastMessage || `Поприветствуйте ${userName}!`}
+        {lastMessage === '' ? `Поприветствуйте ${userName}!` : lastMessage}
       </p>
-    );
-  } else
-    return (
+
       <div className="flex justify-center flex-col">
         <div className="flex">
           {(isRead && <MarkDoneIcon className="mr-1"></MarkDoneIcon>) || (
@@ -57,5 +55,6 @@ export function UserContactMeta({
           {unreadCount}
         </div>
       </div>
-    );
+    </>
+  );
 }

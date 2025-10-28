@@ -5,15 +5,21 @@ import { useModalContext, useUiContext } from '@/features/common/contexts';
 import { BlackListIsEmpty } from './BlackListIsEmpty';
 
 export function BlackList() {
-  const { user } = useAuth();
+  // const { user } = useAuth()
+  const user = {
+    userId: '5HEzeZ4dB0iA2wJ3NdmvS',
+    userName: 'Lina=',
+    userImage: '/uploads/avatars/avatar-1759159994251-893137663.jpg',
+    onlineStatus: false,
+    lastSeen: '2025-10-13T00:49:32.751Z',
+    createdAt: '2025-08-27T19:03:13.408Z',
+  };
   const { blackListUsers, blackListLength } = useBlackList(user.userId);
   const { changeModalView } = useModalContext();
   const { toggleBubbleMenu } = useUiContext();
   return (
     <>
-      {(blackListLength === 0 && (
-        <BlackListIsEmpty></BlackListIsEmpty>
-      )) || (
+      {(blackListLength === 0 && <BlackListIsEmpty></BlackListIsEmpty>) || (
         <h4 className="text-center my-5 opacity-65">
           {blackListLength} заблокированных пользователей
         </h4>

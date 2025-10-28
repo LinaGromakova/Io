@@ -1,16 +1,14 @@
-import { useSocketContext } from '@/features/socket/context/socketContext';
+
 import { useEffect, useState } from 'react';
 import { useChatContext } from '../context/chatContext';
 import { MessageInterface } from '../types/MessageInterface';
-
+import { socket } from '@/features/socket/context/socketContext';
 export function useChatMessages(chatId: string, userId: string) {
-  const { socket } = useSocketContext();
   const { getMessages } = useChatContext();
   const [messages, setMessages] = useState<MessageInterface[]>([]);
 
   useEffect(() => {
     if (!chatId || !userId) return;
-
     const loadMessages = async () => {
       try {
         const messages = await getMessages(chatId);
@@ -20,28 +18,28 @@ export function useChatMessages(chatId: string, userId: string) {
       }
     };
     loadMessages();
-    socket.emit('join_chat', { chatId, userId });
-    socket.emit('read_messages', chatId, userId);
+    socket.emit('joinChat', { chatId, userId });
+    socket.emit('readMessages', chatId, userId);
 
     return () => {
-      socket.emit('leave_chat', { chatId, userId });
+      socket.emit('leaveChat', { chatId, userId });
     };
-  }, [chatId]);
+  }, [chatId, userId]);
 
   useEffect(() => {
-    socket.on('new_message', (data) => {
-      if (data.sender_id !== userId) {
-        socket.emit('read_messages', chatId, userId);
+    socket.on('newMessage', (data) => {
+      if (data.senderId !== userId) {
+        socket.emit('readMessages', chatId, userId);
       }
       setMessages((prev) => [...prev, data]);
     });
     return () => {
-      socket.off('new_message');
+      socket.off('newMessage');
     };
   }, []);
 
   useEffect(() => {
-    socket.on('messages_read', (data) => {
+    socket.on('messagesRead', (data) => {
       if (data.length !== 0) {
         const updatedIds = new Set(data.map((msg: { id: string }) => msg.id));
         setMessages((prev) =>
@@ -52,7 +50,7 @@ export function useChatMessages(chatId: string, userId: string) {
       }
     });
     return () => {
-      socket.off('messages_read');
+      socket.off('messagesRead');
     };
   }, [socket]);
 

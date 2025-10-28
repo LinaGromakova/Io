@@ -17,8 +17,10 @@ export function useChatListState(
   chats: ChatInterface[],
   filteredChats: ChatInterface[]
 ) {
-  const { searchUser, filter } = useSearchContext();
-  const { isAddUserOpen } = useUiContext();
+  const searchUser = useSearchContext().searchUser;
+  const filter = useSearchContext().filter;
+  const isAddUserOpen = useUiContext().isAddUserOpen;
+
   const isAddingNewUsers = isAddUserOpen;
   const isEmptySearch = searchUser === '';
   const hasUsers = users.length !== 0;
@@ -37,7 +39,7 @@ export function useChatListState(
   const showNoFilteredResults =
     !isAddingNewUsers && isFiltering && !hasFilteredChats;
   const showAllChats = !isAddingNewUsers && !isFiltering && hasChats;
-
+  console.log(' i am podiras');
   return {
     showEmptySearchPrompt,
     showUserList,

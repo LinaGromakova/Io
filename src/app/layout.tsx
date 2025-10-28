@@ -5,7 +5,6 @@ import { AuthProvider } from '@/features/auth/context/authContext';
 import { ModalProvider } from '@/features/common/contexts/modalContext';
 import { UiProvider } from '@/features/common/contexts/uiContext';
 import { ChatProvider } from '@/features/chat/context/chatContext';
-import { SocketProvider } from '@/features/socket/context/socketContext';
 import { ActionProvider } from '@/features/common/contexts/actionContext';
 import { SearchProvider } from '@/features/common/contexts/searchContext';
 
@@ -14,7 +13,6 @@ export const metadata: Metadata = {
   description:
     'Io - самый активный спутник в солнечной системе. Как и наш мессенджер: всегда на связи, всегда в движении',
 };
-
 export default function RootLayout({
   children,
 }: {
@@ -48,17 +46,15 @@ export default function RootLayout({
       <body>
         <ThemeProvider>
           <UiProvider>
-            <SocketProvider>
-              <AuthProvider>
-                <ChatProvider>
-                  <ActionProvider>
-                    <SearchProvider>
-                      <ModalProvider>{children}</ModalProvider>
-                    </SearchProvider>
-                  </ActionProvider>
-                </ChatProvider>
-              </AuthProvider>
-            </SocketProvider>
+            <AuthProvider>
+              <ChatProvider>
+                <ActionProvider>
+                  <SearchProvider>
+                    <ModalProvider>{children}</ModalProvider>
+                  </SearchProvider>
+                </ActionProvider>
+              </ChatProvider>
+            </AuthProvider>
           </UiProvider>
         </ThemeProvider>
       </body>

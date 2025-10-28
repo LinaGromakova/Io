@@ -7,20 +7,31 @@ export function useEditProfile() {
   const { isUserSettingsOpen, setIsModalMessageOpen } = useUiContext();
   const [nameInputValue, setNameInputValue] = useState('');
   const [newPhotoUser, setNewPhotoUser] = useState<File | null>(null);
-  const { user, setUser } = useAuth();
-
+  const user = {
+    userId: '5HEzeZ4dB0iA2wJ3NdmvS',
+    userName: 'Lina=',
+    userImage: '/uploads/avatars/avatar-1759159994251-893137663.jpg',
+    onlineStatus: false,
+    lastSeen: '2025-10-13T00:49:32.751Z',
+    createdAt: '2025-08-27T19:03:13.408Z',
+  };
+  const { setUser } = useAuth();
+  //user,
   async function changeUserName() {
     try {
-      const response = await fetch('http://localhost:5000/profile/name', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId: user.userId,
-          newUserName: nameInputValue,
-        }),
-      });
+      const response = await fetch(
+        'http://localhost:5000/api/users/profile/name',
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userId: user.userId,
+            newUserName: nameInputValue,
+          }),
+        }
+      );
       const result = await response.json();
       setUser((prev) => ({ ...prev, name: result }));
       setIsModalMessageOpen({ message: 'Новое имя сохранено!', open: true });
@@ -38,7 +49,7 @@ export function useEditProfile() {
     formData.append('user_id', user.userId);
 
     try {
-      const response = await fetch('http://localhost:5000/avatar', {
+      const response = await fetch('http://localhost:5000/api/users/avatar', {
         method: 'POST',
         body: formData,
       });
