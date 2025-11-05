@@ -2,25 +2,18 @@ import Link from 'next/link';
 import { ButtonCircle } from '@/shared/ui/ButtonCircle';
 import { BubbleMenu } from '@/entities/BubbleMenu';
 import { UserContact } from '@/entities/UserContact';
-import { useUiContext } from '@/features/common/contexts/uiContext';
 import { useState } from 'react';
-import { useModalContext } from '@/features/common/contexts';
 import { useInitTargetUser } from '../hooks/useInitTargetUser';
-import { useAuth } from '@/features/auth/hooks/useAuth';
+import { useSidebar } from '@/features/interface-state/lib/hooks';
+import { useAuthState } from '@/features/auth/lib/useAuthState';
+import { useModalControls } from '@/features/modal/lib/useModalState';
 
 export function ChatHeader({ chatId }: { chatId: string }) {
-  // const { user } = useAuth();
-  const user = {
-    userId: '5HEzeZ4dB0iA2wJ3NdmvS',
-    userName: 'Lina=',
-    userImage: '/uploads/avatars/avatar-1759159994251-893137663.jpg',
-    onlineStatus: false,
-    lastSeen: '2025-10-13T00:49:32.751Z',
-    createdAt: '2025-08-27T19:03:13.408Z',
-  };
+  const { user } = useAuthState();
+
   const [isBubbleMenuOpen, setIsBubbleMenuOpen] = useState(false);
-  const { changeModalView } = useModalContext();
-  const { setIsSidebarOpen } = useUiContext();
+  const { openModal } = useModalControls();
+  const { toggleSidebarOpen } = useSidebar();
   const { targetUser } = useInitTargetUser(chatId);
   console.log('Chat Header rendering');
   return (
@@ -29,7 +22,7 @@ export function ChatHeader({ chatId }: { chatId: string }) {
         <ButtonCircle
           actionType="back"
           className="mr-4 hidden max-md:flex"
-          handlerClick={() => setIsSidebarOpen(true)}
+          handlerClick={toggleSidebarOpen}
         ></ButtonCircle>
       </Link>
       <UserContact
@@ -49,7 +42,7 @@ export function ChatHeader({ chatId }: { chatId: string }) {
         setVisible={setIsBubbleMenuOpen}
         isBlock={false}
         onClick={(actionType) => {
-          changeModalView({
+          openModal({
             modalType: actionType,
             currentUserId: user.userId,
             targetUserId: targetUser.userId,

@@ -7,7 +7,7 @@ import { ERROR_ANIMATIONS } from '../../lib/constants';
 export function Error404() {
   const { meteor, spacesuit, rocket } = ERROR_ANIMATIONS;
   return (
-    <div className="relative flex flex-col w-full h-screen  items-center justify-center text-accent/80 overflow-hidden">
+    <div className="relative flex flex-col w-full h-screen bg-background items-center justify-center overflow-hidden">
       <meteor.icon className={meteor.className} />
       <spacesuit.icon className={spacesuit.className} />
       <rocket.icon className={rocket.className} />
@@ -18,6 +18,7 @@ export function Error404() {
           actionType="back"
           text="Вернуться обратно"
           handlerClick={() => null}
+          className="z-10"
         ></ButtonMain>
       </Link>
     </div>

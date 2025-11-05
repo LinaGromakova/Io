@@ -21,7 +21,7 @@ export function ChatListAlt({
           className="opacity-65 hover:opacity-100 underline cursor-pointer"
           onClick={() => link.onClick()}
         >
-          {link.linkText}
+          {text}
         </p>
       )}
     </div>

@@ -7,30 +7,23 @@ import {
 
 interface UserContactMetaProps {
   userName: string;
-  lastMessage?: string;
+  lastMessage: string;
   isRead: boolean;
   isActive: boolean;
-  lastCreate: Date | string | number;
+  lastMessageAt: Date | string | number;
   unreadCount: number;
 }
 
 export function UserContactMeta({
-  userName,
-  lastMessage,
   isRead,
   isActive,
-  lastCreate,
+  lastMessageAt,
   unreadCount,
 }: UserContactMetaProps) {
-  const time = parseValidDate(lastCreate);
+  const time = parseValidDate(lastMessageAt);
   return (
     <>
-      <p
-        className={clsx('text-md truncate message', !isActive && 'opacity-50')}
-      >
-        {lastMessage === '' ? `Поприветствуйте ${userName}!` : lastMessage}
-      </p>
-
+      
       <div className="flex justify-center flex-col">
         <div className="flex">
           {(isRead && <MarkDoneIcon className="mr-1"></MarkDoneIcon>) || (

@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 interface UserInterface {
   userId: string;
   userName: string;
@@ -11,7 +11,6 @@ interface UserInterface {
 interface StorageData {
   user: UserInterface | null;
   sessionId?: string;
-  theme?: 'light' | 'dark';
 }
 export function useLocalStorage() {
   const [storage, setStorage] = useState<StorageData>(() => {
@@ -25,17 +24,6 @@ export function useLocalStorage() {
     );
   });
 
-  const [preferTheme, setPreferTheme] = useState<'light' | 'dark'>(() => {
-    if (typeof window === 'undefined') {
-      return 'light';
-    }
-    return (localStorage.getItem('preferTheme') as 'light' | 'dark') || 'light';
-  });
-
-  useLayoutEffect(() => {
-    localStorage.setItem('preferTheme', preferTheme);
-  }, [preferTheme]);
-
   useEffect(() => {
     localStorage.setItem('userData', JSON.stringify(storage));
   }, [storage]);
@@ -47,15 +35,10 @@ export function useLocalStorage() {
   function removeUserData() {
     localStorage.removeItem('userData');
   }
-  function updatePreferTheme(theme: 'light' | 'dark') {
-    return setPreferTheme(theme);
-  }
 
   return {
     storage,
-    updatePreferTheme,
     updateUser,
-    preferTheme,
     removeUserData,
   };
 }

@@ -1,10 +1,14 @@
-
 import { useEffect, useState } from 'react';
-import { useChatContext } from '../context/chatContext';
+import { useAtomValue } from 'jotai';
 import { MessageInterface } from '../types/MessageInterface';
-import { socket } from '@/features/socket/context/socketContext';
+import { useChatActions } from '../lib/useChatActions';
+import { socketAtom } from '@/features/socket/lib/useSocket';
 export function useChatMessages(chatId: string, userId: string) {
-  const { getMessages } = useChatContext();
+
+    const socket = useAtomValue(socketAtom);
+  
+  const { getMessages } = useChatActions();
+
   const [messages, setMessages] = useState<MessageInterface[]>([]);
 
   useEffect(() => {

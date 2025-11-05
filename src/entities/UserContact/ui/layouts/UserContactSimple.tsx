@@ -14,10 +14,7 @@ export interface UserContactSimpleProps {
   menuType: 'contactSimpleWrite' | 'contactSimpleInBlock';
   newCompanion?: User;
   unBlockUser?: () => void;
-  onBubbleMenuOpen: (
-    isOpen: boolean,
-    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
-  ) => void;
+  onBubbleMenuOpen: () => void;
 }
 
 interface User {
@@ -29,7 +26,7 @@ interface User {
 export function UserContactSimple(props: UserContactSimpleProps) {
   const [isBubbleMenuOpen, setIsBubbleMenuOpen] = useState(false);
   const { handleContextMenu } = useUserContact(
-    props.onBubbleMenuOpen,
+    () => props.onBubbleMenuOpen?.(),
     isBubbleMenuOpen,
     setIsBubbleMenuOpen
   );
@@ -52,7 +49,9 @@ export function UserContactSimple(props: UserContactSimpleProps) {
       <div className="flex items-center">
         <div className="flex items-center justify-between">
           <UserContactAvatar
-            image={props.userImage}
+            image={
+              props.userImage ? `http://localhost:5000${props.userImage}` : null
+            }
             name={props.userName}
             size="base"
           ></UserContactAvatar>
@@ -74,6 +73,7 @@ export function UserContactSimple(props: UserContactSimpleProps) {
           setVisible={setIsBubbleMenuOpen}
           isBlock={false}
           onClick={() => null}
+          className="right-0"
         ></BubbleMenu>
       </div>
     </article>

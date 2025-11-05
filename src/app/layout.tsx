@@ -1,12 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { ThemeProvider } from '@/features/common/contexts/themeContext';
-import { AuthProvider } from '@/features/auth/context/authContext';
-import { ModalProvider } from '@/features/common/contexts/modalContext';
-import { UiProvider } from '@/features/common/contexts/uiContext';
-import { ChatProvider } from '@/features/chat/context/chatContext';
-import { ActionProvider } from '@/features/common/contexts/actionContext';
-import { SearchProvider } from '@/features/common/contexts/searchContext';
+import { Provider } from 'jotai';
 
 export const metadata: Metadata = {
   title: 'IO',
@@ -43,20 +37,8 @@ export default function RootLayout({
         />
         <link rel="manifest" href="/favicon/site.webmanifest" />
       </head>
-      <body>
-        <ThemeProvider>
-          <UiProvider>
-            <AuthProvider>
-              <ChatProvider>
-                <ActionProvider>
-                  <SearchProvider>
-                    <ModalProvider>{children}</ModalProvider>
-                  </SearchProvider>
-                </ActionProvider>
-              </ChatProvider>
-            </AuthProvider>
-          </UiProvider>
-        </ThemeProvider>
+      <body className="theme-dark">
+        <Provider>{children}</Provider>
       </body>
     </html>
   );

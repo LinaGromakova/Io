@@ -1,13 +1,9 @@
-import { useRouter } from 'next/router';
+'use client';
+// import { useRouter } from 'next/router';
 import React, { useRef } from 'react';
 
 export function useUserContact(
-  onBubbleMenuOpen: (
-    isOpen: boolean,
-    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
-  ) => void,
-  isBubbleMenuOpen: boolean,
-  setIsBubbleMenuOpen: React.Dispatch<React.SetStateAction<boolean>>,
+  onBubbleMenuOpen: () => void,
   onSidebarClose?: (arg0: boolean) => void,
   chatId?: string
 ) {
@@ -17,7 +13,7 @@ export function useUserContact(
   const isActive = false;
   const handleTouchStart = () => {
     timeoutRef.current = setTimeout(() => {
-      onBubbleMenuOpen(isBubbleMenuOpen, setIsBubbleMenuOpen);
+      onBubbleMenuOpen();
     }, 600);
   };
 
@@ -30,7 +26,7 @@ export function useUserContact(
   const handleContextMenu = (e: React.MouseEvent) => {
     e.preventDefault();
     if (e.button === 2) {
-      onBubbleMenuOpen(isBubbleMenuOpen, setIsBubbleMenuOpen);
+      onBubbleMenuOpen();
     }
   };
   const handleClick = () => {

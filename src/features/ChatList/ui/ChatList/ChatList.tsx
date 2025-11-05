@@ -1,25 +1,18 @@
 import { ChatListAlt } from './ChatListAlt/ChatListAlt';
 import { UserContact } from '@/entities/UserContact';
-import { useChatListState } from '../../hooks/useChatListState';
-import { useChatListStore } from '../../hooks/useChatListStore';
 import { ChatInterface } from '../../types/ChatInterface';
-import { useUiContext } from '@/features/common/contexts';
-import { useAuth } from '@/features/auth/hooks/useAuth';
 import { HeaderListLayout } from '../ChatListHeader/ChatListHeader';
+import { useUiActions } from '@/features/interface-state/lib/hooks';
+import { useAuthState } from '@/features/auth/lib/useAuthState';
+import { useChatStore } from '../../lib/useChatStore';
+import { useChatVisibility } from '../../lib/useChatVis';
+import { ChatListLoading } from './ChatListLoading/ChatListLoading';
 
 export function ChatList() {
-  // const { user } = useAuth();
-  const user = {
-    userId: '5HEzeZ4dB0iA2wJ3NdmvS',
-    userName: 'Lina=',
-    userImage: '/uploads/avatars/avatar-1759159994251-893137663.jpg',
-    onlineStatus: false,
-    lastSeen: '2025-10-13T00:49:32.751Z',
-    createdAt: '2025-08-27T19:03:13.408Z',
-  };
-  const { chats, users, filteredChats } = useChatListStore(user?.userId || '');
-  const { setIsAddUserOpen, toggleBubbleMenu, setIsSidebarOpen } =
-    useUiContext();
+  const { user } = useAuthState();
+  const { chats, users, filteredChats } = useChatStore();
+  const { toggleAddUser, toggleBubbleMenu, toggleSidebar } = useUiActions();
+
   const {
     showEmptySearchPrompt,
     showUserList,
@@ -28,10 +21,10 @@ export function ChatList() {
     showFilteredChats,
     showNoFilteredResults,
     showAllChats,
-  } = useChatListState(users, chats, filteredChats);
+  } = useChatVisibility(users, chats, filteredChats);
 
   if (!user || !user.userId) {
-    return <div>Loading chats...</div>;
+    return <ChatListLoading></ChatListLoading>;
   }
   console.log('Chat List rendered');
   return (
@@ -60,7 +53,7 @@ export function ChatList() {
           text="У вас пока нет чатов"
           icon={true}
           link={{
-            onClick: () => setIsAddUserOpen(true),
+            onClick: () => toggleAddUser,
             linkText: 'Добавить собеседника',
           }}
         />
@@ -72,7 +65,7 @@ export function ChatList() {
             key={chat.chatId}
             type="details"
             onBubbleMenuOpen={toggleBubbleMenu}
-            onSidebarClose={setIsSidebarOpen}
+            onSidebarClose={toggleSidebar}
             {...chat}
           />
         ))}
@@ -87,7 +80,7 @@ export function ChatList() {
             key={chat.chatId}
             type="details"
             onBubbleMenuOpen={toggleBubbleMenu}
-            onSidebarClose={setIsSidebarOpen}
+            onSidebarClose={toggleSidebar}
             {...chat}
           />
         ))}

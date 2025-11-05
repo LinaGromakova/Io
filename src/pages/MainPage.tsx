@@ -1,7 +1,8 @@
 'use client';
-import { useAuth } from '@/features/auth/hooks/useAuth';
-import { useModalContext, useThemeContext } from '@/features/common/contexts';
-
+import { useAuthState } from '@/features/auth/lib/useAuthState';
+import { useModalSettings } from '@/features/modal/lib/useModalSettings';
+import { useModalState } from '@/features/modal/lib/useModalState';
+import { useTheme } from '@/features/theme/hooks/useTheme';
 import { ConfirmModal } from '@/shared/ui/Modals';
 import { Sidebar } from '@/widgets/Sidebar/ui/Sidebar';
 
@@ -9,9 +10,10 @@ interface MainPageProps {
   children?: React.ReactNode;
 }
 export function MainPage({ children }: MainPageProps) {
-  const { isAuth } = useAuth();
-  const { isModalOpen, modalActions } = useModalContext();
-  const { theme } = useThemeContext();
+  const { modalSettings } = useModalSettings();
+  const { isModalOpen } = useModalState();
+  const { theme } = useTheme();
+
   return (
     <div
       className={
@@ -26,9 +28,8 @@ export function MainPage({ children }: MainPageProps) {
           name={isModalOpen.targetUserName}
           isOpen={isModalOpen.isOpen}
           confirmType={isModalOpen.modalType}
-          modalSettings={modalActions}
+          modalSettings={modalSettings}
         />
-
         <Sidebar />
         {children}
       </div>

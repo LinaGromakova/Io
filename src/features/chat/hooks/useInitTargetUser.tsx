@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useChatContext } from '../context';
-import { useAuth } from '@/features/auth/hooks/useAuth';
-
-import { socket } from '@/features/socket/context/socketContext';
+import { useAtomValue } from 'jotai';
+import { useAuthState } from '@/features/auth/lib/useAuthState';
+import { useChatActions } from '../lib/useChatActions';
+import { socketAtom } from '@/features/socket/lib/useSocket';
 type TargetUserInterface = {
   userId: string;
   userName: string;
@@ -11,16 +11,9 @@ type TargetUserInterface = {
 };
 
 export function useInitTargetUser(chatId: string) {
-  const user = {
-    userId: '5HEzeZ4dB0iA2wJ3NdmvS',
-    userName: 'Lina=',
-    userImage: '/uploads/avatars/avatar-1759159994251-893137663.jpg',
-    onlineStatus: false,
-    lastSeen: '2025-10-13T00:49:32.751Z',
-    createdAt: '2025-08-27T19:03:13.408Z',
-  };
-  // const { user } = useAuth();
-  const { getTargetUser } = useChatContext();
+  const socket = useAtomValue(socketAtom);
+  const { user } = useAuthState();
+  const { getTargetUser } = useChatActions();
   const [targetUser, setTargetUser] = useState<TargetUserInterface>({
     userId: '',
     userName: '',

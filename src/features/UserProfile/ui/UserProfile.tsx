@@ -12,7 +12,7 @@ interface UserProfileInterface {
   profileType: 'edit' | 'base';
   newImage?: File | null;
   user: UserInterface;
-  uploadPhoto?: React.Dispatch<React.SetStateAction<File | null>> ;
+  uploadPhoto?: React.Dispatch<React.SetStateAction<File | null>>;
 }
 export function UserProfile({
   profileType,
@@ -26,17 +26,23 @@ export function UserProfile({
         <UserContactAvatar
           size="big"
           name={user.userName}
-          image={newImage ? URL.createObjectURL(newImage) : user.userImage}
+          image={
+            newImage
+              ? URL.createObjectURL(newImage)
+              : `http://localhost:5000${user.userImage}`
+          }
         ></UserContactAvatar>
         <ButtonUserProfile
           type={profileType}
           uploadPhoto={uploadPhoto}
         ></ButtonUserProfile>
       </div>
-      <div className="ml-8">
-        <p className="text-xl">{user.userName}</p>
-        <p className="mt-0.5 text-sm opacity-50">online</p>
-      </div>
+      {profileType !== 'edit' && (
+        <div className="ml-8">
+          <p className="text-xl">{user.userName}</p>
+          <p className="mt-0.5 text-sm opacity-50">online</p>
+        </div>
+      )}
     </section>
   );
 }

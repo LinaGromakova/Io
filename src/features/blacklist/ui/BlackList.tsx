@@ -1,22 +1,15 @@
 import { UserContact } from '@/entities/UserContact';
 import { useBlackList } from '../hooks/useBlackList';
-import { useAuth } from '@/features/auth/hooks/useAuth';
-import { useModalContext, useUiContext } from '@/features/common/contexts';
 import { BlackListIsEmpty } from './BlackListIsEmpty';
+import { useAuthState } from '@/features/auth/lib/useAuthState';
+import { useModalControls } from '@/features/modal/lib/useModalState';
+import { useUiActions } from '@/features/interface-state/lib/hooks';
 
 export function BlackList() {
-  // const { user } = useAuth()
-  const user = {
-    userId: '5HEzeZ4dB0iA2wJ3NdmvS',
-    userName: 'Lina=',
-    userImage: '/uploads/avatars/avatar-1759159994251-893137663.jpg',
-    onlineStatus: false,
-    lastSeen: '2025-10-13T00:49:32.751Z',
-    createdAt: '2025-08-27T19:03:13.408Z',
-  };
+  const { user } = useAuthState();
   const { blackListUsers, blackListLength } = useBlackList(user.userId);
-  const { changeModalView } = useModalContext();
-  const { toggleBubbleMenu } = useUiContext();
+  const { openModal } = useModalControls();
+  const { toggleBubbleMenu } = useUiActions();
   return (
     <>
       {(blackListLength === 0 && <BlackListIsEmpty></BlackListIsEmpty>) || (
@@ -35,7 +28,7 @@ export function BlackList() {
             userImage={u.userImage}
             menuType="contactSimpleInBlock"
             unBlockUser={() =>
-              changeModalView({
+              openModal({
                 modalType: 'unBlock',
                 currentUserId: user.userId,
                 targetUserId: u.userId,
@@ -43,7 +36,7 @@ export function BlackList() {
                 chatId: '',
               })
             }
-            onBubbleMenuOpen={() => toggleBubbleMenu}
+            onBubbleMenuOpen={toggleBubbleMenu}
           ></UserContact>
         );
       })}

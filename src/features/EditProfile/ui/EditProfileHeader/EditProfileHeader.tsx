@@ -1,4 +1,5 @@
-import { useModalContext, useUiContext } from '@/features/common/contexts';
+import { useSettings } from '@/features/interface-state/lib/hooks';
+import { useModalControls } from '@/features/modal/lib/useModalState';
 import { ButtonCircle } from '@/shared/ui/ButtonCircle';
 import React from 'react';
 
@@ -6,9 +7,7 @@ interface EditProfileHeaderInterface {
   newPhoto: File | null | undefined;
   newName: string;
   setNameInputValue: React.Dispatch<React.SetStateAction<string>>;
-  setNewPhotoUser: React.Dispatch<
-    React.SetStateAction<File | null>
-  >;
+  setNewPhotoUser: React.Dispatch<React.SetStateAction<File | null>>;
 }
 export function EditProfileHeader({
   newPhoto,
@@ -16,8 +15,8 @@ export function EditProfileHeader({
   setNameInputValue,
   setNewPhotoUser,
 }: EditProfileHeaderInterface) {
-  const { changeModalView } = useModalContext();
-  const { setIsUserSettingsOpen } = useUiContext();
+  const { openModal } = useModalControls();
+  const { toggleSettings } = useSettings();
   return (
     <header className="w-full px-4 flex items-center mt-2">
       <ButtonCircle
@@ -25,7 +24,7 @@ export function EditProfileHeader({
         className="min-w-9"
         handlerClick={() => {
           if (newPhoto || newName) {
-            changeModalView({
+            openModal({
               modalType: 'exitNotSave',
               currentUserId: '',
               targetUserId: '',
@@ -33,13 +32,13 @@ export function EditProfileHeader({
               chatId: '',
             });
           } else {
-            setIsUserSettingsOpen(false);
+            toggleSettings();
             setNameInputValue('');
             setNewPhotoUser(null);
           }
         }}
       ></ButtonCircle>
-      <h3 className="text-2xl px-4 text-center ml-auto mr-auto">
+      <h3 className="mx-auto text-xl pr-8 text-center ml-auto mr-auto">
         Настройки пользователя
       </h3>
     </header>

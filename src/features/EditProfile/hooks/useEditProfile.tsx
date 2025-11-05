@@ -1,22 +1,18 @@
 'use client';
-import { useAuth } from '@/features/auth/hooks/useAuth';
-import { useUiContext } from '@/features/common/contexts';
+import { useAuthSetters, useAuthState } from '@/features/auth/lib/useAuthState';
+import {
+  useModalMessage,
+  useSettings,
+} from '@/features/interface-state/lib/hooks';
 import { useEffect, useState } from 'react';
 
 export function useEditProfile() {
-  const { isUserSettingsOpen, setIsModalMessageOpen } = useUiContext();
+  const { isSettingsOpen } = useSettings();
+  const { open } = useModalMessage();
   const [nameInputValue, setNameInputValue] = useState('');
   const [newPhotoUser, setNewPhotoUser] = useState<File | null>(null);
-  const user = {
-    userId: '5HEzeZ4dB0iA2wJ3NdmvS',
-    userName: 'Lina=',
-    userImage: '/uploads/avatars/avatar-1759159994251-893137663.jpg',
-    onlineStatus: false,
-    lastSeen: '2025-10-13T00:49:32.751Z',
-    createdAt: '2025-08-27T19:03:13.408Z',
-  };
-  const { setUser } = useAuth();
-  //user,
+  const { user } = useAuthState();
+  const { setUser } = useAuthSetters();
   async function changeUserName() {
     try {
       const response = await fetch(
@@ -34,7 +30,7 @@ export function useEditProfile() {
       );
       const result = await response.json();
       setUser((prev) => ({ ...prev, name: result }));
-      setIsModalMessageOpen({ message: 'Новое имя сохранено!', open: true });
+      open('Новое имя сохранено!');
       setNameInputValue('');
     } catch (error) {
       console.log('Error:', error);
@@ -57,7 +53,7 @@ export function useEditProfile() {
       const result = await response.json();
       setNewPhotoUser(null);
       setUser((prev) => ({ ...prev, userImage: result.avatarUrl }));
-      setIsModalMessageOpen({ message: 'Новое фото сохранено!', open: true });
+      open('Новое фото сохранено!');
     } catch (error) {
       console.error('Error:', error);
     }
@@ -70,11 +66,11 @@ export function useEditProfile() {
     };
   }, [newPhotoUser]);
   useEffect(() => {
-    if (!isUserSettingsOpen) {
+    if (!isSettingsOpen) {
       setNameInputValue('');
       setNewPhotoUser(null);
     }
-  }, [isUserSettingsOpen]);
+  }, [isSettingsOpen]);
 
   return {
     changeUserName,

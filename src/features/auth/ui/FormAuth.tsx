@@ -6,8 +6,8 @@ import { LabelForm } from '@/shared/ui/LabelForm';
 import { InputMain } from '@/shared/ui/InputMain';
 import { ButtonMain } from '@/shared/ui/ButtonMain';
 import { RedirectionLink } from './RedirectionLink';
-import { useAuth } from '../hooks/useAuth';
 import { formFields } from '../config/formFields';
+import { useAuthActions } from '../lib/useAuthActions';
 
 interface interfaceForm {
   login: string;
@@ -23,8 +23,8 @@ const configForm: interfaceForm = {
   duplicate: '',
 };
 export function FormAuth({ page }: { page: 'login' | 'register' }) {
-  const { authUser } = useAuth();
   const [formData, setFormData] = useState<interfaceForm>(configForm);
+  const { authUser } = useAuthActions();
 
   const validArray: boolean[] = [];
   return (

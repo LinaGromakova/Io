@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
-import { socket } from '@/features/socket/context/socketContext';
+import { useAtomValue } from 'jotai';
+import { socketAtom } from '@/features/socket/lib/useSocket';
+
 export function useSendMessage(chatId: string, userId: string) {
+   const socket = useAtomValue(socketAtom);
   const [newMessage, setNewMessage] = useState({});
   function sendMessage(message: string) {
     if (!message.trim()) {

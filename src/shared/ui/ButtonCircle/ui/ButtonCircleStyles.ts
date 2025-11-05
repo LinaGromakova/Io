@@ -1,5 +1,5 @@
 export const ButtonCircleStylesBasic = `duration-300 cursor-pointer flex justify-center items-center 
-    font-bold rounded-full h-9 w-9 text-xl overflow-hidden hover:bg-inter`;
+    font-bold rounded-full h-9 w-9 text-xl overflow-hidden hover:bg-inter/60 bg-inter`;
 
 //bg-inter/50 проверь
 export const ButtonCircleStylesByTypes = {
@@ -10,6 +10,7 @@ export const ButtonCircleStylesByTypes = {
   search: '',
   back: '',
   options: '',
-  photoAdd: '',
+  photoAdd:
+    'bg-radial-[at_25%_25%] from-accent to-accent-shadow to-75% text-white hover:scale-105',
   more: '',
 };

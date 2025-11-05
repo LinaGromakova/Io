@@ -2,61 +2,39 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap');
 @import 'tailwindcss';
 
-:root {
-  --background: #fafafa;
-  --foreground: #101113;
-  --color-inter: #e7e7e7;
-  --color-extra: #a3aeb9;
-}
 @theme {
-  --color-background: #fafafa;
-  --color-foreground: #101113;
   --color-accent: #ff740b;
   --color-accent-shadow: #ff0000;
-  --font-sans: 'Inter', sans-serif;
-  --font-emoji: 'Noto Color Emoji', sans-serif;
+  --color-inter: #e7e7e7;
+  --color-extra: #9aa6b2;
   --animate-fly: fly 30s ease-in-out 5s infinite;
   --animate-spaceship: spaceship 7s linear 3s infinite;
   --animate-meteor: meteor 5s linear 7s infinite;
 }
-:root {
-  --background: #fafafa;
-  --foreground: #101113;
-  --color-inter: #e7e7e7;
-  --color-extra: #a3aeb9;
+@layer base {
+  .theme-dark {
+    --foreground: #faf7e8;
+    --background: #101113;
+    --color-inter: #303138;
+    --color-extra: #373942;
+  }
+  .theme-light {
+    --foreground: #101113;
+    --background: #fafafa;
+    --color-inter: #e7e7e7;
+    --color-extra: #9aa6b2;
+  }
 }
-
-body.theme-dark {
-  --background: #101113;
-  --foreground: #faf7e8;
-  --color-inter: #303138;
-  --color-extra: #34363e;
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Inter', sans-serif;
 }
-
-.theme-dark .bg-inter {
-  background-color: #303138 !important;
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-inter: 'Inter', sans-serif;
 }
-
-.theme-light .bg-inter {
-  background-color: #e7e7e7 !important;
-}
-
-.theme-dark .bg-background {
-  background-color: #101113 !important;
-}
-
-.theme-light .bg-background {
-  background-color: #fafafa !important;
-}
-
-.theme-dark .text-foreground {
-  color: #faf7e8 !important;
-}
-
-.theme-light .text-foreground {
-  color: #101113 !important;
-}
-
 input::-webkit-search-cancel-button {
   appearance: none;
   cursor: pointer;

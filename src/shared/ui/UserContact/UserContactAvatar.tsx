@@ -25,17 +25,19 @@ export function UserContactAvatar({
     >
       {(image && (
         <Image
-          src={`http://localhost:5000${image}`}
+          src={image}
           alt={name}
-          width={100}
-          height={100}
+          width={250}
+          height={250}
           className="w-full h-full object-cover rounded-full"
         ></Image>
       )) || (
         <p
           className={clsx(
             'text-center font-bold text-white',
-            size === 'big' ? 'text-6xl' : 'text-3xl'
+            size === 'big' && 'text-6xl',
+            size === 'base' && 'text-3xl',
+            size === 'small' && 'text-2xl'
           )}
         >
           {name.slice(0, 1).toUpperCase()}

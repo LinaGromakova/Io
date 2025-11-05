@@ -4,7 +4,7 @@ export interface ChatInterface {
   userName: string;
   userImage: string;
   onlineStatus: boolean;
-  lastMessage: string;
+  lastMessageAt: string;
   lastCreate: string;
   unreadCount: number;
   isRead: boolean;

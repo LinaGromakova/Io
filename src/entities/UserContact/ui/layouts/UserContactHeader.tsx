@@ -14,7 +14,9 @@ export function UserContactHeader(props: UserContactHeaderProps) {
     >
       <div className="flex items-center">
         <UserContactAvatar
-          image={props.userImage}
+           image={
+              props.userImage ? `http://localhost:5000${props.userImage}` : null
+            }
           name={props.userName}
           size="small"
         ></UserContactAvatar>

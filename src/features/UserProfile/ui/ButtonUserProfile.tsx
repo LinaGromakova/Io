@@ -1,4 +1,4 @@
-import { useUiContext } from '@/features/common/contexts';
+import { useSettings } from '@/features/interface-state/lib/hooks';
 import { ButtonCircle } from '@/shared/ui/ButtonCircle';
 import React from 'react';
 
@@ -9,13 +9,16 @@ export function ButtonUserProfile({
   type: 'edit' | 'base';
   uploadPhoto?: React.Dispatch<React.SetStateAction<File | null>>;
 }) {
-  const { setIsUserSettingsOpen } = useUiContext();
+  const { toggleSettings } = useSettings();
+
   return (
     <>
       {type === 'base' ? (
         <ButtonCircle
           actionType="create"
-          handlerClick={() => setIsUserSettingsOpen(true)}
+          handlerClick={() => {
+            toggleSettings();
+          }}
           className="absolute bottom-0 right-0 overflow-hidden"
         ></ButtonCircle>
       ) : (

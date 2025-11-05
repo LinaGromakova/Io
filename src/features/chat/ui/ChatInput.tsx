@@ -1,28 +1,20 @@
 'use client';
 import { useState } from 'react';
 import { InputMain } from '@/shared/ui/InputMain';
-import { useThemeContext } from '@/features/common/contexts';
 import { useSendMessage } from '../hooks';
-import { useAuth } from '@/features/auth/hooks/useAuth';
 import { useBlackList } from '@/features/blacklist/hooks/useBlackList';
 import { ChatInputBlock } from './ChatInputBlock';
 import { useInitTargetUser } from '../hooks/useInitTargetUser';
+import { useTheme } from '@/features/theme/hooks/useTheme';
+import { useAuthState } from '@/features/auth/lib/useAuthState';
 
 interface ChatInputProps {
   chatId: string;
 }
 export function ChatInput({ chatId }: ChatInputProps) {
   const [message, setMessage] = useState('');
-  const { theme } = useThemeContext();
-  // const { user } = useAuth();
-  const user = {
-    userId: '5HEzeZ4dB0iA2wJ3NdmvS',
-    userName: 'Lina=',
-    userImage: '/uploads/avatars/avatar-1759159994251-893137663.jpg',
-    onlineStatus: false,
-    lastSeen: '2025-10-13T00:49:32.751Z',
-    createdAt: '2025-08-27T19:03:13.408Z',
-  };
+  const { theme } = useTheme();
+  const { user } = useAuthState();
   const { targetUser } = useInitTargetUser(chatId);
   const { sendMessage } = useSendMessage(chatId, user?.userId || '');
   const { userInBlackList } = useBlackList(
@@ -30,7 +22,6 @@ export function ChatInput({ chatId }: ChatInputProps) {
     targetUser.userId,
     chatId
   );
-  console.log('Chat Input rendering');
   return (
     <>
       {userInBlackList.block ? (
@@ -42,7 +33,7 @@ export function ChatInput({ chatId }: ChatInputProps) {
         <form
           action="#"
           onSubmit={(e) => e.preventDefault()}
-          className="absolute px-2 py-4 flex justify-center w-full max-md:py-0 max-md:px-0 bottom-15"
+          className="absolute px-2 flex justify-center w-full max-md:py-0 max-md:px-0 bottom-15"
         >
           <InputMain
             changeHandler={(e) => setMessage(e.target.value)}

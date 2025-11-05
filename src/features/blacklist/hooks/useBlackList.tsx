@@ -1,8 +1,11 @@
 'use client';
-import { useChatContext } from '@/features/common/contexts';
 import { useFetch } from '@/shared/lib/hooks';
 import { useEffect, useState } from 'react';
-import { socket } from '@/features/socket/context/socketContext';
+import { socketAtom } from '@/features/socket/lib/useSocket';
+import { useChatActions } from '@/features/chat/lib/useChatActions';
+import { useChatSetters } from '@/features/chat/lib/useChatState';
+import { useAtomValue } from 'jotai';
+
 interface userInBlackList {
   block: boolean;
   targetUserId: string | null;
@@ -14,8 +17,9 @@ export function useBlackList(
   targetUserId?: string,
   chatId?: string
 ) {
- 
-  const { setIsBlock, checkBlackList } = useChatContext();
+  const socket = useAtomValue(socketAtom);
+  const { checkBlackList } = useChatActions();
+  const { setIsBlock } = useChatSetters();
   const [blackListUsers, setBlackListUsers] = useState([]);
   const [userInBlackList, setUserInBlackList] = useState<userInBlackList>({
     block: false,
