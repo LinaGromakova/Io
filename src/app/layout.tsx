@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { Provider } from 'jotai';
+import { Provider } from './provider';
 
 export const metadata: Metadata = {
   title: 'IO',
   description:
     'Io - самый активный спутник в солнечной системе. Как и наш мессенджер: всегда на связи, всегда в движении',
 };
+
 export default function RootLayout({
   children,
 }: {
@@ -37,7 +38,7 @@ export default function RootLayout({
         />
         <link rel="manifest" href="/favicon/site.webmanifest" />
       </head>
-      <body className="theme-dark">
+      <body>
         <Provider>{children}</Provider>
       </body>
     </html>

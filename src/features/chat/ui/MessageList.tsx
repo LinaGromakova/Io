@@ -6,13 +6,15 @@ import { useChatMessages } from '../hooks/useChatMessages';
 import { MessageInterface } from '../types/MessageInterface';
 import { useScrollToBottom } from '../hooks';
 import { useAuthState } from '@/features/auth/lib/useAuthState';
+import { MessageListLoading } from './MessageListLoading';
 
 export function MessageList({ chatId }: { chatId: string }) {
   const { user } = useAuthState();
   const { messages } = useChatMessages(chatId, user?.userId || '');
   const { chatRef } = useScrollToBottom(messages);
-  if (!user || !user.userId || !chatId) {
-    return <div>Loading messages...</div>;
+
+  if (!messages) {
+  return <MessageListLoading></MessageListLoading>;
   }
   console.log('MessageList rendering');
   return (

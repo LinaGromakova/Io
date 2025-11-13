@@ -1,12 +1,13 @@
 'use client';
 import { useState } from 'react';
 import { InputMain } from '@/shared/ui/InputMain';
-import { useSendMessage } from '../hooks';
+import { useChatMessages, useSendMessage } from '../hooks';
 import { useBlackList } from '@/features/blacklist/hooks/useBlackList';
 import { ChatInputBlock } from './ChatInputBlock';
 import { useInitTargetUser } from '../hooks/useInitTargetUser';
-import { useTheme } from '@/features/theme/hooks/useTheme';
 import { useAuthState } from '@/features/auth/lib/useAuthState';
+import { ChatInputLoading } from './ChatInputLoading';
+import { useTheme } from '@/features/theme/hooks/useTheme';
 
 interface ChatInputProps {
   chatId: string;
@@ -22,6 +23,11 @@ export function ChatInput({ chatId }: ChatInputProps) {
     targetUser.userId,
     chatId
   );
+  const { messages } = useChatMessages(chatId, user?.userId || '');
+
+  if (!messages) {
+    return <ChatInputLoading></ChatInputLoading>;
+  }
   return (
     <>
       {userInBlackList.block ? (
@@ -33,7 +39,7 @@ export function ChatInput({ chatId }: ChatInputProps) {
         <form
           action="#"
           onSubmit={(e) => e.preventDefault()}
-          className="absolute px-2 flex justify-center w-full max-md:py-0 max-md:px-0 bottom-15"
+          className="absolute px-2 flex justify-center w-full max-md:py-0 max-md:px-0 bottom-15 max-md:bottom-6"
         >
           <InputMain
             changeHandler={(e) => setMessage(e.target.value)}

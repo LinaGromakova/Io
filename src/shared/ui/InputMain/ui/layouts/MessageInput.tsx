@@ -39,7 +39,7 @@ export function MessageInput(props: MessageInputProps) {
     <div className="relative w-8/12 max-md:w-full">
       <button
         type="button"
-        className="cursor-pointer absolute bottom-2 left-3"
+        className="cursor-pointer absolute bottom-2 left-3 z-10"
         onClick={() => {
           setOpenEmoji(!openEmoji);
         }}
@@ -62,7 +62,7 @@ export function MessageInput(props: MessageInputProps) {
           ></EmojiPicker>
         )}
       </div>
-      <div className="flex">
+      <div className="flex overflow-hidden relative items-center">
         <input
           {...props}
           autoComplete="off"
@@ -74,7 +74,8 @@ export function MessageInput(props: MessageInputProps) {
             }
           }}
           className={clsx(
-            'border border-foreground/20 outline-none max-md:w-full max-md:rounded-none focus:border-foreground/50 rounded-3xl h-10 pr-10 w-full pl-10 message',
+            `border border-foreground/20 outline-none max-md:w-full max-md:rounded-none focus:max-md:border-foreground/20
+            focus:border-foreground/50 rounded-3xl h-10 pr-10 w-full pl-10 message`,
             props.className
           )}
         />
@@ -83,7 +84,8 @@ export function MessageInput(props: MessageInputProps) {
           handlerClick={() => {
             props.sendMessage(props.value);
           }}
-          className="text-base max-md:ml-0 max-md:absolute max-md:right-0 text-foreground/50 bg-accent ml-5"
+          className="text-base max-md:ml-0 max-md:absolute max-md:right-0.5 text-foreground/50  max-md:min-w-[37px] max-md:min-h-[37px]
+           bg-accent ml-5 max-md:border-0 max-md:h-[37px] max-md:w-[37px]"
         ></ButtonCircle>
       </div>
     </div>

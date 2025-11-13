@@ -62,33 +62,33 @@ export function useBlackList(
     });
   }, [chatId, targetUserId]);
 
-  useEffect(() => {
-    socket.on('addBlacklist', (data) => {
-      if (data) {
-        setUserInBlackList({
-          block: true,
-          targetUserId: data.targetUserId,
-          currentuserId: data.currentUserId,
-        });
-        if (data.userId === currentUserId) {
-          setIsBlock(true);
-        }
-      }
-    });
-  }, [socket]);
+  // useEffect(() => {
+  //   socket.on('addBlacklist', (data) => {
+  //     if (data) {
+  //       setUserInBlackList({
+  //         block: true,
+  //         targetUserId: data.targetUserId,
+  //         currentuserId: data.currentUserId,
+  //       });
+  //       if (data.userId === currentUserId) {
+  //         setIsBlock(true);
+  //       }
+  //     }
+  //   });
+  // }, [socket]);
 
-  useEffect(() => {
-    socket.on('deleteBlacklist', (result) => {
-      setUserInBlackList({
-        block: false,
-        targetUserId: null,
-        currentuserId: null,
-      });
-      if (result.userId === currentUserId) {
-        setIsBlock(false);
-      }
-    });
-  }, [socket]);
+  // useEffect(() => {
+  //   socket.on('deleteBlacklist', (result) => {
+  //     setUserInBlackList({
+  //       block: false,
+  //       targetUserId: null,
+  //       currentuserId: null,
+  //     });
+  //     if (result.userId === currentUserId) {
+  //       setIsBlock(false);
+  //     }
+  //   });
+  // }, [socket]);
   return {
     userInBlackList,
     blackListUsers,

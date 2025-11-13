@@ -7,6 +7,7 @@ import { useParams } from 'next/navigation';
 export function Chat() {
   const params = useParams();
   const chatId = params?.id as string;
+
   return (
     <section className="relative min-h-screen">
       <ChatHeader chatId={chatId}></ChatHeader>

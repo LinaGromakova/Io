@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { UserContactAvatar } from '@/shared/ui/UserContact/UserContactAvatar';
@@ -45,7 +45,7 @@ export function UserContactDetails(props: UserContactDetailsProps) {
   }, [router, props.chatId]);
 
   return (
-    <Link href={`/chat/${props.chatId}`} prefetch={true}>
+    <Link href={`/chat/${props.chatId}`} prefetch={false}>
       <article
         className={clsx(
           'py-3 px-5 relative rounded-2xl flex items-center cursor-pointer duration-300 transition-colors group/user my-2',

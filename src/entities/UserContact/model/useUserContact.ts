@@ -4,7 +4,7 @@ import React, { useRef } from 'react';
 
 export function useUserContact(
   onBubbleMenuOpen: () => void,
-  onSidebarClose?: (arg0: boolean) => void,
+  onSidebarClose?: () => void,
   chatId?: string
 ) {
   // const { query } = useRouter();
@@ -30,7 +30,7 @@ export function useUserContact(
     }
   };
   const handleClick = () => {
-    onSidebarClose?.(false);
+    onSidebarClose?.();
   };
 
   return {

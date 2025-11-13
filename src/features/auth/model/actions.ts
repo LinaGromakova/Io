@@ -1,6 +1,6 @@
-import { atom } from "jotai";
-import { isAuthAtom, userAtom } from "./atoms";
-import { UserInterface } from "../types/UserInterface";
+import { atom } from 'jotai';
+import { isAuthAtom, userAtom } from './atoms';
+import { UserInterface } from '../types/UserInterface';
 
 export const loginAtom = atom(null, (get, set, userData: UserInterface) => {
   set(userAtom, userData);
@@ -10,6 +10,7 @@ export const loginAtom = atom(null, (get, set, userData: UserInterface) => {
 export const logoutAtom = atom(null, (get, set) => {
   set(userAtom, null);
   set(isAuthAtom, false);
+  localStorage.removeItem('userData');
 });
 
 export const updateUserAtom = atom(

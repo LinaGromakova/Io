@@ -20,7 +20,7 @@ export function RedirectionLink({ page }: { page: 'login' | 'register' }) {
 
   return (
     <Link href={linkConfig[page].link}>
-      <p className="mt-3 text-xs opacity-70 hover:opacity-100 hover:underline ml-2">
+      <p className="mt-3 text-xs opacity-70 hover:opacity-100 hover:underline ml-2 cursor-pointer">
         {linkConfig[page].content}
       </p>
     </Link>

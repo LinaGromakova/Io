@@ -13,8 +13,8 @@ export const toggleOptionsSidebarAtom = atom(false, (get, set) => {
   set(isOptionsSidebarOpenAtom, !get(isOptionsSidebarOpenAtom));
 });
 
-export const toggleSidebarAtom = atom(false, (get, set) => {
-  set(isSidebarOpenAtom, !get(isSidebarOpenAtom));
+export const setSidebarOpenAtom = atom(null, (get, set, value: boolean) => {
+  set(isSidebarOpenAtom, value);
 });
 
 export const toggleBlackListAtom = atom(false, (get, set) => {

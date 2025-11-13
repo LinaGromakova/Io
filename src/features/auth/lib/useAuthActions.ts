@@ -4,28 +4,26 @@ import { useFetch } from '@/shared/lib/hooks';
 import { useModalMessage } from '@/features/interface-state/lib/hooks';
 import { loginAtom, logoutAtom } from '../model/actions';
 import { FormInterface } from '../types/FormInterface';
+import { redirect } from '@/shared/lib/redirect/redirect';
 
 export const useAuthActions = () => {
   const { getData } = useFetch();
   const { open: openModal } = useModalMessage();
   const login = useSetAtom(loginAtom);
   const logout = useSetAtom(logoutAtom);
-  const simpleNavigate = (path: string) => {
-    if (typeof window === 'undefined') return;
-    window.location.href = window.location.origin + path;
-  };
+
   const logOutUser = () => {
-    getData('http://localhost:5000/logout', {
+    getData('http://localhost:5000/api/auth/logout', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
     });
     logout();
-    simpleNavigate('/login');
+    redirect('/login');
   };
 
   const checkSession = () => {
-    return getData('http://localhost:5000/session-check', {
+    return getData('http://localhost:5000/api/auth/session-check', {
       credentials: 'include',
     });
   };
@@ -49,7 +47,7 @@ export const useAuthActions = () => {
 
       if (result && result.user) {
         login(result.user);
-        simpleNavigate('/');
+        redirect('/');
       }
     } catch (error) {
       openModal(`Ошибка ${error}`);

@@ -4,7 +4,7 @@ import {
   isSidebarOpenAtom,
   openModalMessageAtom,
   toggleOptionsSidebarAtom,
-  toggleSidebarAtom,
+  setSidebarOpenAtom,
   closeModalMessageAtom,
   toggleAtom,
   toggleAddUserAtom,
@@ -29,7 +29,7 @@ export const useSettings = () => ({
 
 export const useSidebar = () => ({
   isSidebarOpen: useAtomValue(isSidebarOpenAtom),
-  toggleSidebarOpen: useSetAtom(toggleSidebarAtom),
+  setSidebarOpen: useSetAtom(setSidebarOpenAtom),
 });
 
 export const useOptions = () => ({
@@ -50,6 +50,6 @@ export const useBlackList = () => ({
 
 export const useUiActions = () => ({
   toggleAddUser: useSetAtom(toggleAddUserAtom),
-  toggleSidebar: useSetAtom(toggleSidebarAtom),
+  setSidebar: useSetAtom(setSidebarOpenAtom),
   toggleBubbleMenu: useSetAtom(toggleAtom),
 });

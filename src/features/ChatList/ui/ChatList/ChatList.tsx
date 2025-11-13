@@ -11,7 +11,7 @@ import { ChatListLoading } from './ChatListLoading/ChatListLoading';
 export function ChatList() {
   const { user } = useAuthState();
   const { chats, users, filteredChats } = useChatStore();
-  const { toggleAddUser, toggleBubbleMenu, toggleSidebar } = useUiActions();
+  const { toggleAddUser, toggleBubbleMenu, setSidebar } = useUiActions();
 
   const {
     showEmptySearchPrompt,
@@ -65,7 +65,7 @@ export function ChatList() {
             key={chat.chatId}
             type="details"
             onBubbleMenuOpen={toggleBubbleMenu}
-            onSidebarClose={toggleSidebar}
+            onSidebarClose={setSidebar(false)}
             {...chat}
           />
         ))}
@@ -80,7 +80,7 @@ export function ChatList() {
             key={chat.chatId}
             type="details"
             onBubbleMenuOpen={toggleBubbleMenu}
-            onSidebarClose={toggleSidebar}
+            onSidebarClose={setSidebar(false)}
             {...chat}
           />
         ))}

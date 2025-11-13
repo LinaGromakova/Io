@@ -1,5 +1,4 @@
 'use client';
-import { useAuthState } from '@/features/auth/lib/useAuthState';
 import { useModalSettings } from '@/features/modal/lib/useModalSettings';
 import { useModalState } from '@/features/modal/lib/useModalState';
 import { useTheme } from '@/features/theme/hooks/useTheme';
@@ -13,7 +12,6 @@ export function MainPage({ children }: MainPageProps) {
   const { modalSettings } = useModalSettings();
   const { isModalOpen } = useModalState();
   const { theme } = useTheme();
-
   return (
     <div
       className={
