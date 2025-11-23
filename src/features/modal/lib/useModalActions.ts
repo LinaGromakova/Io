@@ -32,7 +32,6 @@ export const useModalActions = () => {
 
   const handleUnblock = (currentUserId: string, targetUserId: string) => {
     unBlockUser(currentUserId, targetUserId);
-    setIsBlock(false);
     closeModal();
   };
 

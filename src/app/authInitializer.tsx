@@ -7,8 +7,6 @@ import { useEffect } from 'react';
 export function AuthInitializer() {
   const { initializeAuth } = useAuthInit();
 
-
-
   useEffect(() => {
     initializeAuth();
   }, [initializeAuth]);

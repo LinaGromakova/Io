@@ -30,16 +30,16 @@ export function ChatInput({ chatId }: ChatInputProps) {
   }
   return (
     <>
-      {userInBlackList.block ? (
+      {userInBlackList.isBlock ? (
         <ChatInputBlock
           currentUserId={user.userId}
-          targetUserId={userInBlackList.targetUserId}
+          targetUserId={userInBlackList.blockedUserId}
         ></ChatInputBlock>
       ) : (
         <form
           action="#"
           onSubmit={(e) => e.preventDefault()}
-          className="absolute px-2 flex justify-center w-full max-md:py-0 max-md:px-0 bottom-15 max-md:bottom-6"
+          className="absolute px-2 flex justify-center w-full max-md:py-0 max-md:px-0 bottom-6 max-md:bottom-0"
         >
           <InputMain
             changeHandler={(e) => setMessage(e.target.value)}

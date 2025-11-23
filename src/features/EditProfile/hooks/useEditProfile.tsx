@@ -15,6 +15,7 @@ export function useEditProfile() {
   const { setUser } = useAuthSetters();
   async function changeUserName() {
     try {
+      console.log(nameInputValue, 'new name');
       const response = await fetch(
         'http://localhost:5000/api/users/profile/name',
         {
@@ -29,7 +30,7 @@ export function useEditProfile() {
         }
       );
       const result = await response.json();
-      setUser((prev) => ({ ...prev, name: result }));
+      setUser((prev) => ({ ...prev, userName: result }));
       open('Новое имя сохранено!');
       setNameInputValue('');
     } catch (error) {
@@ -42,7 +43,7 @@ export function useEditProfile() {
 
     const formData = new FormData();
     formData.append('avatar', file);
-    formData.append('user_id', user.userId);
+    formData.append('userId', user.userId);
 
     try {
       const response = await fetch('http://localhost:5000/api/users/avatar', {

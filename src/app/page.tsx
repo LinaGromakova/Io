@@ -12,7 +12,6 @@ export default function Home() {
   useEffect(() => {
     if (isInitialized) {
       if (!isAuth) {
-        console.log('working');
         redirect('/login');
       }
     }

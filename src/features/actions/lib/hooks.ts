@@ -2,8 +2,9 @@ import { useFetch } from '@/shared/lib/hooks';
 
 export const useActions = () => {
   const { getData } = useFetch();
+
   const deleteUserChat = (chatId: string) => {
-    return getData(`http://localhost:5000/delete_chat/${chatId}`, {
+    return getData(`http://localhost:5000/api/chat/delete/${chatId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -41,7 +42,7 @@ export const useActions = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userId: userId,
+        currentUserId: userId,
         targetUserId: targetUserId,
       }),
     });

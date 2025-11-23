@@ -8,27 +8,30 @@ import { useSidebar } from '@/features/interface-state/lib/hooks';
 import { useAuthState } from '@/features/auth/lib/useAuthState';
 import { useModalControls } from '@/features/modal/lib/useModalState';
 import { ChatHeaderLoading } from './ChatHeaderLoading';
+import { useBlackList } from '@/features/blacklist/hooks/useBlackList';
 
 export function ChatHeader({ chatId }: { chatId: string }) {
   const { user } = useAuthState();
-
   const [isBubbleMenuOpen, setIsBubbleMenuOpen] = useState(false);
   const { openModal } = useModalControls();
-  const { setSidebar } = useSidebar();
+  const { setSidebarOpen } = useSidebar();
   const { targetUser } = useInitTargetUser(chatId);
-
+  const { userInBlackList } = useBlackList(
+    user?.userId,
+    targetUser.userId,
+    chatId
+  );
   if (!targetUser.userId) {
     return <ChatHeaderLoading></ChatHeaderLoading>;
   }
 
-  console.log('Chat Header rendering');
   return (
     <header className="flex items-center px-4 py-2 w-full">
       <Link href="/">
         <ButtonCircle
           actionType="back"
           className="mr-4 hidden max-md:flex"
-          handlerClick={setSidebar(true)}
+          handlerClick={setSidebarOpen(true)}
         ></ButtonCircle>
       </Link>
       <UserContact
@@ -46,7 +49,9 @@ export function ChatHeader({ chatId }: { chatId: string }) {
         menuType={'contactHeader'}
         visible={isBubbleMenuOpen}
         setVisible={setIsBubbleMenuOpen}
-        isBlock={false}
+        isBlock={
+          userInBlackList.isBlock && userInBlackList.userId === user?.userId
+        }
         onClick={(actionType) => {
           openModal({
             modalType: actionType,

@@ -43,7 +43,7 @@ export const useModalMessage = () => ({
   close: useSetAtom(closeModalMessageAtom),
 });
 
-export const useBlackList = () => ({
+export const useBlackListState = () => ({
   isBlackListOpen: useAtomValue(isBlackListOpenAtom),
   toggleBlackList: useSetAtom(toggleBlackListAtom),
 });

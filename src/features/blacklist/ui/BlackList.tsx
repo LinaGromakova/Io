@@ -27,15 +27,15 @@ export function BlackList() {
             userName={u.userName}
             userImage={u.userImage}
             menuType="contactSimpleInBlock"
-            unBlockUser={() =>
+            onMenuAction={() => {
               openModal({
                 modalType: 'unBlock',
                 currentUserId: user.userId,
                 targetUserId: u.userId,
                 targetUserName: u.userName,
                 chatId: '',
-              })
-            }
+              });
+            }}
             onBubbleMenuOpen={toggleBubbleMenu}
           ></UserContact>
         );

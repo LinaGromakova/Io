@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { useFetch } from '@/shared/lib/hooks';
 import { loginAtom, logoutAtom } from '../model/actions';
 import { useAtom, useSetAtom } from 'jotai';
@@ -39,7 +39,6 @@ export const useAuthInit = () => {
       console.error('Auth init error:', error);
       logout();
     } finally {
-      console.log('✅ Setting isInitialized to true');
       setIsInitialized(true);
     }
   }, []);

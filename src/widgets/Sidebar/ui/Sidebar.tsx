@@ -4,7 +4,7 @@ import { SidebarBlackList } from './layouts/SidebarBlackList';
 import { SidebarOptionsList } from './layouts/SidebarOptionsList';
 import { SidebarSettingsUser } from './layouts/SidebarSettingsUser';
 import {
-  useBlackList,
+  useBlackListState,
   useSettings,
   useSidebar,
   useOptions,
@@ -12,7 +12,7 @@ import {
 
 export function Sidebar() {
   const { isSettingsOpen } = useSettings();
-  const { isBlackListOpen, toggleBlackList } = useBlackList();
+  const { isBlackListOpen, toggleBlackList } = useBlackListState();
   const isSidebarOpen = useSidebar();
   const { isOptionsSidebarOpen, toggleSidebarOptions } = useOptions();
 

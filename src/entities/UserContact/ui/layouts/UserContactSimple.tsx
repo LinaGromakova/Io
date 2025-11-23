@@ -7,13 +7,16 @@ import { useState } from 'react';
 import { useUserContact } from '../../model/useUserContact';
 
 export interface UserContactSimpleProps {
+  onMenuAction(
+    actionType: string,
+    arg1: { currentUserId: string; targetUserId: string }
+  ): void;
   currentUserId: string;
   targetUserId: string;
   userName: string;
   userImage: string;
   menuType: 'contactSimpleWrite' | 'contactSimpleInBlock';
   newCompanion?: User;
-  unBlockUser?: () => void;
   onBubbleMenuOpen: () => void;
 }
 
@@ -72,7 +75,12 @@ export function UserContactSimple(props: UserContactSimpleProps) {
           visible={isBubbleMenuOpen}
           setVisible={setIsBubbleMenuOpen}
           isBlock={false}
-          onClick={() => null}
+          onClick={(actionType) =>
+            props.onMenuAction?.(actionType, {
+              currentUserId: props.currentUserId,
+              targetUserId: props.targetUserId,
+            })
+          }
           className="right-0"
         ></BubbleMenu>
       </div>

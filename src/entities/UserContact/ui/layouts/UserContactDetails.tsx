@@ -20,6 +20,7 @@ export interface UserContactDetailsProps {
   unreadCount: number;
   onBubbleMenuOpen: () => void;
   onSidebarClose: (arg0: boolean) => void;
+  onMenuAction(actionType: string, arg1: { chatId: string }): void;
 }
 export function UserContactDetails(props: UserContactDetailsProps) {
   const [isBubbleMenuOpen, setIsBubbleMenuOpen] = useState(false);
@@ -67,7 +68,11 @@ export function UserContactDetails(props: UserContactDetailsProps) {
           visible={isBubbleMenuOpen}
           setVisible={setIsBubbleMenuOpen}
           isBlock={false}
-          onClick={() => null}
+          onClick={(actionType) =>
+            props.onMenuAction?.(actionType, {
+              chatId: props.chatId,
+            })
+          }
           className="right-2 bottom-2"
         ></BubbleMenu>
         <div className="flex items-center w-full justify-between">
@@ -87,19 +92,21 @@ export function UserContactDetails(props: UserContactDetailsProps) {
                 !isActive && 'opacity-50'
               )}
             >
-              {props.lastMessage === ''
+              {!props.lastMessage
                 ? `Поприветствуйте ${props.userName}!`
                 : props.lastMessage}
             </p>
           </div>
-          <UserContactMeta
-            userName={props.userName}
-            isRead={props.isRead}
-            isActive={isActive}
-            lastMessageAt={props.lastMessageAt}
-            unreadCount={props.unreadCount}
-            lastMessage={props.lastMessage}
-          ></UserContactMeta>
+          {props.lastMessage && (
+            <UserContactMeta
+              userName={props.userName}
+              isRead={props.isRead}
+              isActive={isActive}
+              lastMessageAt={props.lastMessageAt}
+              unreadCount={props.unreadCount}
+              lastMessage={props.lastMessage}
+            ></UserContactMeta>
+          )}
         </div>
       </article>
     </Link>

@@ -1,15 +1,14 @@
 'use client';
 import { useFetch } from '@/shared/lib/hooks';
 import { useEffect, useState } from 'react';
-import { socketAtom } from '@/features/socket/lib/useSocket';
 import { useChatActions } from '@/features/chat/lib/useChatActions';
-import { useChatSetters } from '@/features/chat/lib/useChatState';
-import { useAtomValue } from 'jotai';
+import { getSocket } from '@/features/socket/lib/useSocket';
+import { useBlackListState } from '@/features/interface-state/lib/hooks';
 
 interface userInBlackList {
-  block: boolean;
-  targetUserId: string | null;
-  currentuserId: string | null;
+  isBlock: boolean;
+  blockedUserId: string | null;
+  userId: string | null;
 }
 
 export function useBlackList(
@@ -17,78 +16,73 @@ export function useBlackList(
   targetUserId?: string,
   chatId?: string
 ) {
-  const socket = useAtomValue(socketAtom);
+  const socket = getSocket();
+  const { isBlackListOpen } = useBlackListState();
   const { checkBlackList } = useChatActions();
-  const { setIsBlock } = useChatSetters();
   const [blackListUsers, setBlackListUsers] = useState([]);
   const [userInBlackList, setUserInBlackList] = useState<userInBlackList>({
-    block: false,
-    targetUserId: null,
-    currentuserId: null,
+    isBlock: false,
+    blockedUserId: null,
+    userId: null,
   });
   const [blackListLength, setBlackListLength] = useState(0);
   const { getData } = useFetch();
 
+  async function loadBlackList() {
+    const blackList = await getData(
+      `http://localhost:5000/api/blacklist/${currentUserId}`
+    );
+    setBlackListUsers(blackList);
+    setBlackListLength(blackList.length);
+  }
   useEffect(() => {
-    async function loadBlackList() {
-      const blackList = await getData(
-        `http://localhost:5000/api/blacklist/${currentUserId}`
-      );
-      setBlackListUsers(blackList);
-      setBlackListLength(blackList.length);
+    if (isBlackListOpen) {
+      loadBlackList();
     }
-    loadBlackList();
-  }, []);
-
+  }, [isBlackListOpen]);
   useEffect(() => {
     if (!targetUserId) return;
-    setUserInBlackList(() => ({
-      block: false,
-      targetUserId: null,
-      currentuserId: null,
-    }));
-    setIsBlock(false);
     checkBlackList(currentUserId, targetUserId).then((check) => {
-      if (check) {
+      if (check?.userId) {
         setUserInBlackList({
-          block: true,
-          targetUserId: check.targetUserId,
-          currentuserId: check.currentUserId,
+          isBlock: true,
+          blockedUserId: check.blockedUserId,
+          userId: check.userId,
         });
-        if (check.userId === currentUserId) {
-          setIsBlock(true);
-        }
+      } else {
+        setUserInBlackList({
+          isBlock: false,
+          blockedUserId: null,
+          userId: null,
+        });
+        console.log('no, not block');
       }
     });
   }, [chatId, targetUserId]);
 
-  // useEffect(() => {
-  //   socket.on('addBlacklist', (data) => {
-  //     if (data) {
-  //       setUserInBlackList({
-  //         block: true,
-  //         targetUserId: data.targetUserId,
-  //         currentuserId: data.currentUserId,
-  //       });
-  //       if (data.userId === currentUserId) {
-  //         setIsBlock(true);
-  //       }
-  //     }
-  //   });
-  // }, [socket]);
+  useEffect(() => {
+    socket.on('addBlacklist', (data) => {
+      setUserInBlackList({
+        isBlock: true,
+        blockedUserId: data.blockedUserId,
+        userId: data.userId,
+      });
 
-  // useEffect(() => {
-  //   socket.on('deleteBlacklist', (result) => {
-  //     setUserInBlackList({
-  //       block: false,
-  //       targetUserId: null,
-  //       currentuserId: null,
-  //     });
-  //     if (result.userId === currentUserId) {
-  //       setIsBlock(false);
-  //     }
-  //   });
-  // }, [socket]);
+      if (isBlackListOpen && currentUserId) loadBlackList();
+    });
+  }, [socket]);
+
+  useEffect(() => {
+    socket.on('deleteBlacklist', (data) => {
+      setUserInBlackList({
+        isBlock: false,
+        blockedUserId: null,
+        userId: null,
+      });
+
+      if (isBlackListOpen && currentUserId) loadBlackList();
+    });
+  }, [socket]);
   return {
     userInBlackList,
     blackListUsers,

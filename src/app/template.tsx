@@ -4,12 +4,6 @@ import { ModalMessage } from '@/shared/ui/Modals';
 
 export default function Template({ children }: { children: React.ReactNode }) {
   const modal = useModalMessage();
-
-  // const initSocket = useSetAtom(initSocketAtom);
-  // useEffect(() => {
-  //   initSocket();
-  // }, []);
-
   return (
     <>
       {children}

@@ -29,6 +29,7 @@ export const useModalSettings = () => {
         closeModal();
       },
       handlerOk: () =>
+        
         handleUnblock(isModalOpen.currentUserId, isModalOpen.targetUserId),
     },
     block: {
@@ -46,7 +47,10 @@ export const useModalSettings = () => {
       handlerCancel: () => {
         closeModal();
       },
-      handlerOk: () => handleDeleteChat(isModalOpen.chatId),
+      handlerOk: () => {
+        console.log(isModalOpen.chatId);
+        handleDeleteChat(isModalOpen.chatId);
+      },
     },
     exitNotSave: {
       message: () => 'Вы точно хотите вернуться? Изменения не сохранены',

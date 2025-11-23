@@ -1,22 +1,23 @@
 'use client';
 import { useEffect } from 'react';
 import { ChatInterface } from '../types/ChatInterface';
-import { useAtomValue } from 'jotai';
-import { socketAtom } from '@/features/socket/lib/useSocket';
 import { useSetAtom } from 'jotai';
 import { setChatsAtom } from '../model/chatAtoms';
+import { getSocket } from '@/features/socket/lib/useSocket';
 
 export function useChatListSockets() {
-  const socket = useAtomValue(socketAtom);
+  const socket = getSocket();
 
   const setChats = useSetAtom(setChatsAtom);
   useEffect(() => {
     socket.on('deleteChat', (chatId) => {
+      console.log(chatId);
       setChats((prevChats: ChatInterface[]) =>
         prevChats.filter((chat: ChatInterface) => chat.chatId !== chatId)
       );
     });
   }, [socket]);
+
   useEffect(() => {
     socket.on('startChat', (data) => {
       if (data) {
@@ -28,7 +29,9 @@ export function useChatListSockets() {
     socket.on('updateOnline', (data) => {
       setChats((prevChats: ChatInterface[]) =>
         prevChats.map((chat) =>
-          chat.userId === data.userId ? { ...chat, online: data.online } : chat
+          chat.userId === data.userId
+            ? { ...chat, onlineStatus: data.onlineStatus }
+            : chat
         )
       );
     });
@@ -38,13 +41,14 @@ export function useChatListSockets() {
   }, [socket]);
   useEffect(() => {
     socket.on('updateLastMessage', (data) => {
+      console.log(data, 'her data');
       setChats((prevChats: ChatInterface[]) =>
         prevChats.map((chat) =>
-          chat.chatId === data.chat_id
+          chat.chatId === data.chatId
             ? {
                 ...chat,
                 lastMessage: data.content,
-                lastCreate: data.created_at,
+                lastMessageAt: data.createdAt,
                 isRead: data.isRead,
               }
             : chat
@@ -57,29 +61,27 @@ export function useChatListSockets() {
   }, [socket]);
   useEffect(() => {
     socket.on('updateReadMessage', (data) => {
-      if (data) {
-        setChats((prevChats: ChatInterface[]) =>
-          prevChats.map((chat) => {
-            return chat.chatId === data.chatId ? { ...chat, read: true } : chat;
-          })
-        );
-      }
+      console.log(data, 'here data error');
+      setChats((prevChats: ChatInterface[]) =>
+        prevChats.map((chat) => {
+          return chat.chatId === data.chatId ? { ...chat, isRead: true } : chat;
+        })
+      );
     });
     return () => {
       socket.off('updateReadMessage');
     };
   }, [socket]);
+
   useEffect(() => {
     socket.on('updateName', (data) => {
-      if (data) {
-        setChats((prevChats: ChatInterface[]) =>
-          prevChats.map((chat) => {
-            return chat.userId === data.id
-              ? { ...chat, name: data.name }
-              : chat;
-          })
-        );
-      }
+      setChats((prevChats: ChatInterface[]) =>
+        prevChats.map((chat) => {
+          return chat.userId === data.userId
+            ? { ...chat, userName: data.userName }
+            : chat;
+        })
+      );
     });
   }, [socket]);
   useEffect(() => {
@@ -87,8 +89,8 @@ export function useChatListSockets() {
       if (data) {
         setChats((prevChats: ChatInterface[]) =>
           prevChats.map((chat) => {
-            return chat.userId === data.id
-              ? { ...chat, image: data.image }
+            return chat.userId === data.userId
+              ? { ...chat, userImage: data.userImage }
               : chat;
           })
         );
@@ -100,7 +102,7 @@ export function useChatListSockets() {
       if (data) {
         setChats((prevChats: ChatInterface[]) =>
           prevChats.map((chat) => {
-            return chat.chatId === data.chat_id
+            return chat.chatId === data.chatId
               ? { ...chat, unreadCount: 0 }
               : chat;
           })

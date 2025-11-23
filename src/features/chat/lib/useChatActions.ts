@@ -1,12 +1,9 @@
-import { useSetAtom } from 'jotai';
 import { useFetch } from '@/shared/lib/hooks';
 import { useRouter } from 'next/navigation';
-import { setIsBlockAtom } from '../model/atoms';
 
 export const useChatActions = () => {
   const router = useRouter();
   const { getData } = useFetch();
-  const setIsBlock = useSetAtom(setIsBlockAtom);
 
   const getTargetUser = async (chatId: string, userId: string) => {
     try {
@@ -41,14 +38,11 @@ export const useChatActions = () => {
       const userInBlackList = await getData(
         `http://localhost:5000/api/blacklist/check/${currentUserId}/${targetUserId}`
       );
-      setIsBlock(!userInBlackList);
       return userInBlackList;
     } catch (error) {
       console.error('Blacklist check failed:', error);
-      setIsBlock(false);
     }
   };
-
   return {
     getTargetUser,
     getMessages,

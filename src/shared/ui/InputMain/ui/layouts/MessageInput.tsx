@@ -46,7 +46,7 @@ export function MessageInput(props: MessageInputProps) {
       >
         <EmojiIcon className="text-2xl text-foreground/50 hover:text-foreground/80 duration-300"></EmojiIcon>
       </button>
-      <div ref={refEmojiPicker} className="w-[350px] noto-emoji-picker">
+      <div className="w-[350px] noto-emoji-picker">
         {openEmoji && (
           <EmojiPicker
             theme={props.theme}
@@ -65,11 +65,15 @@ export function MessageInput(props: MessageInputProps) {
       <div className="flex overflow-hidden relative items-center">
         <input
           {...props}
+          ref={inputRef}
           autoComplete="off"
           value={props.value}
           onChange={(e) => props.changeHandler(e)}
           onKeyUp={(e) => {
+            console.log('im here...');
             if (e.key === 'Enter') {
+              console.log('im here...');
+              setOpenEmoji(false);
               props.sendMessage(props.value);
             }
           }}

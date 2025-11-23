@@ -7,12 +7,17 @@ import { useAuthState } from '@/features/auth/lib/useAuthState';
 import { useChatStore } from '../../lib/useChatStore';
 import { useChatVisibility } from '../../lib/useChatVis';
 import { ChatListLoading } from './ChatListLoading/ChatListLoading';
+import { useActions } from '@/features/actions/lib/hooks';
+import { useChatListSockets } from '../../lib/useChatSockets';
+import { useModalControls } from '@/features/modal/lib/useModalState';
 
 export function ChatList() {
   const { user } = useAuthState();
   const { chats, users, filteredChats } = useChatStore();
   const { toggleAddUser, toggleBubbleMenu, setSidebar } = useUiActions();
-
+  const { writeUser, deleteUserChat } = useActions();
+  const { openModal } = useModalControls();
+  useChatListSockets();
   const {
     showEmptySearchPrompt,
     showUserList,
@@ -42,12 +47,15 @@ export function ChatList() {
               menuType="contactSimpleWrite"
               newCompanion={u}
               onBubbleMenuOpen={toggleBubbleMenu}
+              onMenuAction={() => {
+                writeUser(user.userId, u.userId);
+                toggleAddUser();
+              }}
             />
           ))
         : showUserNotFound && (
             <ChatListAlt text="Пользователь не найден" icon={true} />
           )}
-
       {showNoChats && (
         <ChatListAlt
           text="У вас пока нет чатов"
@@ -58,7 +66,6 @@ export function ChatList() {
           }}
         />
       )}
-
       {showFilteredChats &&
         filteredChats.map((chat) => (
           <UserContact
@@ -66,10 +73,10 @@ export function ChatList() {
             type="details"
             onBubbleMenuOpen={toggleBubbleMenu}
             onSidebarClose={setSidebar(false)}
+            onMenuAction={() => () => deleteUserChat(chat.chatId)}
             {...chat}
           />
         ))}
-
       {showNoFilteredResults && (
         <ChatListAlt text="Пользователь не найден" icon={true} />
       )}
@@ -81,6 +88,14 @@ export function ChatList() {
             type="details"
             onBubbleMenuOpen={toggleBubbleMenu}
             onSidebarClose={setSidebar(false)}
+            onMenuAction={() => {
+              openModal({
+                modalType: 'deleteChat',
+                currentUserId: user.userId,
+                targetUserName: chat.userName,
+                chatId: chat.chatId,
+              });
+            }}
             {...chat}
           />
         ))}

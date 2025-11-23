@@ -39,7 +39,7 @@ export default function RootLayout({
         <link rel="manifest" href="/favicon/site.webmanifest" />
       </head>
       <body>
-        <Provider>{children}</Provider>
+       <Provider>{children}</Provider> 
       </body>
     </html>
   );
