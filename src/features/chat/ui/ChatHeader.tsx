@@ -16,11 +16,8 @@ export function ChatHeader({ chatId }: { chatId: string }) {
   const { openModal } = useModalControls();
   const { setSidebarOpen } = useSidebar();
   const { targetUser } = useInitTargetUser(chatId);
-  const { userInBlackList } = useBlackList(
-    user?.userId,
-    targetUser.userId,
-    chatId
-  );
+  const { isBlock } = useBlackList(user?.userId, targetUser.userId, chatId);
+
   if (!targetUser.userId) {
     return <ChatHeaderLoading></ChatHeaderLoading>;
   }
@@ -49,9 +46,7 @@ export function ChatHeader({ chatId }: { chatId: string }) {
         menuType={'contactHeader'}
         visible={isBubbleMenuOpen}
         setVisible={setIsBubbleMenuOpen}
-        isBlock={
-          userInBlackList.isBlock && userInBlackList.userId === user?.userId
-        }
+        isBlock={isBlock}
         onClick={(actionType) => {
           openModal({
             modalType: actionType,

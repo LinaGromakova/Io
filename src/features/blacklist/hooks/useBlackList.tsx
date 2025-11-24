@@ -17,6 +17,7 @@ export function useBlackList(
   chatId?: string
 ) {
   const socket = getSocket();
+  const [isBlock, setIsBlock] = useState(false);
   const { isBlackListOpen } = useBlackListState();
   const { checkBlackList } = useChatActions();
   const [blackListUsers, setBlackListUsers] = useState([]);
@@ -40,52 +41,77 @@ export function useBlackList(
       loadBlackList();
     }
   }, [isBlackListOpen]);
-  useEffect(() => {
-    if (!targetUserId) return;
-    checkBlackList(currentUserId, targetUserId).then((check) => {
-      if (check?.userId) {
-        setUserInBlackList({
-          isBlock: true,
-          blockedUserId: check.blockedUserId,
-          userId: check.userId,
-        });
-      } else {
-        setUserInBlackList({
-          isBlock: false,
-          blockedUserId: null,
-          userId: null,
-        });
-        console.log('no, not block');
-      }
-    });
-  }, [chatId, targetUserId]);
 
-  useEffect(() => {
-    socket.on('addBlacklist', (data) => {
+  const processBlockChecks = (checks: userInBlackList[]) => {
+    if (checks && checks.length > 0) {
+      const ourBlock = checks.find(
+        (check: userInBlackList) => check.userId === currentUserId
+      );
+      const theirBlock = checks.find(
+        (check: userInBlackList) => check.blockedUserId === currentUserId
+      );
+      setIsBlock(!!ourBlock);
+
       setUserInBlackList({
-        isBlock: true,
-        blockedUserId: data.blockedUserId,
-        userId: data.userId,
+        isBlock: !!ourBlock || !!theirBlock,
+        blockedUserId: ourBlock
+          ? ourBlock.blockedUserId
+          : theirBlock
+          ? theirBlock.blockedUserId
+          : null,
+        userId: ourBlock
+          ? ourBlock.userId
+          : theirBlock
+          ? theirBlock.userId
+          : null,
       });
-
-      if (isBlackListOpen && currentUserId) loadBlackList();
-    });
-  }, [socket]);
-
-  useEffect(() => {
-    socket.on('deleteBlacklist', (data) => {
+    } else {
+      setIsBlock(false);
       setUserInBlackList({
         isBlock: false,
         blockedUserId: null,
         userId: null,
       });
+    }
+  };
 
-      if (isBlackListOpen && currentUserId) loadBlackList();
+  useEffect(() => {
+    if (!targetUserId) return;
+    checkBlackList(currentUserId, targetUserId).then(processBlockChecks);
+  }, [chatId, targetUserId, currentUserId]);
+
+  useEffect(() => {
+    socket.on('addBlacklist', (data) => {
+      if (!targetUserId) return;
+      const currentBlocked = data.userId === currentUserId;
+      setIsBlock(currentBlocked);
+      setUserInBlackList({
+        isBlock: true,
+        blockedUserId: data.blockedUserId,
+        userId: data.userId,
+      });
+      checkBlackList(currentUserId, targetUserId).then(processBlockChecks);
+      if (isBlackListOpen) loadBlackList();
     });
-  }, [socket]);
+  }, [socket, currentUserId, targetUserId]);
+
+  useEffect(() => {
+    socket.on('deleteBlacklist', (data) => {
+      if (!targetUserId) return;
+      const currentBlocked = data.userId === currentUserId;
+      if (currentBlocked) {
+        setIsBlock(false);
+      }
+      checkBlackList(currentUserId, targetUserId).then(processBlockChecks);
+
+      if (isBlackListOpen) loadBlackList();
+    });
+  }, [socket, targetUserId, currentUserId]);
+
   return {
     userInBlackList,
     blackListUsers,
     blackListLength,
+    isBlock,
   };
 }

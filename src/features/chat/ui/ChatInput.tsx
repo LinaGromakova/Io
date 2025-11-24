@@ -24,7 +24,6 @@ export function ChatInput({ chatId }: ChatInputProps) {
     chatId
   );
   const { messages } = useChatMessages(chatId, user?.userId || '');
-
   if (!messages) {
     return <ChatInputLoading></ChatInputLoading>;
   }

@@ -21,7 +21,6 @@ export function UserContactMeta({
   unreadCount,
 }: UserContactMetaProps) {
   const time = parseValidDate(lastMessageAt);
-  console.log(time);
   return (
     <>
       <div className="flex justify-center flex-col">
