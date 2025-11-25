@@ -13,7 +13,7 @@ import {
 export function Sidebar() {
   const { isSettingsOpen } = useSettings();
   const { isBlackListOpen, toggleBlackList } = useBlackListState();
-  const isSidebarOpen = useSidebar();
+  const { isSidebarOpen } = useSidebar();
   const { isOptionsSidebarOpen, toggleSidebarOptions } = useOptions();
 
   const getCurrentView = () => {
@@ -31,9 +31,10 @@ export function Sidebar() {
   return (
     <aside
       className={clsx(
-        `overflow-y-scroll relative overflow-x-hidden h-screen group/sidebar min-w-3/12 w-3/12
-             max-md:w-full max-md:fixed bg-background z-50 scrollbar-custom max-lg:min-w-6/12 px-1`,
-        !isSidebarOpen && 'max-md:hidden'
+        `overflow-y-scroll relative overflow-x-hidden h-screen group/sidebar min-w-md w-md max-md:min-w-full
+             max-md:w-full max-md:fixed bg-background z-50 scrollbar-custom px-1`,
+        isSidebarOpen && 'max-md:hidden',
+        !isSidebarOpen && 'max-md:block'
       )}
     >
       {getCurrentView()}

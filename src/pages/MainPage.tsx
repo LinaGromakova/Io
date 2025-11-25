@@ -20,7 +20,7 @@ export function MainPage({ children }: MainPageProps) {
           : 'bg-gradient-to-t to-[#fafafa] from-[#9aa6b2]'
       }
     >
-      <div className="flex overflow-y-hidden relative h-screen">
+      <div className="flex overflow-hidden relative h-screen">
         <ConfirmModal
           id={isModalOpen.currentUserId}
           name={isModalOpen.targetUserName}

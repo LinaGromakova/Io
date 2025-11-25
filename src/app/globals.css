@@ -10,14 +10,15 @@
   --color-accent: #ff740b;
   --color-accent-shadow: #ff0000;
 }
-.theme-dark {
+
+.dark {
   --background: #101113;
   --foreground: #faf7e8;
   --color-inter: #303138;
   --color-extra: #373942;
 }
 
-.theme-light {
+.light {
   --background: #fafafa;
   --foreground: #101113;
   --color-inter: #e7e7e7;

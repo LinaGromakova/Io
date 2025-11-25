@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Provider } from './provider';
+import { ThemeProvider } from 'next-themes';
 
 export const metadata: Metadata = {
   title: 'IO',
@@ -14,7 +15,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -39,7 +40,14 @@ export default function RootLayout({
         <link rel="manifest" href="/favicon/site.webmanifest" />
       </head>
       <body>
-       <Provider>{children}</Provider> 
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem={false}
+          themes={['light', 'dark']}
+        >
+          <Provider>{children}</Provider>
+        </ThemeProvider>
       </body>
     </html>
   );

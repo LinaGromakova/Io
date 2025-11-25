@@ -1,7 +1,15 @@
-import { useAtomValue, useSetAtom } from 'jotai';
-import { themeAtom, toggleThemeAtom } from '../model/atoms';
+'use client';
+import { useTheme as useNextTheme } from 'next-themes';
 
-export const useTheme = () => ({
-  theme: useAtomValue(themeAtom),
-  toggleTheme: useSetAtom(toggleThemeAtom),
-});
+export const useTheme = () => {
+  const { theme, setTheme } = useNextTheme();
+
+  const toggleTheme = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light');
+  };
+
+  return {
+    theme: theme || 'dark',
+    toggleTheme,
+  };
+};

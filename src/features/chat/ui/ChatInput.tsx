@@ -38,8 +38,10 @@ export function ChatInput({ chatId }: ChatInputProps) {
         <form
           action="#"
           onSubmit={(e) => e.preventDefault()}
-          className="absolute px-2 flex justify-center w-full max-md:py-0 max-md:px-0 bottom-6 max-md:bottom-0"
+          className="absolute px-2 flex justify-center w-full 
+          max-md:py-0 max-md:px-0 pb-6 -bottom-[5px]"
         >
+          <div className="w-full h-[300%] absolute -top-10 blur-2xl bg-extra max-md:hidden"></div>
           <InputMain
             changeHandler={(e) => setMessage(e.target.value)}
             setMessage={setMessage}

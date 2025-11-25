@@ -18,8 +18,13 @@ export function MessageList({ chatId }: { chatId: string }) {
   }
   console.log('MessageList rendering');
   return (
-    <section className="pt-5 px-12 max-md:px-6 w-full h-[calc(100vh-60px)] overflow-y-auto scrollbar-custom max-h-[100vh]">
-      <Stellar className="absolute pointer-events-none top-1/2 left-1/2  transform -translate-x-1/2 -translate-y-[calc(100vh)/2.5] w-2/3 h-2/3" />
+    <section className="pt-5 px-12 max-md:px-6  w-screen h-[calc(100vh-60px)] overflow-y-auto scrollbar-custom max-h-[100vh] overflow-x-hidden">
+      <Stellar
+        className="absolute pointer-events-none top-1/2 left-1/2  transform -translate-x-1/2 -translate-y-[calc(100vh)/2.5] 
+         w-2/3 h-2/3
+          max-lg:w-[98%]
+      max-sm:w-[150%]"
+      />
       {messages.length == 0 && (
         <Empty className="w-2/3 h-2/3 mx-auto relative my-auto translate-y-[10vh]" />
       )}
@@ -36,7 +41,7 @@ export function MessageList({ chatId }: { chatId: string }) {
             ></MessageItem>
           );
         })}
-        <div ref={chatRef} className="h-15"></div>
+        <div ref={chatRef} className="h-26 max-md:h-18"></div>
       </div>
     </section>
   );
