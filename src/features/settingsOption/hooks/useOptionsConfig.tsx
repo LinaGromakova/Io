@@ -1,7 +1,9 @@
-import { IoSunnyOutline as SunIcon } from 'react-icons/io5';
-import { IoMoonOutline as MoonIcon } from 'react-icons/io5';
-import { MdBlock as BlockIcon } from 'react-icons/md';
-import { IoIosLogOut as LogOutIcon } from 'react-icons/io';
+import {
+  BlockIcon,
+  LogIcon as LogOutIcon,
+  MoonIcon,
+  SunIcon,
+} from '@/shared/assets/icons';
 import { useBlackListState } from '@/features/interface-state/lib/hooks';
 import { useAuthState } from '@/features/auth/lib/useAuthState';
 import { useModalControls } from '@/features/modal/lib/useModalState';
@@ -14,12 +16,7 @@ export function useOptionsConfig() {
   const { toggleBlackList } = useBlackListState();
   const optionsConfig = [
     {
-      icon:
-        theme === 'light' ? (
-          <SunIcon className="text-xl" />
-        ) : (
-          <MoonIcon className="text-xl" />
-        ),
+      icon: theme === 'light' ? <SunIcon className="text-xl" /> : <MoonIcon />,
       text: theme,
       handlerClick: () => toggleTheme(),
     },

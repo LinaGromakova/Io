@@ -1,9 +1,6 @@
+import { MarkDoneIcon, MarkOutlineIcon } from '@/shared/assets/icons';
 import { parseValidDate } from '@/shared/lib/dates';
 import clsx from 'clsx';
-import {
-  IoCheckmarkDoneOutline as MarkDoneIcon,
-  IoCheckmarkOutline as MarkOutlineIcon,
-} from 'react-icons/io5';
 
 interface UserContactMetaProps {
   userName: string;

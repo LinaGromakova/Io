@@ -41,7 +41,7 @@ export function ChatInput({ chatId }: ChatInputProps) {
           className="absolute px-2 flex justify-center w-full 
           max-md:py-0 max-md:px-0 pb-6 -bottom-[5px]"
         >
-          <div className="w-full h-[300%] absolute -top-10 blur-2xl bg-extra max-md:hidden"></div>
+          <div className="w-full h-[10%] fixed bottom-0 blur-2xl bg-extra max-md:hidden z-0"></div>
           <InputMain
             changeHandler={(e) => setMessage(e.target.value)}
             setMessage={setMessage}

@@ -1,9 +1,6 @@
 import React, { useRef, useState } from 'react';
 import clsx from 'clsx';
-import {
-  IoMdEye as IconInvisible,
-  IoMdEyeOff as IconVisible,
-} from 'react-icons/io';
+import { InvisibleIcon, VisibleIcon } from '../../assets';
 
 interface FormInterface {
   login: string;
@@ -73,9 +70,9 @@ export function FormInput(props: FormInputProps) {
           className="cursor-pointer absolute text-xl opacity-50 right-2 top-4 hover:opacity-90 duration-500 "
         >
           {visible ? (
-            <IconVisible></IconVisible>
+            <VisibleIcon></VisibleIcon>
           ) : (
-            <IconInvisible></IconInvisible>
+            <InvisibleIcon></InvisibleIcon>
           )}
         </button>
       )}

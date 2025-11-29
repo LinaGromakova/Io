@@ -18,7 +18,7 @@ export function MessageList({ chatId }: { chatId: string }) {
   }
   console.log('MessageList rendering');
   return (
-    <section className="pt-5 px-12 max-md:px-6  w-screen h-[calc(100vh-60px)] overflow-y-auto scrollbar-custom max-h-[100vh] overflow-x-hidden">
+    <section className="pt-5 px-12 max-md:px-6 w-full h-[calc(100vh-60px)] overflow-y-auto scrollbar-custom max-h-[100vh] overflow-x-hidden">
       <Stellar
         className="absolute pointer-events-none top-1/2 left-1/2  transform -translate-x-1/2 -translate-y-[calc(100vh)/2.5] 
          w-2/3 h-2/3

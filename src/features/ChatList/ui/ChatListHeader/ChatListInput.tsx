@@ -1,6 +1,6 @@
 import { InputMain } from '@/shared/ui/InputMain';
 import React, { SetStateAction } from 'react';
-import { IoSearchOutline as SearchIcon } from 'react-icons/io5';
+import { SearchIcon } from '@/shared/assets/icons';
 
 interface ChatListInputProps {
   isAdd: boolean;
@@ -9,6 +9,7 @@ interface ChatListInputProps {
   setSearch: React.Dispatch<SetStateAction<string>>;
   setFilter: (e: { target: { value: React.SetStateAction<string> } }) => void;
 }
+
 export function ChatListInput({
   isAdd,
   search,

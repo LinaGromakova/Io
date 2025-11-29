@@ -1,7 +1,4 @@
-import {
-  IoCheckmarkDoneOutline as MarkDoneIcon,
-  IoCheckmarkOutline as MarkOutlineIcon,
-} from 'react-icons/io5';
+import { MarkDoneIcon, MarkOutlineIcon } from '@/shared/assets/icons';
 
 export function MessageStatus({ isRead }: { isRead: boolean }) {
   return (

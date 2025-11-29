@@ -1,4 +1,4 @@
-import { GiAstronautHelmet as AstronautIcon } from 'react-icons/gi';
+import { AstronautIcon } from '@/features/ChatList/assets';
 
 export function ChatListAlt({
   icon,

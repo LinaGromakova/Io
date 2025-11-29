@@ -1,4 +1,5 @@
-import { IoIosCheckmark as CheckmarkIcon } from 'react-icons/io';
+import { CheckMarkIcon } from '@/shared/assets/icons';
+
 interface InterfaceButtonSaveNewName {
   value: string;
   handlerSave: React.Dispatch<React.SetStateAction<string>>;
@@ -18,7 +19,7 @@ export function ButtonSaveNewName({
         handlerSave(value);
       }}
     >
-      <CheckmarkIcon className="text-foreground/50 hover:text-foreground/80 text-4xl duration-300"></CheckmarkIcon>
+      <CheckMarkIcon className="text-foreground/50 hover:text-foreground/80 text-4xl duration-300"></CheckMarkIcon>
     </button>
   );
 }

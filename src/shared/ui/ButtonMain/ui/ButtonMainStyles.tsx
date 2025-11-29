@@ -1,7 +1,9 @@
 import { JSX } from 'react';
-import { IoMdCreate as CreateIcon } from 'react-icons/io';
-import { CiLogin as LoginIcon } from 'react-icons/ci';
-import { IoMdImages as ImagesIcon } from 'react-icons/io';
+import {
+  CreateIcon,
+  ImagesIcon,
+  LogIcon as LoginIcon,
+} from '@/shared/assets/icons';
 
 type ButtonStylesOfType = {
   [type: string]: {

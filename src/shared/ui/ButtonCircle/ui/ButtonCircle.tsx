@@ -8,7 +8,6 @@ import {
 
 type ButtonProps = {
   actionType:
-    | 'search'
     | 'message'
     | 'create'
     | 'back'

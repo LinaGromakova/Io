@@ -1,9 +1,9 @@
-import { IoLockOpenOutline as LockOpenIcon } from 'react-icons/io5';
 import {
-  MdDelete as DeleteIcon,
-  MdBlockFlipped as BlockIcon,
-} from 'react-icons/md';
-import { IoMdCreate as WriteIcon } from 'react-icons/io';
+  BlockIcon,
+  CreateIcon as WriteIcon,
+  DeleteIcon,
+  LockOpenIcon,
+} from '@/shared/assets/icons';
 
 export const BubbleMenuConfig = {
   contactHeader: {

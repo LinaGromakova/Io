@@ -1,8 +1,8 @@
 import clsx from 'clsx';
 import React, { SetStateAction, useEffect, useRef, useState } from 'react';
-import { RiEmojiStickerLine as EmojiIcon } from 'react-icons/ri';
 import EmojiPicker from '@emoji-mart/react';
 import { ButtonCircle } from '@/shared/ui/ButtonCircle';
+import { EmojiIcon } from '../../assets';
 
 export type MessageInputProps = {
   theme: 'light' | 'dark';
@@ -70,9 +70,7 @@ export function MessageInput(props: MessageInputProps) {
           value={props.value}
           onChange={(e) => props.changeHandler(e)}
           onKeyUp={(e) => {
-            console.log('im here...');
             if (e.key === 'Enter') {
-              console.log('im here...');
               setOpenEmoji(false);
               props.sendMessage(props.value);
             }
