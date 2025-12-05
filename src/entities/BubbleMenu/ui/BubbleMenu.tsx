@@ -51,7 +51,9 @@ export function BubbleMenu(props: BubbleMenuProps) {
               <BubbleMenuItem
                 key={index}
                 {...option}
-                onClick={() => props.onClick(option.actionType)}
+                onClick={() => {
+                  props.onClick(option.actionType);
+                }}
               ></BubbleMenuItem>
             );
           })}

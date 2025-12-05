@@ -21,6 +21,25 @@ export function MessageInput(props: MessageInputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const refEmojiPicker = useRef<HTMLDivElement>(null);
 
+  const [size, setSize] = useState({ perLine: 9, emojiSize: 24 });
+
+  useEffect(() => {
+    const updateSize = () => {
+      const width = window.innerWidth;
+      if (width < 900) {
+        setSize({ perLine: 7, emojiSize: 20 });
+      } else if (width < 1024) {
+        setSize({ perLine: 9, emojiSize: 22 });
+      } else if (width < 420) {
+        setSize({ perLine: 7, emojiSize: 22 });
+      }
+    };
+
+    updateSize();
+    window.addEventListener('resize', updateSize);
+    return () => window.removeEventListener('resize', updateSize);
+  }, []);
+
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       const targetElement = e.target as Node;
@@ -36,7 +55,7 @@ export function MessageInput(props: MessageInputProps) {
   }, []);
 
   return (
-    <div className="relative w-8/12 max-md:w-full">
+    <div className="relative w-8/12 max-md:w-full max-xl:w-5/6 max-lg:w-[95%]">
       <button
         type="button"
         className="cursor-pointer absolute bottom-2 left-3 z-10"
@@ -46,20 +65,18 @@ export function MessageInput(props: MessageInputProps) {
       >
         <EmojiIcon className="text-2xl text-foreground/50 hover:text-foreground/80 duration-300"></EmojiIcon>
       </button>
-      <div className="w-[350px] noto-emoji-picker">
+      <div ref={refEmojiPicker} className="max-w-fit relative">
         {openEmoji && (
           <EmojiPicker
+            perLine={size.perLine}
+            emojiSize={size.emojiSize}
             theme={props.theme}
             set="google"
-            ref={refEmojiPicker}
-            className="top-0 message"
             onEmojiSelect={(emoji: { native: string }) => {
-              props.setMessage(
-                (message: string) => `${message}${emoji.native}`
-              );
+              props.setMessage((message) => `${message}${emoji.native}`);
               inputRef.current?.focus();
             }}
-          ></EmojiPicker>
+          />
         )}
       </div>
       <div className="flex overflow-hidden relative items-center">
@@ -76,8 +93,9 @@ export function MessageInput(props: MessageInputProps) {
             }
           }}
           className={clsx(
-            `border border-foreground/20 outline-none max-md:w-full max-md:rounded-none focus:max-md:border-foreground/20
-            focus:border-foreground/50 rounded-3xl h-10 pr-10 w-full pl-10 message`,
+            `border border-foreground/20 outline-none max-md:rounded-none focus:border-foreground/50
+            max-md:border-t max-md:border-t-foreground/20 max-md:border-b-0 max-md:border-r-0 max-md:border-l-0
+            max-md:focus:border-t-foreground/50 rounded-3xl h-10 pr-4 w-full pl-10 message`,
             props.className
           )}
         />

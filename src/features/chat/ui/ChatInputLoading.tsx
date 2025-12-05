@@ -1,7 +1,7 @@
 export function ChatInputLoading() {
   return (
-    <div className="absolute px-2 flex justify-center w-full max-md:py-0 max-md:px-0 bottom-15 max-md:bottom-6">
-      <div className="relative w-8/12 max-md:w-full">
+    <div className="absolute px-2 flex justify-center w-full max-md:py-0 max-md:px-0 bottom-12 max-md:bottom-6">
+      <div className="relative w-8/12 max-md:w-full max-xl:w-5/6 max-lg:w-[95%]">
         <div className="flex">
           <div
             className="outline-none max-md:w-full bg-background w-full

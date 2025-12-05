@@ -25,5 +25,4 @@ const MESSAGES_LOADING = [
   { key: 4, style: 'mr-auto w-24 h-14' },
   { key: 5, style: 'ml-auto w-46 h-20' },
   { key: 6, style: 'mr-auto w-34 h-18' },
-  { key: 7, style: 'ml-auto w-28 h-14' },
 ];

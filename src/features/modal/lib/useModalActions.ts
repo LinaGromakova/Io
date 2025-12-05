@@ -3,7 +3,6 @@ import { useActions } from '@/features/actions/lib/hooks';
 import { closeModalAtom } from '../model/atoms';
 import { useAuthSetters } from '@/features/auth/lib/useAuthState';
 import { useAuthActions } from '@/features/auth/lib/useAuthActions';
-import { useChatSetters } from '@/features/chat/lib/useChatState';
 import { useLocalStorage } from '@/shared/lib/hooks';
 import {
   useModalMessage,
@@ -16,9 +15,8 @@ export const useModalActions = () => {
   const { logOutUser } = useAuthActions();
   const { removeUserData } = useLocalStorage();
   const { toggleSidebarOptions } = useOptions();
-  const { open: openMessage } = useModalMessage();
+  const { open: openMessage, state } = useModalMessage();
   const { toggleSettings } = useSettings();
-  const { setIsBlock } = useChatSetters();
   const { deleteUserChat, unBlockUser, blockUser } = useActions();
   const closeModal = useSetAtom(closeModalAtom);
 
@@ -43,7 +41,9 @@ export const useModalActions = () => {
   const handleDeleteChat = (chatId: string) => {
     deleteUserChat(chatId);
     closeModal();
-    openMessage('Чат успешно удален!');
+    if (!state.open) {
+      openMessage('Чат успешно удален!');
+    }
   };
 
   const handleExitNotSave = () => {

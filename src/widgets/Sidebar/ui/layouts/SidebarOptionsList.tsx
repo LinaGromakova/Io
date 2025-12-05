@@ -5,6 +5,7 @@ import { useAuthState } from '@/features/auth/lib/useAuthState';
 
 export function SidebarOptionsList(props) {
   const { user } = useAuthState();
+
   return (
     <>
       <SidebarHeaderBack

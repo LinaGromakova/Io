@@ -8,7 +8,7 @@ import { redirect } from '@/shared/lib/redirect/redirect';
 
 export const useAuthActions = () => {
   const { getData } = useFetch();
-  const { open: openModal } = useModalMessage();
+  const { open: openModal, state } = useModalMessage();
   const login = useSetAtom(loginAtom);
   const logout = useSetAtom(logoutAtom);
 
@@ -20,12 +20,6 @@ export const useAuthActions = () => {
     });
     logout();
     redirect('/login');
-  };
-
-  const checkSession = () => {
-    return getData('http://localhost:5000/api/auth/session-check', {
-      credentials: 'include',
-    });
   };
 
   const authUser = async (
@@ -44,7 +38,11 @@ export const useAuthActions = () => {
           body: JSON.stringify(dataAuth),
         }
       );
-
+      if (result.status) {
+        if (!state.open) {
+          openModal(result.message);
+        }
+      }
       if (result && result.user) {
         login(result.user);
         redirect('/');
@@ -56,7 +54,6 @@ export const useAuthActions = () => {
 
   return {
     logOutUser,
-    checkSession,
     authUser,
   };
 };

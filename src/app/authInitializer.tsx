@@ -9,7 +9,7 @@ export function AuthInitializer() {
 
   useEffect(() => {
     initializeAuth();
-  }, [initializeAuth]);
+  }, []);
   useAuthSocket();
   useChatData();
   return null;

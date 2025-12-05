@@ -41,21 +41,18 @@ export function useChatMessages(chatId: string, userId: string) {
 
   useEffect(() => {
     socket.on('messagesRead', (data) => {
-    
-        const updatedIds = new Set(
-          data.map((msg: { messageId: string }) => msg.messageId)
-        );
-        console.log(updatedIds, 'updateids');
-        setMessages((prev) => {
-          if (prev) {
-            return prev.map((mgs) => {
-              return updatedIds.has(mgs.messageId)
-                ? { ...mgs, isRead: true }
-                : mgs;
-            });
-          }
-        });
-      
+      const updatedIds = new Set(
+        data.map((msg: { messageId: string }) => msg.messageId)
+      );
+      setMessages((prev) => {
+        if (prev) {
+          return prev.map((mgs) => {
+            return updatedIds.has(mgs.messageId)
+              ? { ...mgs, isRead: true }
+              : mgs;
+          });
+        }
+      });
     });
     return () => {
       socket.off('messagesRead');

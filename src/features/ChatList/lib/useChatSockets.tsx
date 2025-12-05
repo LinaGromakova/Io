@@ -11,11 +11,13 @@ export function useChatListSockets() {
   const setChats = useSetAtom(setChatsAtom);
   useEffect(() => {
     socket.on('deleteChat', (chatId) => {
-      console.log(chatId);
       setChats((prevChats: ChatInterface[]) =>
         prevChats.filter((chat: ChatInterface) => chat.chatId !== chatId)
       );
     });
+    return () => {
+      socket.off('deleteChat');
+    };
   }, [socket]);
 
   useEffect(() => {
@@ -24,6 +26,9 @@ export function useChatListSockets() {
         setChats((prevChats: ChatInterface[]) => [...prevChats, data]);
       }
     });
+    return () => {
+      socket.off('startChat');
+    };
   }, [socket]);
   useEffect(() => {
     socket.on('updateOnline', (data) => {
@@ -39,9 +44,14 @@ export function useChatListSockets() {
       socket.off('updateOnline');
     };
   }, [socket]);
+
+  
   useEffect(() => {
+    console.log('this is pizdez');
     socket.on('updateLastMessage', (data) => {
+      console.log(data, 'this is data');
       console.log(data, 'her data');
+
       setChats((prevChats: ChatInterface[]) =>
         prevChats.map((chat) =>
           chat.chatId === data.chatId
@@ -59,9 +69,10 @@ export function useChatListSockets() {
       socket.off('updateLastMessage');
     };
   }, [socket]);
+
+
   useEffect(() => {
     socket.on('updateReadMessage', (data) => {
-      console.log(data, 'here data error');
       setChats((prevChats: ChatInterface[]) =>
         prevChats.map((chat) => {
           return chat.chatId === data.chatId ? { ...chat, isRead: true } : chat;
@@ -83,6 +94,9 @@ export function useChatListSockets() {
         })
       );
     });
+    return () => {
+      socket.off('updateName');
+    };
   }, [socket]);
   useEffect(() => {
     socket.on('updateImage', (data) => {
@@ -96,6 +110,9 @@ export function useChatListSockets() {
         );
       }
     });
+    return () => {
+      socket.off('updateImage');
+    };
   }, [socket]);
   useEffect(() => {
     socket.on('unreadUpdated', (data) => {
@@ -109,6 +126,9 @@ export function useChatListSockets() {
         );
       }
     });
+    return () => {
+      socket.off('unreadUpdated');
+    };
   }, [socket]);
   useEffect(() => {
     socket.on('incUnreadMessage', (data) => {
@@ -122,5 +142,8 @@ export function useChatListSockets() {
         );
       }
     });
+    return () => {
+      socket.off('incUnreadMessage');
+    };
   }, [socket]);
 }

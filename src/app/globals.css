@@ -1,6 +1,6 @@
-@import 'tailwindcss';
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap');
+@import 'tailwindcss';
 
 :root {
   --background: #fafafa;
@@ -10,7 +10,17 @@
   --color-accent: #ff740b;
   --color-accent-shadow: #ff0000;
 }
+.wrapper {
+  background: linear-gradient(to bottom, var(--background), var(--color-extra));
+}
 
+input::-webkit-search-cancel-button {
+  appearance: none;
+  cursor: pointer;
+  width: 15px;
+  height: 15px;
+  background: center url('/icons/cross.svg') no-repeat;
+}
 .dark {
   --background: #101113;
   --foreground: #faf7e8;
@@ -65,47 +75,28 @@ input[type='search']:focus + .icon-focus,
 }
 
 @keyframes modaL {
-  from {
+  0% {
     transform: translateY(-130%);
+    opacity: 0;
   }
+
   50% {
     transform: translateY(0%);
+    opacity: 1;
   }
-  to {
+
+  100% {
     transform: translateY(-130%);
+    opacity: 0;
   }
 }
 
-@keyframes fly {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    left: 110%;
-    bottom: 80%;
-    transform: rotate(180deg);
+@media (max-width: 640px) {
+  em-emoji-picker {
+    width: 100%;
   }
 }
-
-@keyframes spaceship {
-  from {
-    bottom: -100px;
-  }
-  to {
-    bottom: 100%;
-  }
-}
-
-@keyframes meteor {
-  from {
-    top: 50%;
-  }
-  to {
-    left: 50%;
-    top: -110%;
-  }
-}
-
 .modal-anim {
-  animation: modaL 2.5s cubic-bezier(0.18, 0.89, 0.32, 1.28) infinite;
+  animation: modaL 2.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation-fill-mode: both;
 }

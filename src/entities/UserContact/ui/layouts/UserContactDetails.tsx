@@ -1,7 +1,6 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import clsx from 'clsx';
-import Link from 'next/link';
 import { UserContactAvatar } from '@/shared/ui/UserContact/UserContactAvatar';
 import { BubbleMenu } from '@/entities/BubbleMenu';
 import { UserContactMeta } from '@/shared/ui/UserContact';
@@ -32,22 +31,17 @@ export function UserContactDetails(props: UserContactDetailsProps) {
     handleContextMenu,
     handleClick,
   } = useUserContact(
-    () => {
-      setIsBubbleMenuOpen(!isBubbleMenuOpen);
-    },
-    isBubbleMenuOpen,
-    setIsBubbleMenuOpen,
-    props.onSidebarClose,
+    () => setIsBubbleMenuOpen(!isBubbleMenuOpen),
+    () => props.onSidebarClose(true),
     props.chatId
   );
 
-  useEffect(() => {
-    router.prefetch(`/chat/${props.chatId}`);
-  }, [router, props.chatId]);
-
   return (
-    <Link href={`/chat/${props.chatId}`} prefetch={false}>
-      <article
+    <article
+      className="relative"
+      onClick={() => router.push(`/chat/${props.chatId}`)}
+    >
+      <div
         className={clsx(
           'py-3 px-5 relative rounded-2xl flex items-center cursor-pointer duration-300 transition-colors group/user my-2',
           isActive
@@ -108,7 +102,7 @@ export function UserContactDetails(props: UserContactDetailsProps) {
             ></UserContactMeta>
           )}
         </div>
-      </article>
-    </Link>
+      </div>
+    </article>
   );
 }

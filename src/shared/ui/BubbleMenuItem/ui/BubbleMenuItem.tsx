@@ -16,7 +16,10 @@ export function BubbleMenuItem(props: BubbleMenuItemProps) {
          shadow-md duration-300 select-none cursor-pointer rounded-sm flex items-center`,
         props?.className
       )}
-      onClick={() => props.onClick()}
+      onClick={(e) => {
+        e.stopPropagation();
+        props.onClick();
+      }}
     >
       {props.icon}
       <span className="ml-2">{props.text}</span>

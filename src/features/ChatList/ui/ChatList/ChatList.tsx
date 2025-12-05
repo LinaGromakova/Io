@@ -85,6 +85,7 @@ export function ChatList() {
         chats.map((chat: ChatInterface) => (
           <UserContact
             key={chat.chatId}
+            chatId={chat.chatId}
             type="details"
             onBubbleMenuOpen={toggleBubbleMenu}
             onSidebarClose={setSidebar(false)}

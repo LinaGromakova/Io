@@ -22,6 +22,7 @@ export const useActions = () => {
         сhatMemberId2: targetUserId,
       }),
     });
+    console.log('im write');
   };
   const unBlockUser = (userId: string, targetUserId: string) => {
     return getData(

@@ -1,5 +1,5 @@
 'use client';
-// import { useRouter } from 'next/router';
+import { useParams } from 'next/navigation';
 import React, { useRef } from 'react';
 
 export function useUserContact(
@@ -7,10 +7,9 @@ export function useUserContact(
   onSidebarClose?: () => void,
   chatId?: string
 ) {
-  // const { query } = useRouter();
+  const params = useParams();
   const timeoutRef = useRef<NodeJS.Timeout>(null);
-  // const isActive = query.id == chatId;
-  const isActive = false;
+  const isActive = params?.id === chatId;
   const handleTouchStart = () => {
     timeoutRef.current = setTimeout(() => {
       onBubbleMenuOpen();

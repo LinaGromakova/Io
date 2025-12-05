@@ -14,7 +14,7 @@ export function ModalMessage({ message, isOpen, onClose }: ModalMessageProps) {
     if (isOpen) {
       timeout = setTimeout(() => {
         onClose();
-      }, 2550);
+      }, 1800);
     }
     return () => {
       clearTimeout(timeout);
@@ -26,7 +26,7 @@ export function ModalMessage({ message, isOpen, onClose }: ModalMessageProps) {
       {isOpen && (
         <article
           className="fixed top-5 left-1/2 modal-anim text-center text-lg
-         -translate-x-1/2 bg-inter shadow-xl border-foreground/10 border z-[1000] py-5 px-4 max-md:px-2.5 max-sm:px-0.5
+         -translate-x-1/2 bg-inter shadow-xl border-foreground/10 border z-[1000] py-5 px-4 max-md:px-2.5
           "
         >
           {message}

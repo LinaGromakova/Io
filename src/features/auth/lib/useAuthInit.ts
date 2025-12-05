@@ -1,5 +1,4 @@
 'use client';
-import { useCallback } from 'react';
 import { useFetch } from '@/shared/lib/hooks';
 import { loginAtom, logoutAtom } from '../model/actions';
 import { useAtom, useSetAtom } from 'jotai';
@@ -11,7 +10,7 @@ export const useAuthInit = () => {
   const logout = useSetAtom(logoutAtom);
   const [isInitialized, setIsInitialized] = useAtom(authInitializedAtom);
 
-  const initializeAuth = useCallback(async () => {
+  const initializeAuth = async () => {
     try {
       const session = await getData(
         'http://localhost:5000/api/auth/session-check',
@@ -41,7 +40,7 @@ export const useAuthInit = () => {
     } finally {
       setIsInitialized(true);
     }
-  }, []);
+  };
 
   return { isInitialized, initializeAuth };
 };

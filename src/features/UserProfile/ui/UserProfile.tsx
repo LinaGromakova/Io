@@ -29,7 +29,9 @@ export function UserProfile({
           image={
             newImage
               ? URL.createObjectURL(newImage)
-              : `http://localhost:5000${user.userImage}`
+              : user.userImage
+              ? `http://localhost:5000${user.userImage}`
+              : null
           }
         ></UserContactAvatar>
         <ButtonUserProfile

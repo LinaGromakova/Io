@@ -43,7 +43,7 @@ export const useChatData = () => {
       if (isAddUserOpen && searchUser) {
         try {
           const users = await getData(
-            `http://localhost:5000/api/users/search/${searchUser}`
+            `http://localhost:5000/api/users/search/${searchUser}/${user?.userId}`
           );
           setUsers(users);
         } catch (error) {
