@@ -1,66 +1,74 @@
+'use client';
 import { useEffect, useState } from 'react';
 import { MessageInterface } from '../types/MessageInterface';
 import { useChatActions } from '../lib/useChatActions';
 import { getSocket } from '@/features/socket/lib/useSocket';
 export function useChatMessages(chatId: string, userId: string) {
   const socket = getSocket();
-
   const { getMessages } = useChatActions();
-
-  const [messages, setMessages] = useState<MessageInterface[]>();
+  const [messages, setMessages] = useState<MessageInterface[] | undefined>(
+    undefined
+  );
+  const [hasMarkedAsRead, setHasMarkedAsRead] = useState(false);
 
   useEffect(() => {
     if (!chatId || !userId) return;
+
     const loadMessages = async () => {
       try {
         const messages = await getMessages(chatId);
         setMessages(messages);
+        const hasUnread = messages.some(
+          (msg) => !msg.isRead && msg.senderId !== userId
+        );
+
+        if (hasUnread && !hasMarkedAsRead) {
+          socket.emit('readMessages', chatId, userId);
+          setHasMarkedAsRead(true);
+        }
       } catch (error) {
         console.error('Failed to load messages:', error);
       }
     };
+
     loadMessages();
     socket.emit('joinChat', { chatId, userId });
-    socket.emit('readMessages', chatId, userId);
+
     return () => {
-      socket.emit('leaveChat', { chatId, userId });
+      socket.emit('leaveChat', { chatId });
+      setHasMarkedAsRead(false);
     };
   }, [chatId, userId]);
 
   useEffect(() => {
-    socket.on('newMessage', (data) => {
+    const handleNewMessage = (data: MessageInterface) => {
+      setMessages((prev) => (prev ? [...prev, data] : [data]));
+
       if (data.senderId !== userId) {
         socket.emit('readMessages', chatId, userId);
       }
-      setMessages((prev) => [...prev, data]);
-    });
-    return () => {
-      socket.off('newMessage');
     };
-  }, [socket]);
+
+    socket.on('newMessage', handleNewMessage);
+    return () => socket.off('newMessage', handleNewMessage);
+  }, [socket, chatId, userId]);
 
   useEffect(() => {
-    socket.on('messagesRead', (data) => {
+    const handleMessagesRead = (data: any) => {
+      if (!data?.messages || !Array.isArray(data.messages)) return;
       const updatedIds = new Set(
-        data.map((msg: { messageId: string }) => msg.messageId)
+        data.messages.map((msg: MessageInterface) => msg.messageId)
       );
       setMessages((prev) => {
-        if (prev) {
-          return prev.map((mgs) => {
-            return updatedIds.has(mgs.messageId)
-              ? { ...mgs, isRead: true }
-              : mgs;
-          });
-        }
+        if (!prev) return prev;
+        return prev.map((msg) =>
+          updatedIds.has(msg.messageId) ? { ...msg, isRead: true } : msg
+        );
       });
-    });
-    return () => {
-      socket.off('messagesRead');
     };
+    socket.on('messagesRead', handleMessagesRead);
+    return () => socket.off('messagesRead', handleMessagesRead);
   }, [socket]);
 
-  return {
-    messages,
-    setMessages,
-  };
+  return { messages, setMessages };
 }

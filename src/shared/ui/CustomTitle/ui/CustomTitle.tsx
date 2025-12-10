@@ -1,18 +1,14 @@
-import Login from '@/shared/assets/authIcons/Login.svg';
-import Register from '@/shared/assets/authIcons/Register.svg';
-
 interface CustomTitleProps {
   title: 'login' | 'register';
 }
 
 export function CustomTitle({ title }: CustomTitleProps) {
   return (
-    <h1>
-      {title === 'login' ? (
-        <Login className="w-full h-30 mt-2 mb-6" />
-      ) : (
-        <Register className="w-full h-28 mb-4 -mt-2 px-16" />
-      )}
+    <h1
+      className="h-auto mt-2 mb-6 custom-title text-8xl text-center bg-clip-text text-transparent capitalize leading-32
+     bg-gradient-to-t from-accent to-accent-shadow"
+    >
+      {title}
     </h1>
   );
 }

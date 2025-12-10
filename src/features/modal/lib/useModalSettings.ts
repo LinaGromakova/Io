@@ -48,7 +48,7 @@ export const useModalSettings = () => {
         closeModal();
       },
       handlerOk: () => {
-        console.log(isModalOpen.chatId);
+  
         handleDeleteChat(isModalOpen.chatId);
       },
     },

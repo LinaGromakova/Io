@@ -1,8 +1,6 @@
-
-export function ChatListLoading() {
- 
+export function ChatListLoading({ isOpen }: { isOpen: boolean }) {
   return (
-    <>
+    <div className={isOpen ? 'max-md:hidden' : 'max-md:block'}>
       <header className="flex mb-4 w-full items-center px-4 py-2 h-[52px]">
         <div
           className="w-13 h-13  mr-2
@@ -33,6 +31,6 @@ export function ChatListLoading() {
           </div>
         </article>
       ))}
-    </>
+    </div>
   );
 }

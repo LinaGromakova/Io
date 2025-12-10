@@ -4,11 +4,15 @@ import { ChatInterface } from '../types/ChatInterface';
 import { useSetAtom } from 'jotai';
 import { setChatsAtom } from '../model/chatAtoms';
 import { getSocket } from '@/features/socket/lib/useSocket';
+import { useRouter } from 'next/navigation';
+import { useChatStore } from './useChatStore';
 
 export function useChatListSockets() {
   const socket = getSocket();
 
   const setChats = useSetAtom(setChatsAtom);
+  const { chats } = useChatStore();
+  const router = useRouter();
   useEffect(() => {
     socket.on('deleteChat', (chatId) => {
       setChats((prevChats: ChatInterface[]) =>
@@ -22,14 +26,21 @@ export function useChatListSockets() {
 
   useEffect(() => {
     socket.on('startChat', (data) => {
-      if (data) {
-        setChats((prevChats: ChatInterface[]) => [...prevChats, data]);
+      const isChatExists = chats.some((chat) => chat.chatId === data.chatId);
+
+      if (isChatExists) {
+        router.push(`/chat/${data.chatId}`);
+        return;
       }
+
+      router.push(`/chat/${data.chatId}`);
+      setChats((prevChats: ChatInterface[]) => [...prevChats, data]);
     });
+
     return () => {
       socket.off('startChat');
     };
-  }, [socket]);
+  }, [socket, chats]);
   useEffect(() => {
     socket.on('updateOnline', (data) => {
       setChats((prevChats: ChatInterface[]) =>
@@ -45,13 +56,8 @@ export function useChatListSockets() {
     };
   }, [socket]);
 
-  
   useEffect(() => {
-    console.log('this is pizdez');
     socket.on('updateLastMessage', (data) => {
-      console.log(data, 'this is data');
-      console.log(data, 'her data');
-
       setChats((prevChats: ChatInterface[]) =>
         prevChats.map((chat) =>
           chat.chatId === data.chatId
@@ -70,9 +76,9 @@ export function useChatListSockets() {
     };
   }, [socket]);
 
-
   useEffect(() => {
     socket.on('updateReadMessage', (data) => {
+      console.log(data, 'upd read message');
       setChats((prevChats: ChatInterface[]) =>
         prevChats.map((chat) => {
           return chat.chatId === data.chatId ? { ...chat, isRead: true } : chat;

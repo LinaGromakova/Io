@@ -9,8 +9,10 @@ import {
   useOptions,
   useSettings,
 } from '@/features/interface-state/lib/hooks';
+import { useRouter } from 'next/navigation';
 
 export const useModalActions = () => {
+  const router = useRouter();
   const { setIsAuth } = useAuthSetters();
   const { logOutUser } = useAuthActions();
   const { removeUserData } = useLocalStorage();
@@ -39,6 +41,7 @@ export const useModalActions = () => {
   };
 
   const handleDeleteChat = (chatId: string) => {
+    router.push('/');
     deleteUserChat(chatId);
     closeModal();
     if (!state.open) {

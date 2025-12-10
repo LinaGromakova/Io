@@ -1,6 +1,5 @@
 'use client';
 import { MessageItem } from '@/entities/message';
-import Empty from '@/shared/assets/chatIcons/Empty.svg';
 import Stellar from '@/shared/assets/chatIcons/Stellar.svg';
 import { useChatMessages } from '../hooks/useChatMessages';
 import { MessageInterface } from '../types/MessageInterface';
@@ -22,11 +21,17 @@ export function MessageList({ chatId }: { chatId: string }) {
         className="absolute pointer-events-none top-1/2 left-1/2  transform -translate-x-1/2 -translate-y-[calc(100vh)/2.5] 
          w-2/3 h-2/3 max-lg:w-[130%] max-xl:w-[90%] max-sm:w-[150%] max-[380px]:w-[250%]"
       />
-      {messages.length == 0 && (
-        <Empty
-          className="w-[55%] min-2xl:w-[39%] h-1/2 mx-auto relative my-auto translate-y-[15vh]
-         max-lg:w-11/12 max-md:w-2/3 max-sm:w-[85%]"
-        />
+      {messages && messages.length == 0 && (
+        <div className="h-full flex flex-col justify-center items-center">
+          <h1
+            className="custom-title bg-radial-[at_50%_75%] from-accent to-accent-shadow 
+            bg-clip-text text-transparent text-center text-9xl max-lg:text-[92px] leading-normal max-sm:text-7xl"
+          >
+            It&apos;s empty
+            <br />
+            here yet
+          </h1>
+        </div>
       )}
       <div>
         {messages.map((message: MessageInterface) => {

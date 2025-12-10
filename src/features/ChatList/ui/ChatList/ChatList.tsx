@@ -10,6 +10,7 @@ import { ChatListLoading } from './ChatListLoading/ChatListLoading';
 import { useActions } from '@/features/actions/lib/hooks';
 import { useChatListSockets } from '../../lib/useChatSockets';
 import { useModalControls } from '@/features/modal/lib/useModalState';
+import { useParams } from 'next/navigation';
 
 export function ChatList() {
   const { user } = useAuthState();
@@ -17,7 +18,10 @@ export function ChatList() {
   const { toggleAddUser, toggleBubbleMenu, setSidebar } = useUiActions();
   const { writeUser, deleteUserChat } = useActions();
   const { openModal } = useModalControls();
+  const params = useParams();
+
   useChatListSockets();
+
   const {
     showEmptySearchPrompt,
     showUserList,
@@ -28,9 +32,12 @@ export function ChatList() {
     showAllChats,
   } = useChatVisibility(users, chats, filteredChats);
 
+  const isChatPage = !!params?.id;
+
   if (!user || !user.userId) {
-    return <ChatListLoading></ChatListLoading>;
+    return <ChatListLoading isOpen={isChatPage} />;
   }
+
   console.log('Chat List rendered');
   return (
     <>
@@ -50,6 +57,7 @@ export function ChatList() {
               onMenuAction={() => {
                 writeUser(user.userId, u.userId);
                 toggleAddUser();
+
               }}
             />
           ))
@@ -72,7 +80,7 @@ export function ChatList() {
             key={chat.chatId}
             type="details"
             onBubbleMenuOpen={toggleBubbleMenu}
-            onSidebarClose={setSidebar(false)}
+            onSidebarClose={() => setSidebar(false)}
             onMenuAction={() => () => deleteUserChat(chat.chatId)}
             {...chat}
           />
@@ -88,7 +96,7 @@ export function ChatList() {
             chatId={chat.chatId}
             type="details"
             onBubbleMenuOpen={toggleBubbleMenu}
-            onSidebarClose={setSidebar(false)}
+            onSidebarClose={() => setSidebar(false)}
             onMenuAction={() => {
               openModal({
                 modalType: 'deleteChat',

@@ -79,7 +79,7 @@ export function UserContactDetails(props: UserContactDetailsProps) {
             size="base"
           ></UserContactAvatar>
           <div className="ml-4 flex-1/2 overflow-hidden">
-            <p className="font-medium text-lg">{props.userName}</p>
+            <p className="font-medium text-lg truncate">{props.userName}</p>
             <p
               className={clsx(
                 'text-md truncate message',

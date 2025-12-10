@@ -9,14 +9,14 @@ import { useEffect } from 'react';
 export default function Home() {
   const { isAuth } = useAuthState();
   const { isInitialized } = useAuthInit();
+
   useEffect(() => {
-    if (isInitialized) {
-      if (!isAuth) {
-        redirect('/login');
-      }
+    if (isInitialized && !isAuth) {
+      redirect('/login');
     }
   }, [isAuth, isInitialized]);
-  if (!isInitialized) {
+
+  if (!isInitialized || !isAuth) {
     return <AppLoader></AppLoader>;
   }
 

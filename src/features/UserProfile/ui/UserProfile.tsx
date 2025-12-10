@@ -40,8 +40,8 @@ export function UserProfile({
         ></ButtonUserProfile>
       </div>
       {profileType !== 'edit' && (
-        <div className="ml-8">
-          <p className="text-xl">{user.userName}</p>
+        <div className="ml-8 overflow-hidden">
+          <p className="text-xl truncate w-30">{user.userName}</p>
           <p className="mt-0.5 text-sm opacity-50">online</p>
         </div>
       )}

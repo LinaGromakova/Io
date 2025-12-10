@@ -1,5 +1,5 @@
 export const ButtonCircleStylesBasic = `duration-300 cursor-pointer flex justify-center items-center 
-    font-bold rounded-full h-9 w-9 text-xl overflow-hidden hover:bg-inter/60 bg-inter`;
+    font-bold rounded-full h-9 w-9 min-w-9  text-xl overflow-hidden hover:bg-inter/60 bg-inter`;
 
 export const ButtonCircleStylesByTypes = {
   message:

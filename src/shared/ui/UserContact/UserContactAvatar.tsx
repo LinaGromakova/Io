@@ -13,6 +13,18 @@ export function UserContactAvatar({
   online,
   size,
 }: UserContactAvatarProps) {
+  const blurDataURL = `data:image/svg+xml;base64,${Buffer.from(
+    `
+    <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150">
+      <defs>
+        <filter id="blur">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
+        </filter>
+      </defs>
+      <rect width="150" height="150" fill="#a0a0a0" filter="url(#blur)" />
+    </svg>
+  `
+  ).toString('base64')}`;
   return (
     <div
       className={clsx(
@@ -27,8 +39,10 @@ export function UserContactAvatar({
         <Image
           src={image}
           alt={name}
-          width={250}
-          height={250}
+          width={150}
+          height={150}
+          placeholder="blur"
+          blurDataURL={blurDataURL}
           className="w-full h-full object-cover rounded-full"
         ></Image>
       )) || (

@@ -1,4 +1,3 @@
-'use client';
 import { useSetAtom } from 'jotai';
 import { useFetch } from '@/shared/lib/hooks';
 import { useModalMessage } from '@/features/interface-state/lib/hooks';
@@ -11,7 +10,6 @@ export const useAuthActions = () => {
   const { open: openModal, state } = useModalMessage();
   const login = useSetAtom(loginAtom);
   const logout = useSetAtom(logoutAtom);
-
   const logOutUser = () => {
     getData('http://localhost:5000/api/auth/logout', {
       method: 'POST',

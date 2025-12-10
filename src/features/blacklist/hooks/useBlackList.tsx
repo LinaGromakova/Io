@@ -76,7 +76,7 @@ export function useBlackList(
   };
 
   useEffect(() => {
-    if (!targetUserId) return;
+    if (!targetUserId || !chatId || !currentUserId) return;
     checkBlackList(currentUserId, targetUserId).then(processBlockChecks);
   }, [chatId, targetUserId, currentUserId]);
 

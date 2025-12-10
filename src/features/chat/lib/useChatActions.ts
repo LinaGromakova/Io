@@ -1,48 +1,67 @@
-import { useFetch } from '@/shared/lib/hooks';
-import { useRouter } from 'next/navigation';
+'use client';
 
+class RequestGuard {
+  private static instance: RequestGuard;
+  private pendingRequests: Map<string, Promise<any>> = new Map();
+  static getInstance(): RequestGuard {
+    if (!RequestGuard.instance) {
+      RequestGuard.instance = new RequestGuard();
+    }
+    return RequestGuard.instance;
+  }
+  async execute<T>(key: string, fn: () => Promise<T>): Promise<T> {
+    const existing = this.pendingRequests.get(key);
+    if (existing) {
+      return existing;
+    }
+    const promise = fn()
+      .then((result) => {
+        return result;
+      })
+      .catch((error) => {
+        throw error;
+      })
+      .finally(() => {
+        this.pendingRequests.delete(key);
+      });
+
+    this.pendingRequests.set(key, promise);
+    return promise;
+  }
+}
 export const useChatActions = () => {
-  const router = useRouter();
-  const { getData } = useFetch();
+  const guard = RequestGuard.getInstance();
 
   const getTargetUser = async (chatId: string, userId: string) => {
-    try {
-      const user = await getData(
+    const key = `targetUser-${chatId}-${userId}`;
+    return guard.execute(key, async () => {
+      const response = await fetch(
         `http://localhost:5000/api/chats/${chatId}/${userId}`
       );
-      return user;
-    } catch (error) {
-      if (error instanceof Error && 'status' in error) {
-        router.replace(`/${error.status}`);
-        return null;
-      }
-      return null;
-    }
+      return response.json();
+    });
   };
-
   const getMessages = async (chatId: string) => {
-    try {
-      const messages = await getData(`http://localhost:5000/chat/${chatId}`);
-      return messages;
-    } catch (error) {
-      console.error('Failed to fetch messages:', error);
-      return [];
-    }
+    const key = `messages-${chatId}`;
+    return guard.execute(key, async () => {
+      const response = await fetch(`http://localhost:5000/chat/${chatId}`);
+      return response.json();
+    });
   };
 
   const checkBlackList = async (
     currentUserId: string,
     targetUserId: string
   ) => {
-    try {
-      const userInBlackList = await getData(
+    const key = `blacklist-${currentUserId}-${targetUserId}`;
+    return guard.execute(key, async () => {
+      const response = await fetch(
         `http://localhost:5000/api/blacklist/check/${currentUserId}/${targetUserId}`
       );
-      return userInBlackList;
-    } catch (error) {
-      console.error('Blacklist check failed:', error);
-    }
+      return response.json();
+    });
   };
+
   return {
     getTargetUser,
     getMessages,

@@ -2,7 +2,7 @@ import { atom } from 'jotai';
 import { ChatInterface } from '../types/ChatInterface';
 import { UserInterface } from '../types/UserInterface';
 
-export const chatsAtom = atom<ChatInterface[]>([]);
+export const chatsAtom = atom<ChatInterface[] | undefined>(undefined);
 export const usersAtom = atom<UserInterface[]>([]);
 export const filteredChatsAtom = atom<ChatInterface[]>([]);
 
@@ -16,8 +16,10 @@ export const setUsersAtom = atom(null, (get, set, users: UserInterface[]) => {
 
 export const setFilteredChatsAtom = atom(null, (get, set, filter: string) => {
   const chats = get(chatsAtom);
-  const filtered = chats.filter((chat) =>
-    chat.userName.toLowerCase().includes(filter.toLowerCase())
-  );
-  set(filteredChatsAtom, filtered);
+  if (chats) {
+    const filtered = chats.filter((chat) =>
+      chat.userName.toLowerCase().includes(filter.toLowerCase())
+    );
+    set(filteredChatsAtom, filtered);
+  }
 });

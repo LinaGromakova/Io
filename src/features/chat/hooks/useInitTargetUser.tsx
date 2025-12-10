@@ -30,11 +30,13 @@ export function useInitTargetUser(chatId: string) {
   }, [chatId, user]);
   useEffect(() => {
     socket.on('updateOnline', (data) => {
-      setTargetUser((user) => {
-        return data.userId === user.userId
-          ? { ...user, onlineStatus: data.onlineStatus }
-          : user;
-      });
+      if (data) {
+        setTargetUser((user) => {
+          return data.userId === user.userId
+            ? { ...user, onlineStatus: data.onlineStatus }
+            : user;
+        });
+      }
     });
     return () => {
       socket.off('updateOnline');

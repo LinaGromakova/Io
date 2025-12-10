@@ -34,8 +34,10 @@ export const showUserNotFoundAtom = atomFamily((users: UserInterface[]) =>
 export const showNoChatsAtom = atomFamily((chats: ChatInterface[]) =>
   atom((get) => {
     const isAddingNewUsers = get(isAddUserOpenAtom);
-    const hasChats = chats.length === 0;
-    return !isAddingNewUsers && hasChats;
+    if (chats) {
+      const hasChats = chats.length === 0;
+      return !isAddingNewUsers && hasChats;
+    }
   })
 );
 
@@ -63,7 +65,9 @@ export const showAllChatsAtom = atomFamily((chats: ChatInterface[]) =>
   atom((get) => {
     const isAddingNewUsers = get(isAddUserOpenAtom);
     const isFiltering = get(filterAtom);
-    const hasChats = chats.length > 0;
-    return !isAddingNewUsers && !isFiltering && hasChats;
+    if (chats) {
+      const hasChats = chats.length > 0;
+      return !isAddingNewUsers && !isFiltering && hasChats;
+    }
   })
 );

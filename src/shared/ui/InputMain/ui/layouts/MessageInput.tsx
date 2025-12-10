@@ -1,9 +1,14 @@
 import clsx from 'clsx';
 import React, { SetStateAction, useEffect, useRef, useState } from 'react';
-import EmojiPicker from '@emoji-mart/react';
 import { ButtonCircle } from '@/shared/ui/ButtonCircle';
 import { EmojiIcon } from '../../assets';
-
+import dynamic from 'next/dynamic';
+const EmojiPicker = dynamic(
+  () => import('emoji-mart').then((mod) => mod.Picker),
+  {
+    ssr: false,
+  }
+);
 export type MessageInputProps = {
   theme: 'light' | 'dark';
   name: string;

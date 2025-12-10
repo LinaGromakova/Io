@@ -20,13 +20,14 @@ export function ChatInput({ chatId }: ChatInputProps) {
   const { sendMessage } = useSendMessage(chatId, user?.userId || '');
   const { userInBlackList } = useBlackList(
     user?.userId || '',
-    targetUser.userId,
+    targetUser?.userId || '',
     chatId
   );
   const { messages } = useChatMessages(chatId, user?.userId || '');
   if (!messages) {
     return <ChatInputLoading></ChatInputLoading>;
   }
+
   return (
     <>
       {userInBlackList.isBlock ? (

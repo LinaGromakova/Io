@@ -14,14 +14,14 @@ export function UserContactHeader(props: UserContactHeaderProps) {
     >
       <div className="flex items-center">
         <UserContactAvatar
-           image={
-              props.userImage ? `http://localhost:5000${props.userImage}` : null
-            }
+          image={
+            props.userImage ? `http://localhost:5000${props.userImage}` : null
+          }
           name={props.userName}
           size="small"
         ></UserContactAvatar>
-        <div className="ml-4">
-          <p className="font-bold text-md">{props.userName}</p>
+        <div className="ml-4 overflow-hidden">
+          <p className="font-bold text-md truncate w-32">{props.userName}</p>
           {(props.onlineStatus && (
             <p className="text-xs opacity-70">online</p>
           )) || <p className="opacity-50 text-sm">offline</p>}

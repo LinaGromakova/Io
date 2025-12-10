@@ -25,7 +25,6 @@ export const useChatVisibility = (
   );
   const showAllChats = useAtomValue(showAllChatsAtom(chats));
 
-  console.log('i am podiras (atom families)');
 
   return {
     showEmptySearchPrompt,

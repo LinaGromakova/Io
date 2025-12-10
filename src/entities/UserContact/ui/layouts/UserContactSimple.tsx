@@ -60,7 +60,7 @@ export function UserContactSimple(props: UserContactSimpleProps) {
           ></UserContactAvatar>
         </div>
         <div className="ml-4 overflow-hidden">
-          <p className="font-medium text-lg">{props.userName}</p>
+          <p className="font-medium text-lg truncate w-30">{props.userName}</p>
         </div>
       </div>
       <div className="relative">
@@ -87,3 +87,4 @@ export function UserContactSimple(props: UserContactSimpleProps) {
     </article>
   );
 }
+

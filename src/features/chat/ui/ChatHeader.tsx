@@ -1,3 +1,4 @@
+'use client';
 import Link from 'next/link';
 import { ButtonCircle } from '@/shared/ui/ButtonCircle';
 import { BubbleMenu } from '@/entities/BubbleMenu';
@@ -16,9 +17,13 @@ export function ChatHeader({ chatId }: { chatId: string }) {
   const { openModal } = useModalControls();
   const { setSidebarOpen } = useSidebar();
   const { targetUser } = useInitTargetUser(chatId);
-  const { isBlock } = useBlackList(user?.userId, targetUser.userId, chatId);
+  const { isBlock } = useBlackList(
+    user?.userId || '',
+    targetUser?.userId || '',
+    chatId
+  );
 
-  if (!targetUser.userId) {
+  if (!targetUser?.userId || !user?.userId) {
     return <ChatHeaderLoading></ChatHeaderLoading>;
   }
 
@@ -28,7 +33,7 @@ export function ChatHeader({ chatId }: { chatId: string }) {
         <ButtonCircle
           actionType="back"
           className="mr-4 hidden max-md:flex"
-          handlerClick={setSidebarOpen(true)}
+          handlerClick={() => setSidebarOpen(true)}
         ></ButtonCircle>
       </Link>
       <UserContact
