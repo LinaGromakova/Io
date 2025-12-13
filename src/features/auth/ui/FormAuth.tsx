@@ -6,8 +6,8 @@ import { LabelForm } from '@/shared/ui/LabelForm';
 import { InputMain } from '@/shared/ui/InputMain';
 import { ButtonMain } from '@/shared/ui/ButtonMain';
 import { RedirectionLink } from './RedirectionLink';
-import { formFields } from '../config/formFields';
-import { useAuthActions } from '../lib/useAuthActions';
+import { formFields } from '../config/form-fields';
+import { useAuthActions } from '../lib/hooks';
 
 interface interfaceForm {
   login: string;

@@ -1,4 +1,4 @@
-import { parseValidDate } from '@/shared/lib/dates/parseValidDate';
+import { parseValidDate } from '@/shared/lib/dates/parse-valid-date';
 
 export function MessageTime({ createdAt }: { createdAt: Date }) {
   const time = parseValidDate(createdAt);

@@ -3,14 +3,23 @@ import React, { SetStateAction, useEffect, useRef, useState } from 'react';
 import { ButtonCircle } from '@/shared/ui/ButtonCircle';
 import { EmojiIcon } from '../../assets';
 import dynamic from 'next/dynamic';
+
 const EmojiPicker = dynamic(
-  () => import('emoji-mart').then((mod) => mod.Picker),
-  {
-    ssr: false,
-  }
+  () =>
+    import('emoji-mart').then(
+      (mod) =>
+        mod.Picker as unknown as React.FC<{
+          onEmojiSelect: (emoji: { native: string }) => void;
+          perLine: number;
+          emojiSize: number;
+          theme: string;
+          set: string;
+        }>
+    ),
+  { ssr: false }
 );
 export type MessageInputProps = {
-  theme: 'light' | 'dark';
+  theme: string;
   name: string;
   type: string;
   value: string;

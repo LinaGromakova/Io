@@ -1,6 +1,6 @@
 import { MessageTime } from './MessageTime';
 import { MessageStatus } from './MessageStatus';
-import { useMessageStyles } from '../hooks/useMessageStyles';
+import { useMessageStyles } from '../lib/hooks/use-message-styles';
 
 interface MessageProps {
   senderId: string;

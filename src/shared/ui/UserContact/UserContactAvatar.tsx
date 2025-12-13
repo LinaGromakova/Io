@@ -1,8 +1,9 @@
 import { clsx } from 'clsx';
+import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import Image from 'next/image';
 
 interface UserContactAvatarProps {
-  image: string | File | null;
+  image: string | StaticImport | null;
   name: string;
   online?: boolean;
   size: 'base' | 'small' | 'big';

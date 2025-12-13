@@ -1,9 +1,9 @@
 'use client';
-import { useAuthInit } from '@/features/auth/lib/useAuthInit';
-import { useAuthState } from '@/features/auth/lib/useAuthState';
+import { useAuthInit } from '@/features/auth/lib/hooks';
+import { useAuthState } from '@/features/auth/lib/hooks';
 import { MainPage } from '@/pages/MainPage';
 import { redirect } from '@/shared/lib/redirect/redirect';
-import { AppLoader } from '@/shared/ui/AppLoader/AppLoader';
+import { AppLoader } from '@/shared/ui/AppLoader';
 import { useEffect } from 'react';
 
 export default function Home() {

@@ -1,13 +1,14 @@
-import { UserContact } from '@/entities/UserContact';
-import { useBlackList } from '../hooks/useBlackList';
+import { UserContact } from '@/entities/user-contact/ui';
+import { useBlackList } from '../lib/hooks';
 import { BlackListIsEmpty } from './BlackListIsEmpty';
-import { useAuthState } from '@/features/auth/lib/useAuthState';
-import { useModalControls } from '@/features/modal/lib/useModalState';
-import { useUiActions } from '@/features/interface-state/lib/hooks';
+import { useAuthState } from '@/features/auth/lib/hooks';
+import { useModalControls } from '@/features/confirmation/lib/use-modal-state';
+import { useUiActions } from '@/shared/api/store/lib/hooks';
+import { UserInterface } from '@/shared/types/domain';
 
 export function BlackList() {
   const { user } = useAuthState();
-  const { blackListUsers, blackListLength } = useBlackList(user.userId);
+  const { blackListUsers, blackListLength } = useBlackList(user?.userId || '');
   const { openModal } = useModalControls();
   const { toggleBubbleMenu } = useUiActions();
   return (
@@ -17,12 +18,12 @@ export function BlackList() {
           {blackListLength} заблокированных пользователей
         </h4>
       )}
-      {blackListUsers.map((u) => {
+      {blackListUsers.map((u: UserInterface) => {
         return (
           <UserContact
             key={u.userId}
             type="simple"
-            currentUserId={user.userId}
+            currentUserId={user?.userId || ''}
             targetUserId={u.userId}
             userName={u.userName}
             userImage={u.userImage}
@@ -30,13 +31,13 @@ export function BlackList() {
             onMenuAction={() => {
               openModal({
                 modalType: 'unBlock',
-                currentUserId: user.userId,
+                currentUserId: user?.userId,
                 targetUserId: u.userId,
                 targetUserName: u.userName,
                 chatId: '',
               });
             }}
-            onBubbleMenuOpen={toggleBubbleMenu}
+            onBubbleMenuOpen={() => toggleBubbleMenu}
           ></UserContact>
         );
       })}

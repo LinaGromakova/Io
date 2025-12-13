@@ -1,7 +1,5 @@
-import { EditProfile } from '@/features/EditProfile/ui/EditProfile';
+import { EditProfile } from '@/features/edit-profile/ui';
 
 export function SidebarSettingsUser() {
-  return (
-      <EditProfile></EditProfile>
-  );
+  return <EditProfile></EditProfile>;
 }

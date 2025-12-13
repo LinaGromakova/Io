@@ -1,0 +1,1 @@
+export { UserContact } from './UserContact';

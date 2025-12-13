@@ -1,7 +1,7 @@
 'use client';
-import { useAuthInit } from '@/features/auth/lib/useAuthInit';
-import { useAuthSocket } from '@/features/auth/lib/useAuthSocket';
-import { useChatData } from '@/features/ChatList/lib/useChatData';
+import { useAuthInit } from '@/features/auth/lib/hooks';
+import { useAuthSocket } from '@/features/auth/lib/hooks';
+import { useChatData } from '@/features/chat-list/lib/hooks';
 import { useEffect } from 'react';
 
 export function AuthInitializer() {

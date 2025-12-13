@@ -1,8 +1,8 @@
-import { useAuthState } from '@/features/auth/lib/useAuthState';
-import { ChatList } from '@/features/ChatList/ui/ChatList/ChatList';
-import { useAddUser } from '@/features/interface-state/lib/hooks';
+import { useAuthState } from '@/features/auth/lib/hooks';
+import { useAddUser } from '@/shared/api/store/lib/hooks';
 import { useSearchActions } from '@/features/search/lib/hooks';
 import { ButtonCircle } from '@/shared/ui/ButtonCircle';
+import { ChatList } from '@/features/chat-list/ui';
 
 export function SidebarChatList() {
   const { setFilter } = useSearchActions();

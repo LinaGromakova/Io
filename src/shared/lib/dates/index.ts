@@ -1,1 +1,1 @@
-export { parseValidDate } from './parseValidDate';
+export { parseValidDate } from './parse-valid-date';

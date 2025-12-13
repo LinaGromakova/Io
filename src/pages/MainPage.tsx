@@ -1,9 +1,9 @@
 'use client';
-import { useSidebar } from '@/features/interface-state/lib/hooks';
-import { useModalSettings } from '@/features/modal/lib/useModalSettings';
-import { useModalState } from '@/features/modal/lib/useModalState';
+import { useSidebar } from '@/shared/api/store/lib/hooks';
+import { useModalSettings } from '@/features/confirmation/lib/use-modal-settings';
+import { useModalState } from '@/features/confirmation/lib/use-modal-state';
 import { ConfirmModal } from '@/shared/ui/Modals';
-import { Sidebar } from '@/widgets/Sidebar/ui/Sidebar';
+import { Sidebar } from '@/widgets/Sidebar/ui';
 import { useParams } from 'next/navigation';
 import { useLayoutEffect } from 'react';
 
@@ -22,6 +22,7 @@ export function MainPage({ children }: MainPageProps) {
       setSidebarOpen(true);
     }
   }, [params]);
+  
   return (
     <div className="wrapper">
       <div className="flex overflow-hidden relative h-screen ">

@@ -1,5 +1,5 @@
 'use client';
-import { useModalMessage } from '@/features/interface-state/lib/hooks';
+import { useModalMessage } from "@/shared/api/store/lib/hooks";
 import { ModalMessage } from '@/shared/ui/Modals';
 
 export default function Template({ children }: { children: React.ReactNode }) {

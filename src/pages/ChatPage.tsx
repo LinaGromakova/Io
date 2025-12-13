@@ -1,4 +1,4 @@
-import { Chat } from '@/widgets/Chat/ui/chat';
+import { Chat } from "@/widgets/Chat/ui";
 import { MainPage } from './MainPage';
 export function ChatPage() {
   return (

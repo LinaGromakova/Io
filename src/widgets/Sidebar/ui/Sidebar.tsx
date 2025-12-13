@@ -5,10 +5,10 @@ import { SidebarOptionsList } from './layouts/SidebarOptionsList';
 import { SidebarSettingsUser } from './layouts/SidebarSettingsUser';
 import {
   useBlackListState,
+  useOptions,
   useSettings,
   useSidebar,
-  useOptions,
-} from '@/features/interface-state/lib/hooks';
+} from '@/shared/api/store/lib/hooks';
 
 export function Sidebar() {
   const { isSettingsOpen } = useSettings();
@@ -27,9 +27,7 @@ export function Sidebar() {
 
     return <SidebarChatList />;
   };
-
-  console.log('sidebar');
-  console.log(isSidebarOpen);
+  
   return (
     <aside
       className={clsx(

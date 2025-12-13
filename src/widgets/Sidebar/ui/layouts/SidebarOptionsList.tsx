@@ -1,15 +1,21 @@
-import { OptionsList } from '@/features/settingsOption/ui/OptionsList/OptionsList';
-import { UserProfile } from '@/features/UserProfile/ui/UserProfile';
 import { SidebarHeaderBack } from './SidebarHeaderBack';
-import { useAuthState } from '@/features/auth/lib/useAuthState';
+import { useAuthState } from '@/features/auth/lib/hooks';
+import { OptionsList } from '@/features/settings-option/ui';
+import { UserProfile } from '@/features/user-profile/ui';
 
-export function SidebarOptionsList(props) {
+interface SidebarOptionsListProps {
+  setIsOptionsSidebarOpen: (isOpen: boolean) => void;
+}
+
+export function SidebarOptionsList({
+  setIsOptionsSidebarOpen,
+}: SidebarOptionsListProps) {
   const { user } = useAuthState();
 
   return (
     <>
       <SidebarHeaderBack
-        handlerBack={() => props.setIsOptionsSidebarOpen(false)}
+        handlerBack={() => setIsOptionsSidebarOpen(false)}
       ></SidebarHeaderBack>
       <UserProfile profileType="base" user={user}></UserProfile>
       <OptionsList></OptionsList>

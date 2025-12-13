@@ -1,7 +1,7 @@
 'use client';
-import { ChatHeader } from '@/features/chat/ui/ChatHeader';
-import { ChatInput } from '@/features/chat/ui/ChatInput';
-import { MessageList } from '@/features/chat/ui/MessageList';
+import { ChatHeader } from '@/features/chat/ui';
+import { ChatInput } from '@/features/chat/ui';
+import { MessageList } from '@/features/chat/ui';
 import { useParams } from 'next/navigation';
 
 export function Chat() {

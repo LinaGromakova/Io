@@ -1,4 +1,3 @@
-
 import { FormAuth } from '@/features/auth/ui/FormAuth';
 
 export function LoginPage() {

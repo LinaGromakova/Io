@@ -5,7 +5,7 @@ import { ButtonMain } from '../../../ButtonMain';
 interface ModalConfig {
   message: (arg0: string) => string;
   handlerCancel: () => void;
-  handlerOk: (chat_id: string) => void;
+  handlerOk: (chatId: string) => void;
 }
 interface ConfirmModalProps {
   id: string;

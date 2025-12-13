@@ -1,10 +1,10 @@
 'use client';
 import { LoginPage } from '@/pages/LoginPage';
-import { useAuthInit } from '@/features/auth/lib/useAuthInit';
-import { useAuthState } from '@/features/auth/lib/useAuthState';
+import { useAuthInit } from '@/features/auth/lib/hooks';
+import { useAuthState } from '@/features/auth/lib/hooks';
 import { useEffect } from 'react';
-import { AppLoader } from '@/shared/ui/AppLoader/AppLoader';
 import { redirect } from '@/shared/lib/redirect/redirect';
+import { AppLoader } from '@/shared/ui/AppLoader';
 
 export default function Login() {
   const { isAuth } = useAuthState();
