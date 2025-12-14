@@ -13,5 +13,5 @@ export { default as HamburgerIcon } from './HamburgerIcon.svg';
 export { default as PhotoAddIcon } from './PhotoAddIcon.svg';
 export { default as MessageIcon } from './MessageIcon.svg';
 export { default as ArrowBackIcon } from './ArrowBackIcon.svg';
-export { default as CheckMarkIcon } from './CheckMarkIcon.svg';
+export { default as CheckMarkIcon } from './CheckmarkIcon.svg';
 export { default as ImagesIcon } from './ImagesIcon.svg';
