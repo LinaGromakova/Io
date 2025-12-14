@@ -11,6 +11,7 @@ import { isAddUserOpenAtom } from '@/shared/api/store/lib/model/atoms/add-user-a
 import { useAtomValue } from 'jotai';
 import { useSearchState } from '@/features/search/lib/hooks';
 import { debounce } from '@/shared/lib/debounce';
+import { API_URL } from '@/shared/lib/config';
 
 export const useChatData = () => {
   const { getData } = useFetch();
@@ -26,7 +27,7 @@ export const useChatData = () => {
       if (!user?.userId) return;
       try {
         const data = await getData(
-          `http://localhost:5000/api/chats/user/${user.userId}`
+          `${API_URL}/api/chats/user/${user.userId}`
         );
         setChats(data);
       } catch (error) {
@@ -42,7 +43,7 @@ export const useChatData = () => {
       if (isAddUserOpen && searchUser) {
         try {
           const users = await getData(
-            `http://localhost:5000/api/users/search/${searchUser}/${user?.userId}`
+            `${API_URL}/api/users/search/${searchUser}/${user?.userId}`
           );
           setUsers(users);
         } catch (error) {

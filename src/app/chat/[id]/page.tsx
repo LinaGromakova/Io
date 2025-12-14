@@ -1,4 +1,4 @@
-import { ChatPage } from '@/pages/ChatPage';
+import ChatPage from '@/pages/ChatPage';
 
 export default function Chat() {
   return <ChatPage></ChatPage>;

@@ -3,6 +3,7 @@ import { useFetch } from '@/shared/lib/hooks';
 import { loginAtom, logoutAtom } from '../../model/auth-actions';
 import { useAtom, useSetAtom } from 'jotai';
 import { authInitializedAtom } from '../../model/auth-atoms';
+import { API_URL } from '@/shared/lib/config';
 
 export const useAuthInit = () => {
   const { getData } = useFetch();
@@ -13,7 +14,7 @@ export const useAuthInit = () => {
   const initializeAuth = async () => {
     try {
       const session = await getData(
-        'http://localhost:5000/api/auth/session-check',
+        `${API_URL}/api/auth/session-check`,
         {
           credentials: 'include',
         }
@@ -24,7 +25,7 @@ export const useAuthInit = () => {
           login(storedUser);
         } else {
           const userData = await getData(
-            `http://localhost:5000/api/user/${session.userId}`
+            `${API_URL}/api/user/${session.userId}`
           );
           console.log('suc');
           login(userData);

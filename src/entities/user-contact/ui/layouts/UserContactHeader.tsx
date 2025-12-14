@@ -1,4 +1,5 @@
 'use client';
+import { API_URL } from '@/shared/lib/config';
 import { UserContactAvatar } from '@/shared/ui/UserContact/UserContactAvatar';
 
 export interface UserContactHeaderProps {
@@ -15,7 +16,7 @@ export function UserContactHeader(props: UserContactHeaderProps) {
       <div className="flex items-center">
         <UserContactAvatar
           image={
-            props.userImage ? `http://localhost:5000${props.userImage}` : null
+            props.userImage ? `${API_URL}${props.userImage}` : null
           }
           name={props.userName}
           size="small"

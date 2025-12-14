@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { ButtonMain } from '@/shared/ui/ButtonMain';
 
-export function NotFoundPage() {
+export default function NotFoundPage() {
   return (
     <div className="relative flex flex-col w-full h-screen bg-background items-center justify-center overflow-hidden">
       <h1

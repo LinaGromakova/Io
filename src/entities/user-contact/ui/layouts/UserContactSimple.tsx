@@ -5,6 +5,7 @@ import { UserContactAvatar } from '@/shared/ui/UserContact/UserContactAvatar';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { useUserContact } from '../../lib/hooks/use-user-contact';
+import { API_URL } from '@/shared/lib/config';
 
 export interface UserContactSimpleProps {
   onMenuAction(
@@ -51,7 +52,7 @@ export function UserContactSimple(props: UserContactSimpleProps) {
         <div className="flex items-center justify-between">
           <UserContactAvatar
             image={
-              props.userImage ? `http://localhost:5000${props.userImage}` : null
+              props.userImage ? `${API_URL}${props.userImage}` : null
             }
             name={props.userName}
             size="base"

@@ -1,6 +1,7 @@
 import { UserContactAvatar } from '@/shared/ui/UserContact';
 import { ButtonUserProfile } from './ButtonUserProfile';
 import { UserInterface } from '@/shared/types/domain';
+import { API_URL } from '@/shared/lib/config';
 
 interface UserProfileInterface {
   profileType: 'edit' | 'base';
@@ -24,7 +25,7 @@ export function UserProfile({
             newImage
               ? URL.createObjectURL(newImage)
               : user?.userImage
-              ? `http://localhost:5000${user.userImage}`
+              ? `${API_URL}${user.userImage}`
               : null
           }
         ></UserContactAvatar>

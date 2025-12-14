@@ -1,7 +1,8 @@
 import { fetchJson } from '@/shared/api/client';
+import { API_URL } from '@/shared/lib/config';
 
 export const blockUser = (userId: string, targetUserId: string) => {
-  return fetchJson('http://localhost:5000/api/blacklist/add', {
+  return fetchJson(`${API_URL}/api/blacklist/add`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

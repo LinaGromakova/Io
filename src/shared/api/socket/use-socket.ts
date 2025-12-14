@@ -1,10 +1,11 @@
+import { API_URL } from '@/shared/lib/config';
 import { io, Socket } from 'socket.io-client';
 
 let socket: Socket | null = null;
 
 export const getSocket = () => {
   if (!socket) {
-    socket = io('http://localhost:5000', {
+    socket = io(`${API_URL}`, {
       transports: ['websocket'],
     });
   }

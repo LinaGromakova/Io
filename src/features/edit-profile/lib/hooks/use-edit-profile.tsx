@@ -3,6 +3,7 @@ import { useAuthSetters, useAuthState } from '@/features/auth/lib/hooks/use-auth
 import { useModalMessage, useSettings } from '@/shared/api/store/lib/hooks';
 import { useEffect, useState } from 'react';
 import { UserInterface } from '@/shared/types/domain';
+import { API_URL } from '@/shared/lib/config';
 
 export function useEditProfile() {
   const { isSettingsOpen } = useSettings();
@@ -14,7 +15,7 @@ export function useEditProfile() {
   async function changeUserName() {
     try {
       const response = await fetch(
-        'http://localhost:5000/api/users/profile/name',
+        `${API_URL}/api/users/profile/name`,
         {
           method: 'PUT',
           headers: {
@@ -46,7 +47,7 @@ export function useEditProfile() {
     formData.append('userId', user?.userId || '');
 
     try {
-      const response = await fetch('http://localhost:5000/api/users/avatar', {
+      const response = await fetch(`${API_URL}/api/users/avatar`, {
         method: 'POST',
         body: formData,
       });

@@ -1,5 +1,5 @@
 'use client';
-import { LoginPage } from '@/pages/LoginPage';
+import LoginPage from '@/pages/LoginPage';
 import { useAuthInit } from '@/features/auth/lib/hooks';
 import { useAuthState } from '@/features/auth/lib/hooks';
 import { useEffect } from 'react';

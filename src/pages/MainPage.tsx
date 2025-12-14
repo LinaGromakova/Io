@@ -10,7 +10,7 @@ import { useLayoutEffect } from 'react';
 interface MainPageProps {
   children?: React.ReactNode;
 }
-export function MainPage({ children }: MainPageProps) {
+export default function MainPage({ children }: MainPageProps) {
   const { modalSettings } = useModalSettings();
   const { isModalOpen } = useModalState();
   const { setSidebarOpen } = useSidebar();

@@ -1,5 +1,5 @@
 import { FormAuth } from '@/features/auth/ui/FormAuth';
 
-export function LoginPage() {
+export default function LoginPage() {
   return <FormAuth page="login"></FormAuth>;
 }

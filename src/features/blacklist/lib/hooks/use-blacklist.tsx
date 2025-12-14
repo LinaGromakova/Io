@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useChatActions } from '@/features/chat/lib/hooks';
 import { useBlackListState } from '@/shared/api/store/lib/hooks';
 import { getSocket } from '@/shared/api/socket';
+import { API_URL } from '@/shared/lib/config';
 
 interface userInBlackList {
   isBlock: boolean;
@@ -31,7 +32,7 @@ export function useBlackList(
 
   async function loadBlackList() {
     const blackList = await getData(
-      `http://localhost:5000/api/blacklist/${currentUserId}`
+      `${API_URL}/api/blacklist/${currentUserId}`
     );
     setBlackListUsers(blackList);
     setBlackListLength(blackList.length);
