@@ -3,20 +3,13 @@ import React, { SetStateAction, useEffect, useRef, useState } from 'react';
 import { ButtonCircle } from '@/shared/ui/ButtonCircle';
 import { EmojiIcon } from '../../assets';
 import dynamic from 'next/dynamic';
+import data from '@emoji-mart/data';
 
 const EmojiPicker = dynamic(
-  () =>
-    import('emoji-mart').then(
-      (mod) =>
-        mod.Picker as unknown as React.FC<{
-          onEmojiSelect: (emoji: { native: string }) => void;
-          perLine: number;
-          emojiSize: number;
-          theme: string;
-          set: string;
-        }>
-    ),
-  { ssr: false }
+  () => import('@emoji-mart/react').then((mod) => mod.default),
+  {
+    ssr: false,
+  }
 );
 export type MessageInputProps = {
   theme: string;
@@ -82,6 +75,7 @@ export function MessageInput(props: MessageInputProps) {
       <div ref={refEmojiPicker} className="max-w-fit relative">
         {openEmoji && (
           <EmojiPicker
+            data={data}
             perLine={size.perLine}
             emojiSize={size.emojiSize}
             theme={props.theme}

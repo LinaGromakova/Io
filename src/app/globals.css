@@ -12,6 +12,7 @@
   --color-accent-shadow: #ff0000;
 }
 .wrapper {
+  overflow: hidden;
   background: linear-gradient(to bottom, var(--background), var(--color-extra));
 }
 

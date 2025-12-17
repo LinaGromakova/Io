@@ -65,7 +65,7 @@ export function ChatList() {
           text="У вас пока нет чатов"
           icon={true}
           link={{
-            onClick: () => toggleAddUser,
+            onClick: () => toggleAddUser(),
             linkText: 'Добавить собеседника',
           }}
         />
