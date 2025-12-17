@@ -7,8 +7,6 @@ import { UserContactMeta } from '@/shared/ui/UserContact';
 import { useUserContact } from '../../lib/hooks/use-user-contact';
 import { useRouter } from 'next/navigation';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
-import { API_URL } from '@/shared/lib/config';
-
 export interface UserContactDetailsProps {
   chatId: string;
   userId: string;
@@ -73,9 +71,7 @@ export function UserContactDetails(props: UserContactDetailsProps) {
         ></BubbleMenu>
         <div className="flex items-center w-full justify-between">
           <UserContactAvatar
-            image={
-              props.userImage ? `${API_URL}${props.userImage}` : null
-            }
+            image={props.userImage || null}
             name={props.userName}
             online={props.onlineStatus}
             size="base"

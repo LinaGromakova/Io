@@ -6,8 +6,10 @@ import { chatsAtom } from '../../model/chat-atoms';
 import { useRouter } from 'next/navigation';
 import { useChatStore } from './use-chat-store';
 import { getSocket } from '@/shared/api/socket';
+import { useAuthState } from '@/features/auth/lib/hooks';
 
 export function useChatListSockets() {
+  const { user } = useAuthState();
   const socket = getSocket();
   const setChats = useSetAtom(chatsAtom);
   const { chats } = useChatStore();
@@ -28,7 +30,7 @@ export function useChatListSockets() {
     socket.on('startChat', (data) => {
       const isChatExists = chats?.some((chat) => chat.chatId === data.chatId);
 
-      if (isChatExists) {
+      if (isChatExists && data.userId === user?.userId) {
         router.push(`/chat/${data.chatId}`);
         return;
       }

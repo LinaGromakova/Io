@@ -30,7 +30,7 @@ export function FormAuth({ page }: { page: 'login' | 'register' }) {
   return (
     <div
       className={clsx(
-        'flex w-full h-screen items-center portrait:h-screen portrait:my-0  bg-gradient-to-t from-accent/80  to-accent-shadow/50'
+        'flex w-full h-screen items-center portrait:h-screen portrait:my-0  bg-gradient-to-t from-accent/80  to-accent-shadow/50 min-h-fit'
       )}
     >
       <form

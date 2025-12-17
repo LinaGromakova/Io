@@ -104,7 +104,7 @@ export function useBlackList(
         setIsBlock(false);
       }
       checkBlackList(currentUserId, targetUserId).then(processBlockChecks);
-
+      
       if (isBlackListOpen) loadBlackList();
     });
   }, [socket, targetUserId, currentUserId]);

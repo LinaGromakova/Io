@@ -11,6 +11,7 @@ const EmojiPicker = dynamic(
     ssr: false,
   }
 );
+
 export type MessageInputProps = {
   theme: string;
   name: string;
@@ -75,6 +76,7 @@ export function MessageInput(props: MessageInputProps) {
       <div ref={refEmojiPicker} className="max-w-fit relative">
         {openEmoji && (
           <EmojiPicker
+            key={`emoji-${openEmoji}-${Date.now()}`}
             data={data}
             perLine={size.perLine}
             emojiSize={size.emojiSize}

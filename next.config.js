@@ -12,6 +12,11 @@ const nextConfig = {
         port: '5000',
         pathname: '/uploads/avatars/**',
       },
+      {
+        protocol: 'https',
+        hostname: '*.supabase.co',
+        pathname: '/storage/v1/object/public/uploads/avatars/**',
+      },
     ],
   },
 

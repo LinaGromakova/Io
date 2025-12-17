@@ -13,12 +13,9 @@ export const useAuthInit = () => {
 
   const initializeAuth = async () => {
     try {
-      const session = await getData(
-        `${API_URL}/api/auth/session-check`,
-        {
-          credentials: 'include',
-        }
-      );
+      const session = await getData(`${API_URL}/api/auth/session-check`, {
+        credentials: 'include',
+      });
       if (session && session.userId) {
         const storedUser = JSON.parse(localStorage.getItem('user') || 'null');
         if (storedUser && storedUser.userId === session.userId) {
@@ -27,7 +24,6 @@ export const useAuthInit = () => {
           const userData = await getData(
             `${API_URL}/api/user/${session.userId}`
           );
-          console.log('suc');
           login(userData);
         }
       } else {
