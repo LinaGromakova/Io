@@ -19,7 +19,7 @@ export function Sidebar() {
   const getCurrentView = () => {
     if (isSettingsOpen) return <SidebarSettingsUser />;
     if (isBlackListOpen)
-      return <SidebarBlackList setIsBlackListOpen={toggleBlackList} />;
+      return <SidebarBlackList setIsBlackListOpen={() => toggleBlackList()} />;
     if (isOptionsSidebarOpen)
       return (
         <SidebarOptionsList setIsOptionsSidebarOpen={toggleSidebarOptions} />
@@ -27,7 +27,7 @@ export function Sidebar() {
 
     return <SidebarChatList />;
   };
-  
+
   return (
     <aside
       className={clsx(

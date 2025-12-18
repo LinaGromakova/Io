@@ -92,8 +92,7 @@ export function useBlackList(
         userId: data.userId,
       });
       checkBlackList(currentUserId, targetUserId).then(processBlockChecks);
-      console.log(isBlackListOpen);
-      if (isBlackListOpen) loadBlackList();
+      loadBlackList();
     });
   }, [socket, currentUserId, targetUserId]);
 
@@ -105,8 +104,7 @@ export function useBlackList(
         setIsBlock(false);
       }
       checkBlackList(currentUserId, targetUserId).then(processBlockChecks);
-      console.log(isBlackListOpen);
-      if (isBlackListOpen) loadBlackList();
+      loadBlackList();
     });
   }, [socket, targetUserId, currentUserId]);
 

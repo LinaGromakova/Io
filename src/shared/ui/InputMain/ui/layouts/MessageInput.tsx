@@ -2,23 +2,7 @@ import clsx from 'clsx';
 import React, { SetStateAction, useEffect, useRef, useState } from 'react';
 import { ButtonCircle } from '@/shared/ui/ButtonCircle';
 import { EmojiIcon } from '../../assets';
-import dynamic from 'next/dynamic';
-
-const EmojiPicker = dynamic(
-  () =>
-    Promise.all([import('@emoji-mart/react'), import('@emoji-mart/data')]).then(
-      ([PickerModule, dataModule]) => {
-        const Picker = PickerModule.default;
-        const data = dataModule.default;
-        return function EmojiPicker(props) {
-          return <Picker data={data} {...props} />;
-        };
-      }
-    ),
-  {
-    ssr: false,
-  }
-);
+import EmojiPicker from '@emoji-mart/react';
 
 export type MessageInputProps = {
   theme: string;
