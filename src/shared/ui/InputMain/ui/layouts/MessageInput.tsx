@@ -3,10 +3,18 @@ import React, { SetStateAction, useEffect, useRef, useState } from 'react';
 import { ButtonCircle } from '@/shared/ui/ButtonCircle';
 import { EmojiIcon } from '../../assets';
 import dynamic from 'next/dynamic';
-import data from '@emoji-mart/data';
 
 const EmojiPicker = dynamic(
-  () => import('@emoji-mart/react').then((mod) => mod.default),
+  () =>
+    Promise.all([import('@emoji-mart/react'), import('@emoji-mart/data')]).then(
+      ([PickerModule, dataModule]) => {
+        const Picker = PickerModule.default;
+        const data = dataModule.default;
+        return function EmojiPicker(props) {
+          return <Picker data={data} {...props} />;
+        };
+      }
+    ),
   {
     ssr: false,
   }
@@ -77,7 +85,6 @@ export function MessageInput(props: MessageInputProps) {
         {openEmoji && (
           <EmojiPicker
             key={`emoji-${openEmoji}-${Date.now()}`}
-            data={data}
             perLine={size.perLine}
             emojiSize={size.emojiSize}
             theme={props.theme}
