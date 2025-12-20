@@ -17,9 +17,7 @@ export function ChatList() {
   const { toggleAddUser, toggleBubbleMenu, setSidebar } = useUiActions();
   const { openModal } = useModalControls();
   const params = useParams();
-
   useChatListSockets();
-
   const {
     showEmptySearchPrompt,
     showUserList,
@@ -29,13 +27,10 @@ export function ChatList() {
     showNoFilteredResults,
     showAllChats,
   } = useChatVisibility(users, chats, filteredChats);
-
   const isChatPage = !!params?.id;
-
-  if (!user || !user.userId || user.userId === '') {
+  if (!user || !user.userId || user.userId === '' || !chats) {
     return <ChatListLoading isOpen={isChatPage} />;
   }
-
   return (
     <>
       <HeaderListLayout></HeaderListLayout>

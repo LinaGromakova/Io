@@ -36,7 +36,6 @@ export function useChatMessages(chatId: string, userId: string) {
         console.error('Failed to load messages:', error);
       }
     };
-
     loadMessages();
     socket.emit('joinChat', { chatId, userId });
     return () => {

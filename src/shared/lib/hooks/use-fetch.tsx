@@ -7,9 +7,6 @@ export function useFetch<T>() {
   const pendingRequestsRef = useRef<Set<string>>(new Set());
 
   const getData = useCallback(async (url: string, options?: RequestInit) => {
-    if (pendingRequestsRef.current.has(url)) {
-      return Promise.reject(new Error('Запрос уже выполняется'));
-    }
     pendingRequestsRef.current.add(url);
     try {
       const response = await fetch(url, options);

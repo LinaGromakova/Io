@@ -1,6 +1,6 @@
 'use client';
+import { RequestGuard } from '@/shared/api/client';
 import { API_URL } from '@/shared/lib/config';
-import { RequestGuard } from '../api/request-guard';
 
 export const useChatActions = () => {
   const guard = RequestGuard.getInstance();
@@ -28,7 +28,7 @@ export const useChatActions = () => {
 
   const checkBlackList = async (
     currentUserId: string,
-    targetUserId: string
+    targetUserId?: string
   ) => {
     const key = `blacklist-${currentUserId}-${targetUserId}`;
     return guard.execute(key, async () => {

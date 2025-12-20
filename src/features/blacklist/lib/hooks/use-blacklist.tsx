@@ -5,13 +5,13 @@ import { useChatActions } from '@/features/chat/lib/hooks';
 import { useBlackListState } from '@/shared/api/store/lib/hooks';
 import { getSocket } from '@/shared/api/socket';
 import { API_URL } from '@/shared/lib/config';
-
+import { RequestGuard } from '@/shared/api/client';
+import { UserShortInterface } from '@/shared/types/domain';
 interface userInBlackList {
   isBlock: boolean;
   blockedUserId: string | null;
   userId: string | null;
 }
-
 export function useBlackList(
   currentUserId: string,
   targetUserId?: string,
@@ -21,7 +21,9 @@ export function useBlackList(
   const [isBlock, setIsBlock] = useState(false);
   const { isBlackListOpen } = useBlackListState();
   const { checkBlackList } = useChatActions();
-  const [blackListUsers, setBlackListUsers] = useState([]);
+  const [blackListUsers, setBlackListUsers] = useState<
+    UserShortInterface[] | undefined
+  >(undefined);
   const [userInBlackList, setUserInBlackList] = useState<userInBlackList>({
     isBlock: false,
     blockedUserId: null,
@@ -29,17 +31,24 @@ export function useBlackList(
   });
   const [blackListLength, setBlackListLength] = useState(0);
   const { getData } = useFetch();
+  const guard = RequestGuard.getInstance();
 
-  async function loadBlackList() {
-    const blackList = await getData(
-      `${API_URL}/api/blacklist/${currentUserId}`
-    );
+  const loadBlackList = () => {
+    const key = `/api/blacklist/${currentUserId}`;
+    return guard.execute(key, async () => {
+      return await getData(`${API_URL}${key}`);
+    });
+  };
+
+  async function updateBlacklist() {
+    const blackList = await loadBlackList();
     setBlackListUsers(blackList);
     setBlackListLength(blackList.length);
   }
+
   useEffect(() => {
     if (isBlackListOpen) {
-      loadBlackList();
+      updateBlacklist();
     }
   }, [isBlackListOpen]);
 
@@ -83,7 +92,6 @@ export function useBlackList(
 
   useEffect(() => {
     socket.on('addBlacklist', (data) => {
-      if (!targetUserId) return;
       const currentBlocked = data.userId === currentUserId;
       setIsBlock(currentBlocked);
       setUserInBlackList({
@@ -92,19 +100,18 @@ export function useBlackList(
         userId: data.userId,
       });
       checkBlackList(currentUserId, targetUserId).then(processBlockChecks);
-      loadBlackList();
+      updateBlacklist();
     });
   }, [socket, currentUserId, targetUserId]);
 
   useEffect(() => {
     socket.on('deleteBlacklist', (data) => {
-      if (!targetUserId) return;
       const currentBlocked = data.userId === currentUserId;
       if (currentBlocked) {
         setIsBlock(false);
       }
       checkBlackList(currentUserId, targetUserId).then(processBlockChecks);
-      loadBlackList();
+      updateBlacklist();
     });
   }, [socket, targetUserId, currentUserId]);
 
