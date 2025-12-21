@@ -20,7 +20,7 @@ export function MessageList({ chatId }: { chatId: string }) {
   return (
     <section
       className={clsx(
-        'pt-5 px-12 max-xl:px-8 max-md:px-6 w-full h-[calc(100vh-60px)] overflow-y-auto scrollbar-custom max-h-[100vh] overflow-x-hidden',
+        'pt-14 px-12 max-xl:px-8 max-md:px-6 w-full h-[calc(100vh-60px)] overflow-y-auto scrollbar-custom max-h-[100vh] overflow-x-hidden',
         messages && messages.length == 0 && 'overflow-y-hidden'
       )}
     >
