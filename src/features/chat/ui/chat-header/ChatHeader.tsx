@@ -28,7 +28,7 @@ export function ChatHeader({ chatId }: { chatId: string }) {
   }
 
   return (
-    <header className="flex items-center px-4 py-2 w-full">
+    <header className="flex items-center px-4 py-2 w-full h-14 absolute top-0 bg-background z-50">
       <Link href="/">
         <ButtonCircle
           actionType="back"

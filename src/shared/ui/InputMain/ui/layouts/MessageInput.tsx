@@ -58,7 +58,7 @@ export function MessageInput(props: MessageInputProps) {
     <div className="relative w-8/12 max-md:w-full max-xl:w-5/6 max-lg:w-[95%]">
       <button
         type="button"
-        className="cursor-pointer absolute bottom-2 left-3 z-10"
+        className="cursor-pointer absolute top-2 left-3 z-10"
         onClick={() => {
           setOpenEmoji(!openEmoji);
         }}

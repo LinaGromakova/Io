@@ -22,9 +22,9 @@ export default function MainPage({ children }: MainPageProps) {
       setSidebarOpen(true);
     }
   }, [params]);
-  
+
   return (
-    <div className="wrapper">
+    <div className="wrapper h-dvh overflow-hidden">
       <div className="flex overflow-hidden relative h-screen ">
         <ConfirmModal
           id={isModalOpen.currentUserId}

@@ -9,7 +9,7 @@ export function Chat() {
   const chatId = params?.id as string;
 
   return (
-    <section className="relative overflow-hidden max-h-fit">
+    <section className="relative overflow-hidden flex flex-col justify-between">
       <ChatHeader chatId={chatId}></ChatHeader>
       <MessageList chatId={chatId}></MessageList>
       <ChatInput chatId={chatId}></ChatInput>

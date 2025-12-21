@@ -1,9 +1,9 @@
-import { useEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import { MessageInterface } from '../../types';
 
 export function useScrollToBottom(dep: MessageInterface[] | undefined) {
   const chatRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (chatRef) {
       chatRef.current?.scrollIntoView(false);
     }

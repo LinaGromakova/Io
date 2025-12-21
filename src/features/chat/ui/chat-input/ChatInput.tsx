@@ -38,8 +38,8 @@ export function ChatInput({ chatId }: ChatInputProps) {
         <form
           action="#"
           onSubmit={(e) => e.preventDefault()}
-          className="absolute px-2 flex justify-center w-full 
-          max-md:py-0 max-md:px-0 pb-6 -bottom-[5px]"
+          className="px-2 flex justify-center w-full h-10
+         max-md:mb-0 max-md:px-0 mb-6 absolute bottom-0"
         >
           <div className="w-full h-[10%] fixed bottom-0 blur-2xl bg-extra max-md:hidden z-0"></div>
           <InputMain

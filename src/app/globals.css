@@ -5,15 +5,13 @@
 
 :root {
   --background: #fafafa;
-  --foreground: #101113;
+  --foreground: #101113; 
   --color-inter: #e7e7e7;
   --color-extra: #9aa6b2;
   --color-accent: #ff740b;
   --color-accent-shadow: #ff0000;
 }
 .wrapper {
-  overflow: hidden;
-  max-height: 100dvh;
   background: linear-gradient(to bottom, var(--background), var(--color-extra));
 }
 
