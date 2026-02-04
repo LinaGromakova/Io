@@ -19,6 +19,18 @@ export default function RootLayout({
       <head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="192x192"
+          href="/favicon/android-chrome-192x192.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="512x512"
+          href="/favicon/android-chrome-512x512.png"
+        />
         <link rel="icon" href="/favicon/favicon.ico" />
         <link
           rel="icon"
