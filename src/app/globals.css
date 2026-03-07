@@ -5,7 +5,7 @@
 
 :root {
   --background: #fafafa;
-  --foreground: #101113; 
+  --foreground: #101113;
   --color-inter: #e7e7e7;
   --color-extra: #9aa6b2;
   --color-accent: #ff740b;
@@ -14,7 +14,54 @@
 .wrapper {
   background: linear-gradient(to bottom, var(--background), var(--color-extra));
 }
+.logo-anim > g > g {
+  overflow: hidden;
+  transform-box: fill-box;
+}
 
+.logo-anim > g > g > path {
+  animation: loader-animation 3s ease-in-out infinite;
+  will-change: transform;
+}
+.logo-anim > g > circle {
+  will-change: transform;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.logo-anim > g > circle[data-star='true'] {
+  animation: star-animation 1s linear infinite both alternate;
+}
+@keyframes star-animation {
+  from {
+    scale: 0.4;
+  }
+  to {
+    scale: 1.5;
+  }
+}
+@keyframes loader-animation {
+  0% {
+    visibility: visible;
+    translate: -100% 150%;
+  }
+  30% {
+    translate: 0% 0%;
+  }
+  40% {
+    translate: 0% 0%;
+  }
+  60% {
+    translate: 0% 0%;
+  }
+  80% {
+    translate: 100% -100%;
+    visibility: hidden;
+  }
+  100% {
+    translate: -100% 150%;
+    visibility: hidden;
+  }
+}
 input::-webkit-search-cancel-button {
   appearance: none;
   cursor: pointer;
