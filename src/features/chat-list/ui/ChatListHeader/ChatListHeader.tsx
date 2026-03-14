@@ -13,8 +13,8 @@ export function HeaderListLayout() {
 
   const { setSearchUser, filterUsers } = useSearchActions();
   return (
-    <header className="flex mb-4 w-full items-center px-4 py-2 ">
-      <Logo className="w-18 mr-2"></Logo>
+    <header className='flex mb-4 w-full items-center px-4 py-2 '>
+      <Logo className='w-12 mr-2'></Logo>
       <ChatListInput
         isAdd={isAddUserOpen}
         filter={filter}
@@ -23,9 +23,9 @@ export function HeaderListLayout() {
         setFilter={filterUsers}
       ></ChatListInput>
       {(isAddUserOpen && (
-        <ButtonCircle 
-          actionType="back"
-          className="ml-2 block min-w-9"
+        <ButtonCircle
+          actionType='back'
+          className='ml-2 block min-w-9'
           handlerClick={() => {
             toggleAddUser();
             setSearchUser('');
@@ -33,8 +33,8 @@ export function HeaderListLayout() {
         ></ButtonCircle>
       )) || (
         <ButtonCircle
-          actionType="options"
-          className="ml-2 block min-w-9"
+          actionType='options'
+          className='ml-2 block min-w-9'
           handlerClick={() => toggleSidebarOptions()}
         ></ButtonCircle>
       )}
