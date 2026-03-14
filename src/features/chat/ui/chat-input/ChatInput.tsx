@@ -21,7 +21,7 @@ export function ChatInput({ chatId }: ChatInputProps) {
   const { userInBlackList } = useBlackList(
     user?.userId || '',
     targetUser?.userId || '',
-    chatId
+    chatId,
   );
   const { messages } = useChatMessages(chatId, user?.userId || '');
   if (!messages || !targetUser?.userId || targetUser?.userId === '') {
@@ -36,21 +36,21 @@ export function ChatInput({ chatId }: ChatInputProps) {
         ></ChatInputBlock>
       ) : (
         <form
-          action="#"
+          action='#'
           onSubmit={(e) => e.preventDefault()}
-          className="px-2 flex justify-center w-full h-10
-         max-md:mb-0 max-md:px-0 mb-6 absolute bottom-0"
+          className='px-2 flex justify-center w-full min-h-10
+         max-md:mb-0 max-md:px-0 mb-6 absolute bottom-0'
         >
-          <div className="w-full h-[10%] fixed bottom-0 blur-2xl bg-extra max-md:hidden z-0"></div>
+          <div className='w-full h-[10%] fixed bottom-0 blur-2xl bg-extra max-md:hidden z-0'></div>
           <InputMain
             changeHandler={(e) => setMessage(e.target.value)}
             setMessage={setMessage}
             theme={theme}
-            type="text"
+            type='text'
             value={message}
-            purpose="message"
-            placeholder="Сообщение..."
-            name="chat"
+            purpose='message'
+            placeholder='Сообщение...'
+            name='chat'
             sendMessage={() => {
               sendMessage(message);
               setMessage('');
