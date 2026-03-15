@@ -24,8 +24,8 @@ export default function MainPage({ children }: MainPageProps) {
   }, [params]);
 
   return (
-    <div className="wrapper h-dvh overflow-hidden">
-      <div className="flex overflow-hidden relative h-screen ">
+    <div className='wrapper h-dvh overflow-hidden'>
+      <div className='flex overflow-hidden relative h-screen '>
         <ConfirmModal
           id={isModalOpen.currentUserId}
           name={isModalOpen.targetUserName}

@@ -11,9 +11,9 @@ import { clsx } from 'clsx';
 export function MessageList({ chatId }: { chatId: string }) {
   const { user } = useAuthState();
   const { messages } = useChatMessages(chatId, user?.userId || '');
-  const { chatRef } = useScrollToBottom(messages);
+  const { chatRef } = useScrollToBottom(messages, chatId);
   const { targetUser } = useInitTargetUser(chatId);
-
+  
   if (!messages || targetUser?.userId === '' || !targetUser?.userId) {
     return <MessageListLoading></MessageListLoading>;
   }

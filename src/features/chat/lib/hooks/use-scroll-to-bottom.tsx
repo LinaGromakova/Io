@@ -1,7 +1,10 @@
 import { useLayoutEffect, useRef } from 'react';
 import { MessageInterface } from '../../types';
 
-export function useScrollToBottom(dep: MessageInterface[] | undefined) {
+export function useScrollToBottom(
+  dep: MessageInterface[] | undefined,
+  chatId: string,
+) {
   const chatRef = useRef<HTMLDivElement>(null);
   useLayoutEffect(() => {
     if (chatRef) {
@@ -10,7 +13,7 @@ export function useScrollToBottom(dep: MessageInterface[] | undefined) {
     if (chatRef && chatRef.current) {
       chatRef.current.scrollTo({ top: chatRef.current.scrollHeight });
     }
-  }, [dep]);
+  }, [dep, chatId]);
 
   return { chatRef };
 }

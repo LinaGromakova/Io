@@ -8,7 +8,6 @@ export function useSendMessage(chatId: string, userId: string) {
     if (!message.trim()) {
       return;
     }
-    console.log('yes!');
     setNewMessage({
       chatId: chatId,
       senderId: userId,

@@ -19,8 +19,8 @@ export type MessageInputProps = {
 export function MessageInput(props: MessageInputProps) {
   const [openEmoji, setOpenEmoji] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const refEmojiBtn = useRef<HTMLButtonElement>(null);
   const refEmojiPicker = useRef<HTMLDivElement>(null);
-
   const [size, setSize] = useState({ perLine: 9, emojiSize: 24 });
 
   useEffect(() => {
@@ -45,15 +45,19 @@ export function MessageInput(props: MessageInputProps) {
       const targetElement = e.target as Node;
       if (
         refEmojiPicker.current &&
-        !refEmojiPicker.current.contains(targetElement)
+        !refEmojiPicker.current.contains(targetElement) &&
+        refEmojiBtn.current &&
+        !refEmojiBtn.current.contains(targetElement)
       ) {
         setOpenEmoji(false);
       }
     }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+    if (openEmoji) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
 
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [openEmoji]);
   return (
     <div className='relative w-8/12 max-md:w-full max-xl:w-5/6 max-lg:w-[95%]'>
       <div
@@ -77,8 +81,10 @@ export function MessageInput(props: MessageInputProps) {
       <div className='flex overflow-hidden relative items-center h-10'>
         <button
           type='button'
+          ref={refEmojiBtn}
           className='cursor-pointer absolute top-2 left-3 z-10'
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
             setOpenEmoji((prev) => !prev);
           }}
         >

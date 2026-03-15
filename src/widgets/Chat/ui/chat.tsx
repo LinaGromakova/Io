@@ -7,7 +7,7 @@ import { useParams } from 'next/navigation';
 export function Chat() {
   const params = useParams();
   const chatId = params?.id as string;
-
+  
   return (
     <section className='relative overflow-hidden flex flex-col justify-between h-full max-md:h-auto'>
       <ChatHeader chatId={chatId}></ChatHeader>
