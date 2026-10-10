@@ -13,14 +13,14 @@ export function MessageList({ chatId }: { chatId: string }) {
   const { messages } = useChatMessages(chatId, user?.userId || '');
   const { chatRef } = useScrollToBottom(messages, chatId);
   const { targetUser } = useInitTargetUser(chatId);
-  
+
   if (!messages || targetUser?.userId === '' || !targetUser?.userId) {
     return <MessageListLoading></MessageListLoading>;
   }
   return (
     <section
       className={clsx(
-        'pt-14 px-12 max-xl:px-8 max-md:px-6 w-full h-full overflow-y-auto scrollbar-custom max-h-svh overflow-x-hidden',
+        'pt-14 px-12 max-xl:px-8 max-md:px-6 w-full h-full overflow-y-auto scrollbar-custom max-h-svh overflow-x-hidden min-h-dvh',
         messages && messages.length == 0 && 'overflow-y-hidden',
       )}
     >
